@@ -1,0 +1,509 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "slideshow": {
+      "type": "slideshow",
+      "blocks": {
+        "slideshow-0": {
+          "type": "image",
+          "settings": {
+            "top_subheading": "",
+            "title": "Two line\ntitle slide.",
+            "title_size": 80,
+            "subheading": "And optional subtext",
+            "reviewrating": "Rated 4.9 out of 5.0",
+            "totalreview": "Based on 1,289 reviews",
+            "link": "",
+            "link_text": "",
+            "link_2": "",
+            "link_text_2": "",
+            "color_accent": "rgba(0,0,0,0)",
+            "color_text": "rgba(0,0,0,0)",
+            "text_align": "vertical-center horizontal-center",
+            "parallax_direction": "top",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "slideshow-0"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_height": "650px",
+        "mobile_height": "auto",
+        "parallax": true,
+        "style": "bars",
+        "autoplay": true,
+        "autoplay_speed": 7,
+        "lazyload_images": true,
+        "custom_class": ""
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "title": "Rich text"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "enlarge_text": true,
+            "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text"
+      ],
+      "disabled": true,
+      "settings": {
+        "align_text": "center",
+        "narrow_column": true,
+        "divider": false
+      }
+    },
+    "text-columns": {
+      "type": "text-columns",
+      "blocks": {
+        "column1": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "image_width": 650,
+            "title": "Example title",
+            "text": "<p>Use this section to explain a set of product features, to link to a series of pages, or to answer common questions about your products. Add images for emphasis.</p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        },
+        "column2": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "image_width": 650,
+            "title": "Example title",
+            "text": "<p>Use this section to explain a set of product features, to link to a series of pages, or to answer common questions about your products. Add images for emphasis.</p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        },
+        "column3": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "image_width": 650,
+            "title": "Example title",
+            "text": "<p>Use this section to explain a set of product features, to link to a series of pages, or to answer common questions about your products. Add images for emphasis.</p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column1",
+        "column2",
+        "column3"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "",
+        "align_text": "center",
+        "divider": false
+      }
+    },
+    "map": {
+      "type": "map",
+      "disabled": true,
+      "settings": {
+        "map_title": "Our retail store",
+        "address": "<p>301 Front St W<br>Toronto, Canada</p><p>Mon - Fri, 8:30am - 10:30pm<br>Saturday, 8:30am - 10:30pm<br>Sunday, 8:30am - 10:30pm</p>",
+        "map_address": "301 Front St W, Toronto, ON M5V 2T6",
+        "api_key": "",
+        "show_button": true,
+        "lazyload_images": true
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "title": "Featured collection",
+        "home_featured_products": "",
+        "per_row": 4,
+        "rows": 1,
+        "mobile_scrollable": true,
+        "view_all": true,
+        "divider": false
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "disabled": true,
+      "settings": {
+        "title": "Contact us",
+        "text": "",
+        "show_phone": false,
+        "narrow_column": true
+      }
+    },
+    "main_section_mnnmVr": {
+      "type": "main-section",
+      "blocks": {
+        "slide_DVRQfT": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Group_1597882093.webp",
+            "slide_alt": "Console Image",
+            "button_text": "Games",
+            "button_link": "",
+            "button_bg_color": "#449adf",
+            "button_text_color": "#ffffff"
+          }
+        },
+        "slide_79aMjb": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Group_1597882091.webp",
+            "slide_alt": "Console Image",
+            "button_text": "Consoles",
+            "button_link": "shopify://collections/xbox",
+            "button_bg_color": "#449adf",
+            "button_text_color": "#ffffff"
+          }
+        },
+        "slide_CV6ADA": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Group_1597882092.webp",
+            "slide_alt": "Console Image",
+            "button_text": "Handheld",
+            "button_link": "",
+            "button_bg_color": "#449adf",
+            "button_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "slide_DVRQfT",
+        "slide_79aMjb",
+        "slide_CV6ADA"
+      ],
+      "name": "Main Section",
+      "settings": {
+        "subheading": "Stay Together, Play Together",
+        "subheading_color": "#080707",
+        "heading": "Welcome to RetroFam",
+        "heading_color": "#080707"
+      }
+    },
+    "plain_text_3hxFCU": {
+      "type": "plain-text",
+      "name": "Plain Text",
+      "settings": {
+        "heading": "",
+        "heading_color": "#080707",
+        "heading_size": 32,
+        "heading_margin_bottom": 18,
+        "text": "At Retro Fam, we believe that retro games are more than just pixels and plastic—they're memories pressed into cartridges, the soundtracks of childhood, and the stories we grew up with. Whether it's your first console or your all-time favorite game, we’re here to help you relive that magic. We are more than just an online retro game store; we are a community passionate about bringing the magic of old-school gaming to you.",
+        "text_color": "#080707",
+        "text_size": 16,
+        "bg_color": "#ffffff",
+        "text_align": "center",
+        "padding": 34,
+        "max_width": 900
+      }
+    },
+    "our_mission_GAFxkn": {
+      "type": "our-mission",
+      "custom_css": [
+        ".mission-section{margin-top:50px;}"
+      ],
+      "name": "Our Mission",
+      "settings": {
+        "logo_image": "shopify://shop_images/right-image.png",
+        "logo_alt": "logo",
+        "logo_width": 180,
+        "logo_height": 130,
+        "logo_top": 0,
+        "box_margin_top": 20,
+        "heading": "Our Mission",
+        "heading_color": "#ffffff",
+        "heading_size": 24,
+        "heading_margin_bottom": 20,
+        "text": "To keep the spirit of retro gaming alive. We offer a handpicked collection of authentic consoles, timeless games, and nostalgic collectibles—handpicked with care. We make it easy for you to reconnect with your gaming roots, whether you're a seasoned gamer reliving your childhood or discovering the legends of the past for the first time. We aim to bring you the real retro gaming experience.",
+        "text_color": "#ffffff",
+        "text_size": 20,
+        "bg_color": "#ea4325",
+        "padding_top": 40,
+        "padding_bottom": 30,
+        "max_width": 880
+      }
+    },
+    "why_us_qCwFX4": {
+      "type": "why-us",
+      "blocks": {
+        "feature_HCpL4i": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Asset_1_1.png",
+            "icon_alt": "Icon",
+            "line1": "QUALITY",
+            "line1_color": "#080707",
+            "line2": "GUARANTEED",
+            "line2_color": "#080707",
+            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "desc_color": "#080707"
+          }
+        },
+        "feature_BX899V": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/OLD_VIDEO_GAME_CONSOLE.png",
+            "icon_alt": "Icon",
+            "line1": "A Sentimental",
+            "line1_color": "#080707",
+            "line2": "Experience",
+            "line2_color": "#080707",
+            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "desc_color": "#080707"
+          }
+        },
+        "feature_mDmfx3": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Group_1_f8f12d62-2f7f-4052-9f95-487ca9a45c28.png",
+            "icon_alt": "Icon",
+            "line1": "Rare Finds,",
+            "line1_color": "#080707",
+            "line2": "Real Stories",
+            "line2_color": "#080707",
+            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "desc_color": "#080707"
+          }
+        },
+        "feature_VBEKCm": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Asset_1_3.png",
+            "icon_alt": "Icon",
+            "line1": "Customer-First",
+            "line1_color": "#080707",
+            "line2": "Service",
+            "line2_color": "#080707",
+            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "desc_color": "#080707"
+          }
+        },
+        "feature_qaHayj": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Group_2_f3507a8c-ccc3-4a65-8fa1-fec45794d436.png",
+            "icon_alt": "Icon",
+            "line1": "Fast and Safe",
+            "line1_color": "#080707",
+            "line2": "Shipping",
+            "line2_color": "#080707",
+            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "desc_color": "#080707"
+          }
+        }
+      },
+      "block_order": [
+        "feature_HCpL4i",
+        "feature_BX899V",
+        "feature_mDmfx3",
+        "feature_VBEKCm",
+        "feature_qaHayj"
+      ],
+      "name": "Why Us",
+      "settings": {
+        "heading": "Why us?",
+        "heading_color": "#080707",
+        "heading_size": 44,
+        "heading_margin_bottom": 40,
+        "separator_color": "#080707",
+        "bg_color": "#ffffff",
+        "desc_margin_top": 30,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "max_width": 900
+      }
+    },
+    "our_story_yNV8Ce": {
+      "type": "our-story",
+      "blocks": {
+        "paragraph_YrFpHr": {
+          "type": "paragraph",
+          "settings": {
+            "paragraph": "Retro Fam began as a forum— for retro gaming enthusiasts sharing memories, tips, and repair guide lists. From that passion grew something bigger: a mission to make retro gaming accessible to all and keeping it alive for future generations."
+          }
+        }
+      },
+      "block_order": [
+        "paragraph_YrFpHr"
+      ],
+      "name": "Our Story",
+      "settings": {
+        "story_top_img": "shopify://shop_images/abouts2.png",
+        "story_bottom_img": "shopify://shop_images/abouts2.png",
+        "story_content_bg": "shopify://shop_images/abouts1.png",
+        "heading_top": "Our",
+        "heading_bottom": "Story",
+        "heading_color": "#080707",
+        "heading_size": 24,
+        "text_color": "#080707",
+        "max_width": 900,
+        "padding_bottom": 40
+      }
+    },
+    "shop_by_categories_i8Db3X": {
+      "type": "shop-by-categories",
+      "blocks": {
+        "category_prx4aa": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882091_1.png",
+            "title": "Home CONSOLES",
+            "text": "Power up your setup with legendary consoles. Each one is expertly refurbished to bring classic adventures straight to your living room.",
+            "bg_color": "#449adf",
+            "link": ""
+          }
+        },
+        "category_GHeyFe": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882092.webp",
+            "title": "Handheld consoles",
+            "text": "Take your favorite games on the go. Our tested and reliable retro handhelds are ready for action anytime, anywhere",
+            "bg_color": "#845dbf",
+            "link": ""
+          }
+        },
+        "category_K3yeAy": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882093.webp",
+            "title": "Games",
+            "text": "From timeless classics to hidden gems, find the perfect titles for your collection. All cartridges and discs are cleaned, tested, and ready to play.",
+            "bg_color": "#429488",
+            "link": ""
+          }
+        },
+        "category_zGUjiQ": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882096.webp",
+            "title": "ACCESSORIES",
+            "text": "Complete your retro experience with OEM and high-quality controllers, memory cards, and must-have add‑ons for flawless gameplay.",
+            "bg_color": "#f70000",
+            "link": ""
+          }
+        },
+        "category_rifmhR": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882099.webp",
+            "title": "Product Bundles",
+            "text": "Score big with curated bundles featuring consoles, games, and accessories — everything you need in one epic pack.",
+            "bg_color": "#f9bc26",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_prx4aa",
+        "category_GHeyFe",
+        "category_K3yeAy",
+        "category_zGUjiQ",
+        "category_rifmhR"
+      ],
+      "name": "Shop by Categories",
+      "settings": {
+        "section_title": "What we offter"
+      }
+    },
+    "gaming_goes_green_EbdWjW": {
+      "type": "gaming-goes-green",
+      "name": "Gaming Goes Green",
+      "settings": {
+        "heading": "Gaming Goes Green",
+        "heading_color": "#080707",
+        "heading_size": 44,
+        "heading_margin_bottom": 30,
+        "bg_color": "#ffffff",
+        "main_image": "shopify://shop_images/20250429_2019_Retro_Console_Refurbishing_simple_compose_01jt11z1jmf2prmbd5jrq4p06h_1_1.png",
+        "main_image_height": 400,
+        "overlay_text_color": "#ffffff",
+        "overlay_text": "Let's keep Retro Gaming alive!",
+        "overlay_text_size": 24,
+        "logo_image": "shopify://shop_images/right-image.png",
+        "logo_width": 90,
+        "logo_height": 80,
+        "overlay_padding": 40,
+        "overlay_padding_bottom": 20,
+        "text": "We're committed to sustainability. By refurbishing and reviving retro consoles and games, we reduce e-waste and keep gaming history alive.",
+        "text_color": "#080707",
+        "text_size": 16,
+        "max_width": 900,
+        "padding": 40
+      }
+    },
+    "join_the_fam_6qhGTE": {
+      "type": "join-the-fam",
+      "name": "Join the Fam",
+      "settings": {
+        "bg_color": "#e7699e",
+        "border_color": "#080707",
+        "heading": "Join the Fam",
+        "heading_color": "#ffffff",
+        "heading_size": 48,
+        "paragraph": "Gaming brought us together, and it's what keeps us going. So whether you're buying your first retro console or replacing your childhood favorite, you're always welcome here.\n<br>\n<br>",
+        "text_color": "#f0f0f0",
+        "text_size": 18,
+        "right_image": "shopify://shop_images/right-image.png",
+        "gap": 60,
+        "padding": 40,
+        "max_width": 1060
+      }
+    }
+  },
+  "order": [
+    "main",
+    "slideshow",
+    "rich-text",
+    "text-columns",
+    "map",
+    "featured-collection",
+    "form",
+    "main_section_mnnmVr",
+    "plain_text_3hxFCU",
+    "our_mission_GAFxkn",
+    "why_us_qCwFX4",
+    "our_story_yNV8Ce",
+    "shop_by_categories_i8Db3X",
+    "gaming_goes_green_EbdWjW",
+    "join_the_fam_6qhGTE"
+  ]
+}

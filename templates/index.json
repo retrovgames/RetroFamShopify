@@ -1,0 +1,558 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_Xn3RDP": {
+      "type": "slideshow",
+      "blocks": {
+        "image_KeaUaq": {
+          "type": "image",
+          "settings": {
+            "top_subheading": "",
+            "title": "Where Retro Gaming \nLives Forever",
+            "title_size": 48,
+            "subheading": "Discover expertly restored retro consoles, classic games, and must-have collectibles - all backed by a 1-year warranty so you can play with confidence.",
+            "reviewrating": "Rated 4.9 out of 5.0",
+            "totalreview": "Based on 1,289 reviews",
+            "link": "shopify://collections/all",
+            "link_text": "Shop The Classics",
+            "link_2": "",
+            "link_text_2": "",
+            "color_accent": "#ea4325",
+            "color_text": "#000000",
+            "text_align": "vertical-center horizontal-left",
+            "image": "shopify://shop_images/banner_1_71ee2c9d-fa7d-4a40-af7d-23ac185c3ecf.webp",
+            "image_mobile": "shopify://shop_images/banner_1_mobile_view_b93dcf85-36b5-424d-897f-b03083ccca8a.webp",
+            "parallax_direction": "top",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_KeaUaq"
+      ],
+      "name": "t:sections.slideshow.presets.hero_optional_slideshow.name",
+      "settings": {
+        "section_height": "550px",
+        "mobile_height": "auto",
+        "parallax": false,
+        "style": "bars",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "lazyload_images": true,
+        "custom_class": ""
+      }
+    },
+    "icon_features_bar_9JixTh": {
+      "type": "icon-features-bar",
+      "blocks": {
+        "feature_9zVRgY": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/fi_709790.png",
+            "text": "Free Shipping across USA and Canada"
+          }
+        },
+        "feature_JiPjbK": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/fi_17295400.png",
+            "text": "1-Year Warranty"
+          }
+        },
+        "feature_tJtGPP": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/fi_510421.png",
+            "text": "Personalized Customer Support"
+          }
+        }
+      },
+      "block_order": [
+        "feature_9zVRgY",
+        "feature_JiPjbK",
+        "feature_tJtGPP"
+      ],
+      "name": "Icon Features Bar",
+      "settings": {}
+    },
+    "featured_product_slider_t8wf3h": {
+      "type": "featured-product-slider",
+      "blocks": {
+        "product_block_ADgARb": {
+          "type": "product_block",
+          "settings": {
+            "product": "nintendo-3ds-console-super-mario-3d-land-new-super-mario-bros-2-retro-fam",
+            "custom_image": "shopify://shop_images/Nintnedo_3DS_super_mario_bundle.webp",
+            "bg_color": "#845dbf"
+          }
+        },
+        "product_block_V4Qh86": {
+          "type": "product_block",
+          "disabled": true,
+          "settings": {
+            "product": "nintendo-wii-console-wii-sports-sports-resort-bundle-retro-fam",
+            "custom_image": "shopify://shop_images/Nintendo_Wii_Sports_resort_Bundle.webp",
+            "bg_color": "#e30013"
+          }
+        },
+        "product_block_wAjUiG": {
+          "type": "product_block",
+          "disabled": true,
+          "settings": {
+            "product": "playstation-2-ps2-fat-console-grand-theft-auto-bundle-retro-fam",
+            "custom_image": "shopify://shop_images/PS2_GTA_bundle.webp",
+            "bg_color": "#0070d1"
+          }
+        }
+      },
+      "block_order": [
+        "product_block_ADgARb",
+        "product_block_V4Qh86",
+        "product_block_wAjUiG"
+      ],
+      "name": "Featured Product Slider",
+      "settings": {}
+    },
+    "featured_collection_iAUgFR": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.featured_collection.name",
+      "settings": {
+        "title": "Best Sellers",
+        "home_featured_products": "best-sellers",
+        "per_row": 10,
+        "rows": 1,
+        "mobile_scrollable": false,
+        "view_all": true,
+        "divider": false
+      }
+    },
+    "shop_by_categories_JYqCzA": {
+      "type": "shop-by-categories",
+      "blocks": {
+        "category_QGgnJ8": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882091.png",
+            "title": "Home CONSOLES",
+            "text": "Power up your setup with legendary consoles. Each one is expertly refurbished to bring classic adventures straight to your living room.",
+            "bg_color": "#449adf",
+            "link": "shopify://collections/all-home-consoles"
+          }
+        },
+        "category_CxMLVk": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882092.png",
+            "title": "Handheld consoles",
+            "text": "Take your favorite games on the go. Our tested and reliable retro handhelds are ready for action anytime, anywhere",
+            "bg_color": "#845dbf",
+            "link": "shopify://collections/all-handhelds"
+          }
+        },
+        "category_cgTtn8": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882093.png",
+            "title": "Games",
+            "text": "From timeless classics to hidden gems, find the perfect titles for your collection. All cartridges and discs are cleaned, tested, and ready to play.",
+            "bg_color": "#429488",
+            "link": "shopify://collections/all-games"
+          }
+        },
+        "category_cnPMhr": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882096.png",
+            "title": "ACCESSORIES",
+            "text": "Complete your retro experience with OEM and high-quality controllers, memory cards, and must-have add‑ons for flawless gameplay.",
+            "bg_color": "#f70000",
+            "link": "shopify://collections/all-accessories"
+          }
+        },
+        "category_kJcw7Q": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Group_1597882099.png",
+            "title": "Product Bundles",
+            "text": "Score big with curated bundles featuring consoles, games, and accessories — everything you need in one epic pack.",
+            "bg_color": "#f9bc26",
+            "link": "shopify://collections/all-bundles"
+          }
+        }
+      },
+      "block_order": [
+        "category_QGgnJ8",
+        "category_CxMLVk",
+        "category_cgTtn8",
+        "category_cnPMhr",
+        "category_kJcw7Q"
+      ],
+      "name": "Shop by Categories",
+      "settings": {
+        "section_title": "Shop by Categories"
+      }
+    },
+    "featured_collection_Enpn7t": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.featured_collection.name",
+      "settings": {
+        "title": "Shop by New Products",
+        "home_featured_products": "all-bundles",
+        "per_row": 10,
+        "rows": 1,
+        "mobile_scrollable": false,
+        "view_all": true,
+        "divider": false
+      }
+    },
+    "logo_list_TwXbpC": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_image_QBdXT8": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/Group.png",
+            "link": "shopify://collections/nintendo",
+            "background_color": "#f70000"
+          }
+        },
+        "logo_image_jzcCha": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/svg2.png",
+            "link": "shopify://collections/playstation",
+            "background_color": "#0070d1"
+          }
+        },
+        "logo_image_kpaVGj": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/1_e3f5c2fb-603f-4cd1-b8b2-a22058b3092f.png",
+            "link": "shopify://collections/xbox",
+            "background_color": "#080707"
+          }
+        },
+        "logo_image_GPDYC3": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/sega_2.png",
+            "link": "shopify://collections/sega",
+            "background_color": "#205078"
+          }
+        },
+        "logo_image_FnQG9F": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/Group_1.png",
+            "link": "shopify://collections/atari-more",
+            "background_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "logo_image_QBdXT8",
+        "logo_image_jzcCha",
+        "logo_image_kpaVGj",
+        "logo_image_GPDYC3",
+        "logo_image_FnQG9F"
+      ],
+      "name": "t:sections.logo-list.presets.logo_list.name",
+      "settings": {
+        "title": "Shop By Popular Brands",
+        "logo_opacity": 100,
+        "divider": false
+      }
+    },
+    "slideshow_6jU4Bz": {
+      "type": "slideshow",
+      "blocks": {
+        "image_g7Cc7G": {
+          "type": "image",
+          "settings": {
+            "top_subheading": "",
+            "title": "Turn Every Purchase Into Exclusive Retro Coins",
+            "title_size": 40,
+            "subheading": "Shop your favorite retro gear, collect Retro Coins, and redeem them for discounts. Keep growing your collection with exclusive perks, just designed for you.",
+            "reviewrating": "",
+            "totalreview": "",
+            "link": "",
+            "link_text": "Start earning",
+            "link_2": "",
+            "link_text_2": "",
+            "color_accent": "#000000",
+            "color_text": "#000000",
+            "text_align": "vertical-center horizontal-left",
+            "image": "shopify://shop_images/Group_1597882233.png",
+            "image_mobile": "shopify://shop_images/Group_1597882196_2.png",
+            "parallax_direction": "top",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_g7Cc7G"
+      ],
+      "disabled": true,
+      "name": "t:sections.slideshow.presets.hero_optional_slideshow.name",
+      "settings": {
+        "section_height": "450px",
+        "mobile_height": "auto",
+        "parallax": false,
+        "style": "bars",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "lazyload_images": true,
+        "custom_class": "alh-banner page-width"
+      }
+    },
+    "review_marquee_mMUAHR": {
+      "type": "review-marquee",
+      "blocks": {
+        "review_9DUeVJ": {
+          "type": "review",
+          "settings": {
+            "review_text": "Got my N64 bundle and it’s really awesome. Came with GoldenEye and Mario Kart. Plugged it in and it felt like being a kid again. Thanks RF.",
+            "reviewer_rating": "4.5",
+            "reviewer_name": "Derek H.",
+            "reviewer_image": "shopify://shop_images/Artboard_7.webp"
+          }
+        },
+        "review_gKTFBY": {
+          "type": "review",
+          "settings": {
+            "review_text": "The Game Boy Color looks and plays amazing. My daughter can’t believe how fun Pokémon Red is. We’ve been playing for hours. Recommended.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Karen M.",
+            "reviewer_image": "shopify://shop_images/Artboard_6_99f3bc5a-e355-4b8a-8229-99914fb65434.webp"
+          }
+        },
+        "review_cEmr4T": {
+          "type": "review",
+          "settings": {
+            "review_text": "Picked up a PS2 bundle. Everything works flawlessly. Been replaying San Andreas all weekend. Feels brand new. 5 stars.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Mike T.",
+            "reviewer_image": "shopify://shop_images/Artboard_1_700989eb-2d6c-40da-8bc8-095987b6aac4.webp"
+          }
+        },
+        "review_GpgJCa": {
+          "type": "review",
+          "settings": {
+            "review_text": "Got the SNES console, really impressive condition. Came with Mario All-Stars, which was my favorite growing up. Grateful to Retrofam.",
+            "reviewer_rating": "4.5",
+            "reviewer_name": "Angela R.",
+            "reviewer_image": "shopify://shop_images/Artboard_15.webp"
+          }
+        },
+        "review_CwPqrR": {
+          "type": "review",
+          "settings": {
+            "review_text": "The GameCube bundle arrived quick. legit condition. played Melee right away, just like old tournaments with friends. love it.",
+            "reviewer_rating": "4.0",
+            "reviewer_name": "Ryan K.",
+            "reviewer_image": "shopify://shop_images/Artboard_3.webp"
+          }
+        },
+        "review_QYHp4U": {
+          "type": "review",
+          "settings": {
+            "review_text": "Bought a few N64 games. Ocarina of Time plays perfectly. All came clean and ready to go. Couldn’t be happier.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Samir A.",
+            "reviewer_image": "shopify://shop_images/Artboard_9.webp"
+          }
+        },
+        "review_ne4F3M": {
+          "type": "review",
+          "settings": {
+            "review_text": "Grabbed a Sega Genesis for my son. He’s hooked on Sonic. Seeing him enjoy what I loved as a kid is priceless. Thank u RF.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Jonathan P.",
+            "reviewer_image": "shopify://shop_images/Artboard_5_86900cf2-3d05-4cf1-b938-aefe74606e70.webp"
+          }
+        },
+        "review_NnY4WL": {
+          "type": "review",
+          "settings": {
+            "review_text": "Ordered a Nintendo 3DS and I’m seriously impressed. The system looks almost new. Forgot how good this handheld really is.",
+            "reviewer_rating": "4.5",
+            "reviewer_name": "Isabella C.",
+            "reviewer_image": "shopify://shop_images/Mask_group.png"
+          }
+        },
+        "review_9AyVdm": {
+          "type": "review",
+          "settings": {
+            "review_text": "The RetroFam accessories pack had everything I needed. Controllers, cables, memory card — easy setup, no hassle.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "George S.",
+            "reviewer_image": "shopify://shop_images/Artboard-13.webp"
+          }
+        },
+        "review_pgJUK8": {
+          "type": "review",
+          "settings": {
+            "review_text": "So glad I found the Atari 2600 bundle. Came with a stack of games. My dad teared up when I gave it to him. Worth every cent.",
+            "reviewer_rating": "4.5",
+            "reviewer_name": "Emily W.",
+            "reviewer_image": "shopify://shop_images/Artboard_10.webp"
+          }
+        },
+        "review_FxHQQG": {
+          "type": "review",
+          "settings": {
+            "review_text": "For my nephew's birthday, I wasn’t sure which console to get. But the RetroFam team was friendly enough and guided me through. Ended up with the perfect Super Mario 64 N64 bundle. Thanks guys!!!",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Taylor H.",
+            "reviewer_image": "shopify://shop_images/Artboard_8.webp"
+          }
+        },
+        "review_d8MqgM": {
+          "type": "review",
+          "settings": {
+            "review_text": "Got my PS1 bundle last week. Final Fantasy VII runs smooth. Packaging was safe. Feels like opening one for the first time back in the 90s.",
+            "reviewer_rating": "4.0",
+            "reviewer_name": "Victor J.",
+            "reviewer_image": "shopify://shop_images/Artboard_14.webp"
+          }
+        },
+        "review_BrkTiV": {
+          "type": "review",
+          "settings": {
+            "review_text": "First-time retro buyer here. Picked the Wii Sports bundle. Setup was easy and my kids love it. Great for family nights. Giving 5 stars.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Lindsey B.",
+            "reviewer_image": "shopify://shop_images/Artboard-12.webp"
+          }
+        },
+        "review_PLeaBb": {
+          "type": "review",
+          "settings": {
+            "review_text": "the N64 controllers are mint. no stick drift. mario kart 64 feels just like the old days.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Chris L.",
+            "reviewer_image": "shopify://shop_images/Artboard_4_17fa1811-bd11-423e-a70f-f91976c1a5e0.webp"
+          }
+        },
+        "review_7QggVH": {
+          "type": "review",
+          "settings": {
+            "review_text": "Scored a Dreamcast with Shenmue. Couldn’t believe the quality….it’s like the 2000s all over again.",
+            "reviewer_rating": "4.5",
+            "reviewer_name": "Rafael G.",
+            "reviewer_image": "shopify://shop_images/Artboard_2.webp"
+          }
+        },
+        "review_iK3B38": {
+          "type": "review",
+          "settings": {
+            "review_text": "Picked up a mix of retro handhelds and games. Everything arrived safe and working. Thank you RF.",
+            "reviewer_rating": "5.0",
+            "reviewer_name": "Monica F.",
+            "reviewer_image": "shopify://shop_images/Artboard_16.webp"
+          }
+        }
+      },
+      "block_order": [
+        "review_9DUeVJ",
+        "review_gKTFBY",
+        "review_cEmr4T",
+        "review_GpgJCa",
+        "review_CwPqrR",
+        "review_QYHp4U",
+        "review_ne4F3M",
+        "review_NnY4WL",
+        "review_9AyVdm",
+        "review_pgJUK8",
+        "review_FxHQQG",
+        "review_d8MqgM",
+        "review_BrkTiV",
+        "review_PLeaBb",
+        "review_7QggVH",
+        "review_iK3B38"
+      ],
+      "name": "Scrolling Review Grid",
+      "settings": {
+        "heading": "See What Our Customers Say"
+      }
+    },
+    "blog_posts_7YFpYn": {
+      "type": "blog-posts",
+      "name": "t:sections.blog-posts.presets.blog_posts.name",
+      "settings": {
+        "title": "From Our Blog",
+        "blog": "guides",
+        "post_limit": 3,
+        "blog_show_tags": false,
+        "blog_show_date": false,
+        "blog_show_comments": false,
+        "blog_show_author": false,
+        "view_all": false,
+        "blog_image_size": "wide",
+        "divider": false
+      }
+    },
+    "slideshow_YPntqQ": {
+      "type": "slideshow",
+      "blocks": {
+        "image_dLKbix": {
+          "type": "image",
+          "settings": {
+            "top_subheading": "",
+            "title": "About RetroFam",
+            "title_size": 40,
+            "subheading": "RetroFam is more than a store: we’re a family of gamers. We believe retro gaming is best when it’s shared, so we invite you to join the fam. From expertly refurbished consoles to classic games, everything is cleaned, tested, and ready to play. Together, let’s celebrate the nostalgia, joy, and community of gaming.",
+            "reviewrating": "",
+            "totalreview": "",
+            "link": "shopify://pages/about-us",
+            "link_text": "Learn more about us",
+            "link_2": "",
+            "link_text_2": "",
+            "color_accent": "#000000",
+            "color_text": "#ffffff",
+            "text_align": "vertical-center horizontal-left",
+            "image": "shopify://shop_images/Group_1597882234.png",
+            "image_mobile": "shopify://shop_images/Group_1597882197_1.png",
+            "parallax_direction": "top",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_dLKbix"
+      ],
+      "name": "t:sections.slideshow.presets.hero_optional_slideshow.name",
+      "settings": {
+        "section_height": "450px",
+        "mobile_height": "500px",
+        "parallax": false,
+        "style": "bars",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "lazyload_images": true,
+        "custom_class": "alh-banner page-width"
+      }
+    }
+  },
+  "order": [
+    "slideshow_Xn3RDP",
+    "icon_features_bar_9JixTh",
+    "featured_product_slider_t8wf3h",
+    "featured_collection_iAUgFR",
+    "shop_by_categories_JYqCzA",
+    "featured_collection_Enpn7t",
+    "logo_list_TwXbpC",
+    "slideshow_6jU4Bz",
+    "review_marquee_mMUAHR",
+    "blog_posts_7YFpYn",
+    "slideshow_YPntqQ"
+  ]
+}

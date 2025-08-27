@@ -1,0 +1,379 @@
+{% comment %}
+  Featured Product Slider Section with Swiper.js
+  - Up to 3 products
+  - Custom image or fallback to product featured image
+  - Full product info + stock + reviews
+  - Swiper-based slider
+{% endcomment %}
+
+
+<style>
+.featured-product-slider-section {
+  margin-top: 60px;
+  position: relative;
+}
+.featured-product-block {
+  {% comment %} display: flex;
+  justify-content: center;
+  align-items: center; {% endcomment %}
+  border: 2px solid #080707;
+  box-shadow: 4px 4px #080707;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.featured-product-inner {
+  display: flex;
+  gap: 126px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 110px;
+}
+.featured-product-image {
+  text-align: center;
+  max-width: 414px;
+  margin: 0 auto;
+}
+.featured-product-image img {
+  margin: 0 auto;
+}
+.featured-product-details {
+  flex: 1 1 50%;
+}
+.featured-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.featured-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.featured-desc {
+  margin-bottom: 10px;
+  color: #555;
+}
+.featured-price {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.featured-buttons .btn {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.featured-buttons .buy-now {
+  background-color: #007bff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .featured-product-inner {
+    flex-direction: column;
+  }
+  .featured-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.alh-product_section .product__thumbs {
+  display: none;
+}
+
+.alh-product_section .page-content--product {
+    padding: 0;
+    display: unset;
+}
+
+.alh-product_section .alh-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 52px 108px 87px 108px;
+  gap: 126px;
+}
+
+.alh-product_section .alh-grid:after {
+  display: none;
+}
+
+.alh-product_section .image-wrap:not(.image-wrap__thumbnail) image-element {
+  position: unset;
+}
+
+.alh-product_section .product__photos--beside {
+    display: unset;
+}
+
+.alh-product_section .grid__item {
+    float: unset;
+    min-height: unset;
+    padding-left: 0;
+    width: 100%;
+}
+
+.alh-product_section .image-wrap {
+  background: transparent;
+}
+
+.alh-product_section image-element img {
+  max-width: 414px;
+}
+
+.alh-grid_item [data-product-images] {
+  opacity: 0;
+  height: 0;
+}
+
+.grid__item.alh-grid-desc {
+  color: #fff;
+}
+
+.alh-grid-desc .product-single__meta {
+    padding-right: 0 !important; 
+}
+
+.alh-grid-desc .product-single__title {
+  font-size: 36px;
+  line-height: 42px;
+  letter-spacing: -1px;
+}
+
+.alh-stock-review {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #FFFFFFCC;
+}
+.alh-stock-review p {
+  margin: 0;
+  margin-top: 2px;
+}
+.alh-review_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.alh-short_desc {
+  line-height: 24px;
+  margin-bottom: 25px;
+}
+.alh-short_desc p {
+  margin: 0;
+}
+
+.alh-grid-desc .product-block--price {
+  display: flex;
+  align-items: center;
+  margin-bottom: 35px;
+  gap: 5px;
+}
+.alh-grid-desc [data-product-price] {
+  font-size: 32px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 40px;
+  margin-right: 0;
+}
+.alh-grid-desc [data-compare-price] {
+  font-size: 24px;
+    color: #FFFFFF66;
+    line-height: 32px;
+}
+.alh-grid-desc .shopify-payment-terms {
+  display: none;
+}
+
+.alh-grid-desc .alh-btn__container {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.alh-grid-desc button.btn.btn--full {
+  max-width: 196px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 4px 4px #CECDCD;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 26px;
+}
+
+.featured-product-slider-section .swiper-pagination {
+  position: absolute;
+  bottom: 10%;
+  left: 25%;
+  width: fit-content;
+}
+
+.featured-product-slider-section span.swiper-pagination-bullet {
+    height: 10px;
+    width: 10px;
+    background: #FFFFFF73;
+    opacity: 1;
+}
+.featured-product-slider-section span.swiper-pagination-bullet-active {
+    background: #000000;
+}
+
+@media (max-width: 1200px) {
+  .alh-product_section .alh-grid {
+    gap: 80px;
+    padding: 52px 80px 87px 80px;
+  }
+}
+@media (max-width: 1000px) {
+  .alh-product_section .alh-grid {
+    flex-direction: column-reverse;
+    padding: 30px;
+  }
+  .featured-product-slider-section .swiper-pagination {
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .alh-grid-desc .alh-btn__container {
+    flex-direction: column;
+    width: 100%;
+  }
+  .alh-grid-desc button.btn.btn--full {
+    max-width: 100%;
+  }
+  .alh-product_section .alh-grid {
+    gap: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .alh-grid-desc .product-single__title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .alh-stock-review {
+    gap: 18px;
+    font-size: 12px;
+    justify-content: center;
+  }
+  .alh-grid-desc [data-product-price] {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .alh-grid-desc [data-compare-price] {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .alh-grid-desc .product-block--price {
+    justify-content: center;
+  }
+}
+</style>
+
+<section class="featured-product-slider-section page-width">
+  <div class="swiper featured-swiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        {% assign product = all_products[block.settings.product] %}
+        <div class="swiper-slide">
+          <div class="featured-product-block" style="background-color: {{ block.settings.bg_color }}">
+            {%- render 'alh-product-template',
+              product: product,
+              section_id: section.id,
+              blocks: block,
+              context: 'featured-product',
+            -%}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!-- Dots pagination goes here -->
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const featuredSwiper = new Swiper(".featured-swiper", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      }
+    });
+
+    function equalizeTestimonialHeights() {
+      const slides = document.querySelectorAll('.featured-product-block');
+      let maxHeight = 0;
+      // Reset height
+      slides.forEach(slide => {
+        slide.style.height = 'auto';
+      });
+      // Calculate max height
+      slides.forEach(slide => {
+        const height = slide.offsetHeight;
+        if (height > maxHeight) maxHeight = height;
+      });
+      // Apply max height to all
+      slides.forEach(slide => {
+        slide.style.height = maxHeight + 'px';
+      });
+    }
+    // Run on load and resize
+    window.addEventListener('load', equalizeTestimonialHeights);
+    window.addEventListener('resize', equalizeTestimonialHeights);
+    // Optional: run after a small delay if images are inside
+    setTimeout(equalizeTestimonialHeights, 500);
+
+
+
+
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Featured Product Slider",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product_block",
+      "name": "Product Slide",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select product"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Optional image (replaces product image)"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Featured Product Slider",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

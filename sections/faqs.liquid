@@ -1,0 +1,922 @@
+{% schema %}
+{
+  "name": "Dynamic FAQs",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "faq_header_icon",
+      "label": "Header Icon SVG"
+    },
+    {
+      "type": "image_picker",
+      "id": "blue_vector_svg",
+      "label": "Blue Vector SVG"
+    },
+    {
+      "type": "image_picker",
+      "id": "pink_vector_svg",
+      "label": "Pink Vector SVG"
+    },
+    {
+      "type": "image_picker",
+      "id": "contact_icon_svg",
+      "label": "Contact Icon SVG"
+    },
+    {
+      "type": "text",
+      "id": "contact_button_link",
+      "label": "Contact Button Link",
+      "default": "/pages/contact"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "FAQ Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_handle",
+          "label": "Category Handle (lowercase, no spaces)",
+          "default": "general"
+        },
+        {
+          "type": "text",
+          "id": "category_title",
+          "label": "Category Title",
+          "default": "General"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer"
+        },
+        {
+          "type": "text",
+          "id": "faq_category",
+          "label": "Category Handle (must match handle above)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [
+    {
+      "name": "Dynamic FAQs Section"
+    }
+  ]
+}
+{% endschema %}
+
+<!-- ====== Internal CSS ====== -->
+<style>
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #2b6365;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.main-container {
+  margin: 0 auto;
+  padding: 0 15px;
+  position: relative;
+  min-height: 100vh;
+  background: #2b6365;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Container */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 25px 0;
+  position: relative;
+  color: white;
+  font-size: 14px;
+  z-index: 10;
+}
+.breadcrumb a {
+  text-decoration: none;
+}
+.breadcrumb-item1 {
+  color: #ffffff99;
+}
+.breadcrumb-item2 {
+  color: #ffffff;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.main-title {
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  max-width: 414px;
+  margin: 0 auto;
+}
+
+.title-icon {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Tabs Container */
+.tabs-container {
+  margin-bottom: 30px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 15px;
+  width: 100%;
+}
+
+.tab {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: fit-content;
+  flex-shrink: 0;
+}
+
+.tab.active {
+  background: black;
+  color: white;
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+/* Content Box */
+.content-box {
+  margin-bottom: 30px;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffffff;
+  z-index: 2;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border: 2px solid #ffffff;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  color: #ffffff;
+  background-color: transparent;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ffffff;
+}
+
+.search-input::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* FAQ Content */
+.faq-content {
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.faq-section {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.faq-section.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.faq-item {
+  border-bottom: 2px solid #080707cc;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+.faq-item:nth-child(1) { animation-delay: 0.1s; }
+.faq-item:nth-child(2) { animation-delay: 0.2s; }
+.faq-item:nth-child(3) { animation-delay: 0.3s; }
+.faq-item:nth-child(4) { animation-delay: 0.4s; }
+.faq-item:nth-child(5) { animation-delay: 0.5s; }
+.faq-item:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 20px;
+}
+.faq-question:hover {
+  background-color: rgba(45, 90, 90, 0.05);
+  transform: translateX(5px);
+}
+.faq-question h3 {
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  flex: 1;
+  padding-right: 20px;
+}
+.faq-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  transition: all 0.3s ease;
+  border: 1px solid #000000;
+}
+.faq-icon svg {
+  transition: transform 0.3s ease;
+}
+.faq-item.active .faq-icon svg {
+  transform: rotate(180deg);
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease, opacity 0.3s ease;
+  padding: 0 20px;
+  opacity: 0;
+}
+.faq-item.active .faq-answer {
+  max-height: 300px;
+  padding: 20px;
+  margin-bottom: 10px;
+  opacity: 1;
+}
+.faq-answer p {
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Contact Section */
+.contact-section {
+  background: #2a7a8c;
+  padding: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  box-shadow: 4px 4px 0px 0px #000000;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease 0.5s forwards;
+  border: 2px solid #ffffff;
+}
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.contact-content h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+.contact-btn {
+  background: black;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0px 0px #000000;
+  border: 1px solid #ffffff;
+}
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px 0px #000000;
+}
+.trophy-icon {
+  position: absolute;
+  bottom: -10px;
+  right: -60px;
+  width: 197px;
+  height: 97px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.trophy-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: rotate(30deg);
+  -webkit-transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  .main-title {
+    text-align: start;
+  }
+  .title-icon {
+    right: 10%;
+  }
+  .tabs {
+    justify-content: flex-start;
+    padding: 0 10px;
+    gap: 8px;
+  }
+  .tab {
+    min-width: fit-content;
+    flex-shrink: 0;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  .contact-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  .trophy-icon {
+    width: 50px;
+    height: 50px;
+    bottom: 8px;
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-title {
+    font-size: 1.5rem;
+  }
+  .title-icon {
+    display: none;
+  }
+  .breadcrumb {
+    position: static;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .tabs {
+    padding: 0 5px;
+    gap: 6px;
+  }
+  .tab {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .faq-question h3 {
+    font-size: 14px;
+  }
+  .contact-content h2 {
+    font-size: 1.2rem;
+  }
+  .trophy-icon {
+    width: 40px;
+    height: 40px;
+    bottom: 5px;
+    right: 10px;
+  }
+}
+
+.blue-vector {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.3s forwards;
+}
+.pink-vector {
+    position: absolute;
+    bottom: 200px;
+    right: 50px;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+</style>
+
+<div class="main-container">
+  {% if section.settings.blue_vector_svg != blank %}
+    <div class="blue-vector">
+      <img src="{{ section.settings.blue_vector_svg | image_url: width: 120 }}" alt="Blue Vector" width="120" height="120">
+    </div>
+  {% endif %}
+  {% if section.settings.pink_vector_svg != blank %}
+    <div class="pink-vector">
+      <img src="{{ section.settings.pink_vector_svg | image_url: width: 120 }}" alt="Pink Vector" width="120" height="120">
+    </div>
+  {% endif %}
+
+  <div class="breadcrumb">
+    <a href="/"><span class="breadcrumb-item1">Home</span></a>
+    <span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M10 7L15 12L10 17" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="breadcrumb-item2">FAQs</span>
+  </div>
+
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Frequently Asked Questions</h1>
+      {% if section.settings.faq_header_icon != blank %}
+        <div class="title-icon">
+          <img src="{{ section.settings.faq_header_icon | image_url: width: 60 }}" alt="Header Icon" width="60" height="60">
+        </div>
+      {% endif %}
+    </header>
+
+    <div class="tabs-container">
+      <div class="tabs" id="tabs">
+        {% assign cats = section.blocks | where: "type", "category" %}
+        {% if cats.size > 0 %}
+          {% for cat in cats %}
+            <button class="tab{% if forloop.first %} active{% endif %}" data-category="{{ cat.settings.category_handle | escape }}">{{ cat.settings.category_title }}</button>
+          {% endfor %}
+        {% else %}
+          <!-- Fallback: Show a default tab if no categories are defined -->
+          <button class="tab active" data-category="general">General</button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="content-box">
+      <div class="search-container">
+        <div class="search-bar">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M19 19L13 13M15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search FAQs" class="search-input">
+        </div>
+      </div>
+
+      <div class="faq-content">
+        {% assign all_faqs = section.blocks | where: "type", "faq" %}
+        {% if cats.size > 0 %}
+          {% for cat in cats %}
+            <div class="faq-section{% if forloop.first %} active{% endif %}" id="{{ cat.settings.category_handle | escape }}-faqs" data-category="{{ cat.settings.category_handle | escape }}">
+              {% for faq in all_faqs %}
+                {% if faq.settings.faq_category == cat.settings.category_handle %}
+                  <div class="faq-item{% if forloop.first %} active{% endif %}">
+                    <div class="faq-question">
+                      <h3>{{ faq.settings.question }}</h3>
+                      <div class="faq-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11" viewBox="0 0 17 11" fill="none">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86097 9.8393C9.63526 10.0649 9.32916 10.1917 9.01 10.1917C8.69084 10.1917 8.38475 10.0649 8.15903 9.8393L1.35007 3.03033C1.23511 2.9193 1.14341 2.78649 1.08033 2.63964C1.01725 2.49279 0.984047 2.33485 0.982656 2.17503C0.981268 2.01521 1.01172 1.85672 1.07224 1.7088C1.13276 1.56087 1.22214 1.42649 1.33515 1.31347C1.44816 1.20046 1.58255 1.11109 1.73047 1.05057C1.87839 0.990047 2.03689 0.959594 2.19671 0.960982C2.35652 0.962371 2.51447 0.995575 2.66131 1.05866C2.80816 1.12174 2.94098 1.21343 3.05201 1.32839L9.01 7.28639L14.968 1.32839C15.195 1.10914 15.499 0.987821 15.8146 0.990564C16.1302 0.993306 16.4321 1.11989 16.6553 1.34305C16.8784 1.56622 17.005 1.86811 17.0078 2.18369C17.0105 2.49928 16.8892 2.80333 16.6699 3.03033L9.86097 9.8393Z" fill="black"/>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="faq-answer"><p>{{ faq.settings.answer }}</p></div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- Fallback: Show all FAQs if no categories are defined -->
+          <div class="faq-section active" id="general-faqs" data-category="general">
+            {% for faq in all_faqs %}
+              <div class="faq-item{% if forloop.first %} active{% endif %}">
+                <div class="faq-question">
+                  <h3>{{ faq.settings.question }}</h3>
+                  <div class="faq-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11" viewBox="0 0 17 11" fill="none">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86097 9.8393C9.63526 10.0649 9.32916 10.1917 9.01 10.1917C8.69084 10.1917 8.38475 10.0649 8.15903 9.8393L1.35007 3.03033C1.23511 2.9193 1.14341 2.78649 1.08033 2.63964C1.01725 2.49279 0.984047 2.33485 0.982656 2.17503C0.981268 2.01521 1.01172 1.85672 1.07224 1.7088C1.13276 1.56087 1.22214 1.42649 1.33515 1.31347C1.44816 1.20046 1.58255 1.11109 1.73047 1.05057C1.87839 0.990047 2.03689 0.959594 2.19671 0.960982C2.35652 0.962371 2.51447 0.995575 2.66131 1.05866C2.80816 1.12174 2.94098 1.21343 3.05201 1.32839L9.01 7.28639L14.968 1.32839C15.195 1.10914 15.499 0.987821 15.8146 0.990564C16.1302 0.993306 16.4321 1.11989 16.6553 1.34305C16.8784 1.56622 17.005 1.86811 17.0078 2.18369C17.0105 2.49928 16.8892 2.80333 16.6699 3.03033L9.86097 9.8393Z" fill="black"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="faq-answer"><p>{{ faq.settings.answer }}</p></div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="contact-section">
+        <div class="contact-content">
+          <h2>Still have more questions?</h2>
+          <button class="contact-btn" onclick="window.location.href='{{ section.settings.contact_button_link }}';">CONTACT US</button>
+        </div>
+        <div class="trophy-icon">
+          {% if section.settings.contact_icon_svg != blank %}
+            <img src="{{ section.settings.contact_icon_svg | image_url: width: 120 }}" alt="Contact Icon" width="120" height="120">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Internal JavaScript ====== -->
+<script>
+// FAQ Page JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all functionality
+    initTabs();
+    initFAQAccordion();
+    initSearch();
+    initResponsiveBehavior();
+    initCoinsCounter();
+});
+
+// Tab functionality
+function initTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    const faqSections = document.querySelectorAll('.faq-section');
+
+    // Tab click handlers
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            switchCategory(category);
+        });
+    });
+
+    function switchCategory(category) {
+        // Update active tab
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.getAttribute('data-category') === category) {
+                tab.classList.add('active');
+            }
+        });
+
+        // Show corresponding FAQ section
+        faqSections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === `${category}-faqs`) {
+                section.classList.add('active');
+            }
+        });
+
+        // Reset first FAQ to open in new category
+        const activeSection = document.getElementById(`${category}-faqs`);
+        if (activeSection) {
+            const firstFaq = activeSection.querySelector('.faq-item');
+            if (firstFaq) {
+                // Close all FAQs first
+                activeSection.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    const svgIcon = item.querySelector('.faq-icon svg');
+                    if (svgIcon) {
+                        // Rotate SVG to point down (closed state)
+                        svgIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                // Open first FAQ
+                firstFaq.classList.add('active');
+                const svgIcon = firstFaq.querySelector('.faq-icon svg');
+                if (svgIcon) {
+                    // Rotate SVG to point up (open state)
+                    svgIcon.style.transform = 'rotate(180deg)';
+                }
+            }
+        }
+    }
+}
+
+// FAQ Accordion functionality
+function initFAQAccordion() {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const svgIcon = item.querySelector('.faq-icon svg');
+
+        question.addEventListener('click', function() {
+            const isActive = item.classList.contains('active');
+            
+            // Close all FAQs in the same section
+            const section = item.closest('.faq-section');
+            section.querySelectorAll('.faq-item').forEach(faqItem => {
+                faqItem.classList.remove('active');
+                const faqSvgIcon = faqItem.querySelector('.faq-icon svg');
+                if (faqSvgIcon) {
+                    // Rotate SVG to point down (closed state)
+                    faqSvgIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Toggle current FAQ
+            if (!isActive) {
+                item.classList.add('active');
+                if (svgIcon) {
+                    // Rotate SVG to point up (open state)
+                    svgIcon.style.transform = 'rotate(180deg)';
+                }
+                
+                // Add coin when FAQ is opened
+                addCoin();
+            }
+        });
+    });
+}
+
+// Search functionality
+function initSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const faqItems = document.querySelectorAll('.faq-item');
+    const faqSections = document.querySelectorAll('.faq-section');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+
+        // If searching, show all sections and search across all FAQs
+        if (searchTerm !== '') {
+            faqSections.forEach(section => {
+                section.classList.add('active');
+                section.style.display = 'block';
+            });
+        } else {
+            // If not searching, restore normal tab behavior
+            const activeTab = document.querySelector('.tab.active');
+            if (activeTab) {
+                const activeCategory = activeTab.getAttribute('data-category');
+                faqSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.getAttribute('data-category') === activeCategory) {
+                        section.classList.add('active');
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Search across ALL FAQ items
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+            const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+            const matches = question.includes(searchTerm) || answer.includes(searchTerm);
+
+            if (searchTerm === '' || matches) {
+                item.style.display = 'block';
+                if (searchTerm !== '' && matches) {
+                    item.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+                } else {
+                    item.style.backgroundColor = '';
+                }
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Hide sections that have no visible items
+        if (searchTerm !== '') {
+            faqSections.forEach(section => {
+                const visibleItems = section.querySelectorAll('.faq-item[style*="display: block"]').length;
+                if (visibleItems === 0) {
+                    section.style.display = 'none';
+                }
+            });
+        }
+    });
+}
+
+// Responsive behavior
+function initResponsiveBehavior() {
+    // Tabs will always be visible on all screen sizes
+    // No responsive switching needed
+}
+
+// Coins counter functionality
+function initCoinsCounter() {
+    let coins = 5; // Starting with 5 coins as shown in the image
+    const maxCoins = 100;
+    const progressFill = document.querySelector('.progress-fill');
+    const progressText = document.querySelector('.progress-text span:first-child');
+    const rewardBtn = document.querySelector('.reward-btn');
+
+    function updateCoinsDisplay() {
+        if (progressFill && progressText) {
+            const percentage = (coins / maxCoins) * 100;
+            progressFill.style.width = `${percentage}%`;
+            progressText.textContent = `${coins.toString().padStart(2, '0')}/${maxCoins}`;
+        }
+    }
+
+    function addCoin() {
+        if (coins < maxCoins) {
+            coins++;
+            updateCoinsDisplay();
+            
+            // Animate coin addition
+            const coinsIcon = document.querySelector('.stacked-coins');
+            if (coinsIcon) {
+                coinsIcon.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    coinsIcon.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }
+    }
+
+    // Reward button functionality
+    if (rewardBtn) {
+        rewardBtn.addEventListener('click', function() {
+            if (coins >= 10) {
+                alert('Congratulations! You can redeem your reward now!');
+                coins -= 10;
+                updateCoinsDisplay();
+            } else {
+                alert(`You need ${10 - coins} more coins to redeem a reward!`);
+            }
+        });
+    }
+
+    // Initialize display
+    updateCoinsDisplay();
+
+    // Make addCoin function globally available
+    window.addCoin = addCoin;
+}
+
+// Smooth scrolling for better UX
+function initSmoothScrolling() {
+    // Add smooth scrolling to all internal links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// Contact button functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const contactBtn = document.querySelector('.contact-btn');
+    if (contactBtn) {
+        contactBtn.addEventListener('click', function() {
+            // You can replace this with actual contact functionality
+            alert('Contact form would open here!');
+        });
+    }
+});
+
+// Add some visual feedback for interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Add loading animation for FAQ sections
+    const faqSections = document.querySelectorAll('.faq-section');
+    faqSections.forEach(section => {
+        if (section.classList.contains('active')) {
+            section.style.opacity = '0';
+            setTimeout(() => {
+                section.style.opacity = '1';
+            }, 100);
+        }
+    });
+});
+
+// Keyboard navigation support
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        const activeElement = document.focusElement;
+        if (activeElement && activeElement.classList.contains('faq-question')) {
+            e.preventDefault();
+            activeElement.click();
+        }
+    }
+});
+
+// Accessibility improvements
+document.addEventListener('DOMContentLoaded', function() {
+    // Add ARIA labels and roles
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach((item, index) => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        
+        if (question && answer) {
+            question.setAttribute('role', 'button');
+            question.setAttribute('tabindex', '0');
+            question.setAttribute('aria-expanded', 'false');
+            question.setAttribute('aria-controls', `faq-answer-${index}`);
+            
+            answer.setAttribute('id', `faq-answer-${index}`);
+            answer.setAttribute('role', 'region');
+            answer.setAttribute('aria-labelledby', `faq-question-${index}`);
+            
+            question.setAttribute('id', `faq-question-${index}`);
+        }
+    });
+});
+</script> 

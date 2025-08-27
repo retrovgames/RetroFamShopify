@@ -1,0 +1,229 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "map_xLBVAA": {
+      "type": "map",
+      "disabled": true,
+      "settings": {
+        "map_title": "Our retail store",
+        "address": "<p>102 S Richmond St, Fleetwood, PA 19522, United States</p><p>Monday – Saturday<br/>8:00 AM – 11:00 PM EST</p>",
+        "map_address": "102 S Richmond St, Fleetwood, PA 19522, United States",
+        "api_key": "",
+        "show_button": true,
+        "lazyload_images": true
+      }
+    },
+    "contact_banner_DbaHGK": {
+      "type": "contact-banner",
+      "name": "Contact Banner",
+      "settings": {
+        "background_color": "#42b792db",
+        "controller_image": "shopify://shop_images/image_30_1.png",
+        "show_breadcrumb": false,
+        "home_text": "Home",
+        "contact_text": "Contact Us",
+        "breadcrumb_color": "#080707",
+        "title": "We're So Pleased to Have You Here!",
+        "crown_image": "shopify://shop_images/Vector_15.png",
+        "description": "<p>Got questions? Get in touch with a RetroFam representative. Our team of video game sales experts is here to help with anything related to our business, whether it's about games, systems, orders, or more. Please note that RetroFam is an online-only retailer. We're always here online to assist you!</p>",
+        "show_faq_link": true,
+        "faq_link": "",
+        "faq_link_text": "Visit our FAQs page",
+        "faq_link_suffix": "and find what you need quickly!",
+        "show_contact_info": true,
+        "phone_icon": "shopify://shop_images/fi_16070173.png",
+        "contact_label": "Our Contact Info",
+        "phone_number": "+1 484 486 7326",
+        "email": "help@retrofam.com",
+        "show_address": true,
+        "location_icon": "shopify://shop_images/fi_16070173_1.png",
+        "address_label": "Our Mailing Address",
+        "address": "102 S Richmond St, Fleetwood, PA 19522 United States",
+        "map_link": "",
+        "show_hours": true,
+        "clock_icon": "shopify://shop_images/fi_16070173_2.png",
+        "hours_label": "Business Hours",
+        "business_hours": "Monday - Friday: 9AM - 6PM EST",
+        "show_social": true,
+        "heart_icon": "shopify://shop_images/Vector_2.png",
+        "social_label": "Follow Us",
+        "facebook_url": "https://www.facebook.com/retrofamshop",
+        "instagram_url": "https://instagram.com/retrofamshop",
+        "twitter_url": "https://x.com/FamRetro65348",
+        "youtube_url": "https://www.youtube.com/@Retrofam-d1r",
+        "tiktok_url": "https://www.tiktok.com/@retrofam1",
+        "title_color": "#080707",
+        "description_color": "#080707",
+        "accent_color": "#ff6b35",
+        "label_color": "#080707",
+        "text_color": "#080707",
+        "link_color": "#080707",
+        "social_icon_color": "#080707",
+        "icon_background_color": "#ffffff",
+        "icon_border_color": "#080707"
+      }
+    },
+    "contact_us_fdyJak": {
+      "type": "contact-us",
+      "name": "Contact Form",
+      "settings": {
+        "form_title": "Fill Out the Form",
+        "form_description": "<p>Got a question or need help? We're here for you. Just fill out the form below, and one of our friendly experts will reach out to assist you fast.</p>",
+        "form_subtitle": "Your answers are just a click away! Let us take care of the rest.",
+        "show_map": true,
+        "map_title": "Something about Map",
+        "map_embed_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.0669563232227!2d-75.81941619999999!3d40.451654999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c5d744c171372d%3A0x35e60ebb9a5ded42!2sRetroFam!5e0!3m2!1sen!2s!4v1745935298807!5m2!1sen!2s",
+        "form_background_image": "shopify://shop_images/Vector_16.png",
+        "form_splash_image": "shopify://shop_images/Mask_group_1.png",
+        "form_controller_image": "shopify://shop_images/Group_4.png",
+        "bottom_prop_image": "shopify://shop_images/Vector_3.png",
+        "name_label": "Name",
+        "name_placeholder": "Full Name",
+        "phone_label": "Phone",
+        "phone_placeholder": "+1 484 486 732",
+        "email_label": "Email Address",
+        "email_placeholder": "Johndoe@gmail.com",
+        "subject_label": "Subject",
+        "subject_placeholder": "Enter Subject",
+        "message_label": "Your Message",
+        "message_placeholder": "Type Your Message Here...",
+        "submit_button_text": "Submit",
+        "success_title": "Thank You for Reaching Out!",
+        "success_description": "<p>Your message has been successfully submitted, and one of our experts will be in touch with you shortly. We appreciate you taking the time to connect with us.</p>",
+        "show_reward_section": true,
+        "reward_title": "You have also got a reward",
+        "reward_description": "Some instructions about how they can claim the reward",
+        "show_progress_bar": true,
+        "show_desktop_props": true,
+        "show_desktop_top_prop": true,
+        "show_mobile_top_prop": true,
+        "background_color": "#ffffff",
+        "title_color": "#080707",
+        "description_color": "#080707",
+        "subtitle_color": "#080707",
+        "map_title_color": "#080707",
+        "label_color": "#ffffff",
+        "input_border_color": "#080707",
+        "input_background_color": "#ffffff",
+        "input_text_color": "#080707",
+        "input_focus_color": "#ff6b35",
+        "button_background_color": "#10b981",
+        "button_text_color": "#ffffff",
+        "button_hover_color": "#059669",
+        "progress_bar_color": "#ff6b35",
+        "form_border_color": "#000000",
+        "form_shadow_color": "#080707",
+        "error_color": "#ef4444",
+        "success_color": "#10b981",
+        "focus_color": "#ff6b35",
+        "success_text_color": "#ffffff",
+        "success_description_color": "#ffffff",
+        "success_divider_color": "#ffffff",
+        "success_icon_background": "#10b981",
+        "reward_description_color": "#ffffff",
+        "info_color": "#3b82f6"
+      }
+    },
+    "contact_gallery_DjMyhq": {
+      "type": "contact-gallery",
+      "blocks": {
+        "gallery_image_T9E8C6": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/warehouse_2.webp",
+            "alt_text": "Warehouse Image 2"
+          }
+        },
+        "gallery_image_GcyPyx": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/warehouse_1.webp",
+            "alt_text": "Warehouse Image 1"
+          }
+        },
+        "gallery_image_qtkBTg": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/warehouse_3.webp",
+            "alt_text": "Warehouse Image 3"
+          }
+        },
+        "gallery_image_W7zFk7": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/warehouse_4.webp",
+            "alt_text": "Warehouse Image 4"
+          }
+        },
+        "gallery_image_dMW7nr": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/warehouse_5.webp",
+            "alt_text": "Warehouse Image 5"
+          }
+        },
+        "gallery_image_A4qyRb": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/warehouse_6.webp",
+            "alt_text": "Warehouse Image 6"
+          }
+        },
+        "gallery_image_4Bjy7E": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/Warehouse_Image_1.webp",
+            "alt_text": "Warehouse Image Outside"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_image_T9E8C6",
+        "gallery_image_GcyPyx",
+        "gallery_image_qtkBTg",
+        "gallery_image_W7zFk7",
+        "gallery_image_dMW7nr",
+        "gallery_image_A4qyRb",
+        "gallery_image_4Bjy7E"
+      ],
+      "name": "Contact Gallery",
+      "settings": {
+        "show_counter": true,
+        "prev_button_label": "Previous image",
+        "next_button_label": "Next image",
+        "background_color": "#449adf",
+        "border_color": "#080707",
+        "shadow_color": "#080707",
+        "nav_background_color": "#ffffff",
+        "nav_border_color": "#080707",
+        "nav_shadow_color": "#080707",
+        "nav_icon_color": "#080707",
+        "nav_hover_background_color": "#ff6b35",
+        "nav_hover_icon_color": "#ffffff",
+        "counter_color": "#1e3a8a",
+        "focus_color": "#ff6b35",
+        "counter_font_size": 16
+      }
+    }
+  },
+  "order": [
+    "main",
+    "map_xLBVAA",
+    "contact_banner_DbaHGK",
+    "contact_us_fdyJak",
+    "contact_gallery_DjMyhq"
+  ]
+}

@@ -1,0 +1,1345 @@
+{% comment %}
+  Parameters
+  context - used to determine whether on the featured product or main product template
+  mobile_layout
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+
+  unless thumbnail_position
+    assign thumbnail_position = 'beside'
+  endunless
+
+  assign product_zoom_size = '1800x1800'
+  assign product_image_size = '620x'
+
+  case image_container_width
+    when 'small'
+      assign product_image_width = 'medium-up--two-fifths'
+      assign product_description_width = 'medium-up--three-fifths'
+      assign product_image_size = '480x'
+    when 'medium'
+      assign product_image_width = 'medium-up--one-half'
+      assign product_description_width = 'medium-up--one-half'
+      assign product_image_size = '620x'
+    when 'large'
+      assign product_image_width = 'medium-up--three-fifths'
+      assign product_description_width = 'medium-up--two-fifths'
+      assign product_image_size = '740x'
+  endcase
+
+  assign product_img_structure = product.featured_media | img_url: '1x1' | replace: '_1x1.', '_{width}x.'
+-%}
+
+{%- liquid
+  assign connect_to_sizechart = false
+
+  for block in section.blocks
+    if block.type == 'size_chart'
+      assign sizechart_index = forloop.index0
+      assign next_block_index = sizechart_index | plus: 1
+      assign variant_block = section.blocks[next_block_index]
+
+      if variant_block.type == 'variant_picker' and variant_block.settings.picker_type == 'button' and product.has_only_default_variant == false
+        for option in product.options_with_values
+          assign size_trigger = 'products.general.size_trigger' | t | downcase
+          assign downcased_option = option.name | downcase
+
+          if downcased_option contains size_trigger
+            assign connect_to_sizechart = true
+          endif
+        endfor
+      endif
+
+    endif
+  endfor
+-%}
+
+<div id="ProductSection-{{ section_id }}-{{ product.id }}"
+  class="product-section alh-product_template"
+  data-section-id="{{ section_id }}"
+  data-product-id="{{ product.id }}"
+  data-section-type="product"
+  data-product-handle="{{ product.handle }}"
+  data-product-title="{{ product.title | escape }}"
+  data-product-url="{{ product.url | within: collection }}"
+  data-aspect-ratio="{{ 100 | divided_by: product.featured_media.aspect_ratio }}"
+  data-img-url="{{ product_img_structure }}"
+  {% unless isModal %}
+    data-history="true"
+  {% endunless %}
+  data-modal="{{ isModal }}">
+
+  {%- render 'product-template-variables', product: product, current_variant: current_variant -%}
+
+  <div class="page-content page-content--product">
+    <div class="page-width">
+
+      {%- if settings.show_breadcrumbs and isModal != true -%}
+        <div class="alh-breadcrumbs">
+          {%- render 'breadcrumbs' -%}
+        </div>
+      {%- endif -%}
+
+      <div class="grid{% unless image_position == 'left' %} grid--product-images-right{% endunless %}{% if mobile_layout == 'partial' %} grid--product-images--partial{% endif %}">
+        {%- if image_position == 'left' -%}
+          <div class="grid__item {{ product_image_width }}">
+            {%- render 'product-images',
+              section_id: section_id,
+              product: product,
+              isModal: isModal,
+              image_position: image_position,
+              product_zoom_enable: product_zoom_enable,
+              product_zoom_size: product_zoom_size,
+              product_image_size: product_image_size,
+              thumbnail_arrows: thumbnail_arrows,
+              thumbnail_height: thumbnail_height,
+              thumbnail_position: thumbnail_position,
+              video_looping: video_looping,
+              video_style: video_style,
+              context: context,
+              sizes: sizes,
+              sizeVariable: product_image_width,
+              fallback: fallback,
+              mobile_layout: mobile_layout,
+            -%}
+
+
+            <div class="alh-desktop-pdp_info">
+              <div class="product-info-banner">
+                <div class="info-item">
+                  {% if section.settings.col1_icon != blank %}
+                    <img src="{{ section.settings.col1_icon | img_url: '50x50' }}" alt="Icon" class="info-icon">
+                  {% endif %}
+                  <div class="info-text">
+                    <strong>{{ section.settings.col1_title }}</strong>
+                    <span>{{ section.settings.col1_subtitle }}</span>
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="info-item">
+                  {% if section.settings.col2_icon != blank %}
+                    <img src="{{ section.settings.col2_icon | img_url: '50x50' }}" alt="Icon" class="info-icon">
+                  {% endif %}
+                  <div class="info-text">
+                    <strong>{{ section.settings.col2_title }}</strong>
+                    <span>{{ section.settings.col2_subtitle }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-secondary-images">
+
+                {% if product.metafields.custom.media_below_images %}
+                  {% for image in product.metafields.custom.media_below_images.value %}
+                    <div class="secondary-image">
+                      <img 
+                        src="{{ image | img_url: '600x600' }}" 
+                        alt="{{ product.title }}" 
+                      >
+                    </div>
+                  {% endfor %}
+                {% comment %} {% else %}
+                  {% if product.images.size > 1 %}
+                    {% assign second_image = product.images[1] %}
+                    <div class="secondary-image">
+                      <img src="{{ second_image | img_url: '600x600' }}" alt="{{ product.title }} - Image 2">
+                    </div>
+                  {% endif %}
+
+                  {% if product.images.size > 2 %}
+                    {% assign third_image = product.images[2] %}
+                    <div class="secondary-image">
+                      <img src="{{ third_image | img_url: '600x600' }}" alt="{{ product.title }} - Image 3">
+                    </div>
+                  {% endif %} {% endcomment %}
+                {% endif %}
+                
+              </div>
+
+              <div class="alh-pro_desc">
+                <h3>About this Product</h3>
+                {%- render 'product-description', id: product.id, product: product -%}
+              </div>
+
+              <div class="alh-sell-game">
+                <h3>Sell us your games!</h3>
+                <div class="alh-sell-game_desc">
+                  <p>We actively purchase old consoles, games and accessories</p>
+                  <a href="#"><span>Learn More</span> <img src="{{ 'learn-icon.svg' | asset_url }}" alt="Add icon" height="10" width="6"></a>
+                </div>
+              </div>
+            </div>
+
+            
+
+          </div>
+        {%- endif -%}
+
+        <div class="grid__item {{ product_description_width }} product-single__sticky">
+
+          <div class="product-single__meta alh-product-single__meta">
+            <div class="product-block product-block--header">
+              
+
+              {%- if settings.vendor_enable -%}
+                <div class="product-single__vendor">
+                  {%- assign vendor_handle = product.vendor | handleize -%}
+                  {%- if collections[vendor_handle] != empty -%}
+                    <a href="{{ routes.collections_url }}/{{ collections[vendor_handle].handle }}">
+                      {{ collections[vendor_handle].title }}
+                    </a>
+                  {%- else -%}
+                    {{ product.vendor | link_to_vendor }}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              {%- if isModal -%}
+                <p class="h2 product-single__title">
+                  {{ product.title }}
+                </p>
+              {%- else -%}
+                <h1 class="h2 product-single__title">
+                  {%- unless product.empty? -%}
+                    {{ product.title }}
+                  {%- else -%}
+                    {{ 'home_page.onboarding.product_title' | t }}
+                  {%- endunless -%}
+                </h1>
+              {%- endif -%}
+
+              <div class="alh-pdp-info">
+
+                {% comment %} <div class="alh-review_container">
+                  <div class="start-container">
+                    {% for i in (1..5) %}
+                      <img src="{{ 'tabler_star-filled.svg' | asset_url }}" alt="Email icon" height="12" width="12">
+                    {% endfor %}
+                  </div>
+                  <p><strong> 4.9 </strong> (27)</p>
+                </div> {% endcomment %}
+
+                <!-- Start of Judge.me code --> 
+                  <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'> 
+                    {{ product.metafields.judgeme.badge }} 
+                  </div> 
+                <!-- End of Judge.me code -->
+
+                {% if product.metafields.alh.bought_number %}
+                  <p class="product-meta">{{ product.metafields.alh.bought_number.value }}+ sold recently</p>
+                {% else %}
+                  <p class="product-meta"></p>
+                {% endif %}
+
+                {% if product.metafields.custom.product_condition %}
+                  <p class="alh-pdp-condition"><img src="{{ 'check-circle-broken.svg' | asset_url }}" alt="icon" height="16" width="16"> <strong> {{ product.metafields.custom.product_condition }}</strong></p>
+                {% endif %}
+              </div>
+
+              
+
+              {%- if sku_enable -%}
+                <p data-sku class="product-single__sku">
+                  {%- if current_variant.sku -%}
+                    {{ current_variant.sku }}
+                  {%- endif -%}
+                </p>
+              {%- endif -%}
+            </div>
+
+            <div data-product-blocks>
+              {%- capture form_id -%}AddToCartForm-{{ section_id }}-{{ product.id }}{%- endcapture -%}
+              {%- for block in blocks -%}
+                {%- case block.type -%}
+                  {%- when '@app' -%}
+                    {% render block %}
+                  {%- when 'separator' -%}
+                    <div class="product-block" {{ block.shopify_attributes }}><hr></div>
+                  {%- when 'text' -%}
+                    <div class="product-block" {{ block.shopify_attributes }}>
+                      {{ block.settings.text }}
+                    </div>
+                  {%- when 'tab' -%}
+                    {% assign tab_id = block.id | append: product.id %}
+                    {% capture tab_content %}
+                      {{ block.settings.content }}
+                      {{ block.settings.page.content }}
+                    {% endcapture %}
+                    {% unless tab_content == blank and block.settings.title == blank %}
+                      <div class="product-block product-block--tab" {{ block.shopify_attributes }}>
+                        {%- render 'tab', id: tab_id, title: block.settings.title, content: tab_content -%}
+                      </div>
+                    {% endunless %}
+                  {%- when 'contact' -%}
+                    <div class="product-block product-block--tab" {{ block.shopify_attributes }}>
+                      {% assign tab_id = block.id | append: product.id %}
+                      {%- render 'tab-contact', id: tab_id, block: block -%}
+                    </div>
+                  {%- when 'description' -%}
+                    <div class="product-block{% if block.settings.is_tab %} product-block--tab{% endif %}" {{ block.shopify_attributes }}>
+                      {%- assign id = block.id | append: product.id -%}
+                      {%- render 'product-description', id: id, product: product, is_tab: block.settings.is_tab -%}
+                    </div>
+                  {%- when 'price' -%}
+                    {% comment %} <div class="product-block product-block--price" {{ block.shopify_attributes }}>
+                      {%- assign hide_sale_price = true -%}
+                      {%- if product.compare_at_price_max > product.price -%}
+                        {%- if current_variant.compare_at_price > current_variant.price -%}
+                          {%- assign hide_sale_price = false -%}
+                        {%- endif -%}
+                        <span
+                          data-a11y-price
+                          class="visually-hidden"
+                          aria-hidden="{{ hide_sale_price }}">
+                            {{ 'products.general.regular_price' | t }}
+                        </span>
+                        <span data-product-price-wrap class="{% if hide_sale_price %} hide{% endif %}">
+                          <span data-compare-price class="product__price product__price--compare">
+                            {%- if current_variant.compare_at_price > current_variant.price -%}
+                              {{ current_variant.compare_at_price | money }}
+                            {%- endif -%}
+                          </span>
+                        </span>
+                        <span data-compare-price-a11y class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                      {%- else -%}
+                        <span data-a11y-price class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                      {%- endif -%}
+
+                      <span data-product-price
+                        data-pro-price = "{{ current_variant.price }}"
+                        class="product__price{% if current_variant.compare_at_price > current_variant.price %} on-sale{% endif %}">
+                        {%- unless product.empty? -%}
+                          {{ current_variant.price | money }}
+                        {%- else -%}
+                          {{ 1999 | money }}
+                        {%- endunless -%}
+                      </span>
+
+                      {%- if settings.product_save_amount -%}
+                        {%- if settings.product_save_type == 'dollar' -%}
+                          {%- capture saved_amount -%}{{ current_variant.compare_at_price | minus: current_variant.price | money }}{%- endcapture -%}
+                        {%- else -%}
+                          {%- capture saved_amount -%}{{ current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round }}%{%- endcapture -%}
+                        {%- endif -%}
+                        <span data-save-price class="product__price-savings{% if hide_sale_price %} hide{% endif %}">
+                          {%- unless hide_sale_price -%}
+                            {{ 'products.general.save_html' | t: saved_amount: saved_amount }}
+                          {%- endunless -%}
+                        </span>
+                      {%- endif -%}
+
+                      <div
+                        data-unit-price-wrapper
+                        class="product__unit-price product__unit-price--spacing {% unless current_variant.unit_price_measurement %} hide{% endunless %}">
+                        {%- capture unit_price_base_unit -%}
+                          <span data-unit-base>
+                            {%- if current_variant.unit_price_measurement -%}
+                              {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
+                                {{ current_variant.unit_price_measurement.reference_value }}
+                              {%- endif -%}
+                              {{ current_variant.unit_price_measurement.reference_unit }}
+                            {%- endif -%}
+                          </span>
+                        {%- endcapture -%}
+
+                        <span data-unit-price>{{ current_variant.unit_price | money }}</span>/{{ unit_price_base_unit }}
+                      </div>
+
+                      {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
+                        <div class="product__policies rte small--text-center">
+                          {%- if shop.taxes_included -%}
+                            {{ 'products.product.include_taxes' | t }}
+                          {%- endif -%}
+                          {%- if shop.shipping_policy.body != blank -%}
+                            {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    </div> {% endcomment %}
+                    <span data-pro-price="{{ product.price }}" class="product__price alh-product__price">{{ product.price | money }}</span>
+                    {% comment %} <span data-pro-price="{{ product.price }}" class="product__price">{{ product.price | money }}</span> {% endcomment %}
+                  {%- when 'quantity_selector' -%}
+                    <div class="product-block" {{ block.shopify_attributes }}>
+                      <div class="product__quantity">
+                        {% assign qty_id = section_id | append: product.id %}
+                        <label for="Quantity-{{ qty_id }}">{{ 'products.product.quantity' | t }}</label>
+                        {%- render 'quantity-input', form_id: form_id, id: qty_id, qty: 1, min: 1 -%}
+                      </div>
+                    </div>
+                  {%- when 'size_chart' -%}
+                    {% if connect_to_sizechart == false %}
+                      {%- capture size_chart_title -%}
+                        {{ 'products.general.size_chart' | t }}<svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-size-chart" viewBox="0 0 64 64"><path d="M22.39 33.53c-7.46 0-13.5-3.9-13.5-8.72s6-8.72 13.5-8.72 13.5 3.9 13.5 8.72a12 12 0 0 1-.22 1.73"/><ellipse cx="22.39" cy="24.81" rx="3.28" ry="2.12"/><path d="M8.89 24.81V38.5c0 7.9 6.4 9.41 14.3 9.41h31.92V33.53H22.39m24.39 0v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44"/></svg>
+                      {%- endcapture -%}
+
+                      <div class="size-chart__standalone" {{ block.shopify_attributes }}>
+                        {%- render
+                          'tool-tip-trigger',
+                          title: size_chart_title,
+                          content: block.settings.size_chart.content,
+                          context: 'size-chart'
+                        -%}
+                        {% style %}
+                          tool-tip-trigger {
+                            text-transform: uppercase;
+                          }
+                        {% endstyle %}
+                      </div>
+                    {% endif %}
+                  {%- when 'variant_picker' -%}
+
+                
+                    <!-- Controller Section -->
+                    {% if product.metafields.custom.controller_product and product.metafields.custom.controllers_count %}
+                      {% assign default_controller_product = product.metafields.custom.controller_product.value %}
+                      {% assign alt_controller_product = product.metafields.custom.oem_controller_product.value %}
+                      {% assign controllers_count = product.metafields.custom.controllers_count.value | plus: 0 %}
+
+                      <div class="controller-addon"
+                          data-default-variant-id="{{ default_controller_product.variants.first.id }}"
+                          data-default-available="{{ default_controller_product.variants.first.available }}"
+                          data-default-price="{{ default_controller_product.price }}"
+                          {% if alt_controller_product %}
+                            data-alt-variant-id="{{ alt_controller_product.variants.first.id }}"
+                            data-alt-available="{{ alt_controller_product.variants.first.available }}"
+                            data-alt-price="{{ alt_controller_product.price }}"
+                          {% endif %}>
+                        <p><strong>Controllers</strong> (+$<span id="controller-price-display">0.00</span>)</p>
+                        
+                        <div class="controller-buttons">
+                          {% for i in (1..controllers_count) %}
+                            <button class="controller-btn {% if i == 1 %}active{% endif %}" data-qty="{{ i }}">
+                              {{ i }} Controller{% if i > 1 %}s{% endif %}
+                              <strong>
+                                {% if i == 1 %}
+                                  (Included)
+                                {% else %}
+                                  (+ <span>
+                                    {% if isOEM %}
+                                      {{ default_controller_product.price | times: i | money }}
+                                    {% else %}
+                                      {{ default_controller_product.price | times: i | minus: default_controller_product.price | money }}
+                                    {% endif %}
+                                  </span>)
+                                {% endif %}
+                              </strong>
+                            </button>
+                          {% endfor %}
+                        </div>
+
+                        {% if alt_controller_product %}
+                        <label class="controller-checkbox">
+                          <input type="checkbox" id="alt-controller-toggle">
+                          Upgrade to OEM <strong>({% if alt_controller_product.price > default_controller_product.price %}+{% else %}-{% endif %}{{ alt_controller_product.price | money }}) </strong>
+                        </label>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    
+
+                    <!-- Game Section -->
+                    {% if product.metafields.alh.add_on_games %}
+                      <div class="addon-products-wrapper games-wrapper" data-main-product-id="{{ product.selected_or_first_available_variant.id }}">
+                        <p><strong>
+                          {% if product.metafields.custom.add_a_game_title %}
+                            {{ product.metafields.custom.add_a_game_title }}
+                          {% else %}
+                          Add a Game
+                          {% endif %}
+                          </strong> (+$<span class="game-total-price">0.00</span>)</p>
+                        {% for addon in product.metafields.alh.add_on_games.value %}
+                          <div class="addon-product" 
+                            data-variant-id="{{ addon.variants.first.id }}"
+                            data-available="{{ addon.variants.first.available }}"
+                            data-price="{{ addon.price }}"
+                          >
+                            <div class="alh-check_container">
+                              <label>
+                                <input type="checkbox" class="addon-checkbox">
+                                {% if addon.metafields.custom.addon_title %}
+                                  {{ addon.metafields.custom.addon_title }}
+                                {% else %}
+                                  {{ addon.title }}
+                                {% endif %}
+                                 <strong>(+{{ addon.price | money }})</strong>
+                              </label>
+                              <a href="{{ addon.handle }}" target="_blank">
+                                <img src="{{ 'link-icon.svg' | asset_url }}" alt="Link icon" height="12" width="12">
+                              </a>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    <!-- Variants Section -->
+                    <div class="product-block" {% if block.settings.product_dynamic_variants_enable %}data-dynamic-variants-enabled{% endif %} {{ block.shopify_attributes }}>
+                      {%- unless product.has_only_default_variant -%}
+                        {%- for option in product.options_with_values -%}
+                          {%- liquid
+                            if block.settings.color_swatches
+                              assign is_color = false
+                              assign color_option_index = 0
+                              assign swatch_trigger = 'products.general.color_swatch_trigger' | t | downcase
+                              assign color_option_index = forloop.index0
+                              assign downcased_option = option.name | downcase
+                              if downcased_option contains swatch_trigger
+                                assign is_color = true
+                              elsif swatch_trigger == 'color' and downcased_option contains 'colour'
+                                assign is_color = true
+                              endif
+                            endif
+                          -%}
+
+                          {%- if block.settings.picker_type == 'button' -%}
+                            {%- render 'variant-button',
+                              block: block,
+                              product: product,
+                              form_id: form_id,
+                              section_id: section_id,
+                              option: option,
+                              forloop: forloop,
+                              variant_labels: block.settings.variant_labels,
+                              is_color: is_color,
+                              color_option_index: color_option_index,
+                              connect_to_sizechart: connect_to_sizechart,
+                              sizechart_index: sizechart_index
+                            -%}
+                          {%- else -%}
+                            {%- render 'variant-dropdown',
+                              product: product,
+                              form_id: form_id,
+                              section_id: section_id,
+                              option: option,
+                              forloop: forloop,
+                              variant_labels: block.settings.variant_labels
+                            -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      {%- endunless -%}
+                    </div>
+                    
+                    <!-- Accessory Section -->
+                    {% if product.metafields.alh.add_on_accessories %}
+                      <div class="addon-products-wrapper accessories-wrapper" data-main-product-id="{{ product.selected_or_first_available_variant.id }}">
+                        <p>
+                          <strong>
+                          {% if product.metafields.custom.accessories_title %}
+                            {{ product.metafields.custom.accessories_title }}
+                          {% else %}
+                          Add an Accessory
+                          {% endif %}
+                          </strong> (+$<span class="accessory-total-price">0.00</span>)</p>
+                        {% for accessory in product.metafields.alh.add_on_accessories.value %}
+                          <div class="addon-product" data-variant-id="{{ accessory.variants.first.id }}"
+                          data-available="{{ accessory.variants.first.available }}"
+                          data-price="{{ accessory.price }}">
+                            <div class="alh-check_container">
+                              <label>
+                                <input type="checkbox" class="addon-checkbox">
+                                {% if accessory.metafields.custom.addon_title %}
+                                  {{ accessory.metafields.custom.addon_title }}
+                                {% else %}
+                                  {{ accessory.title }}
+                                {% endif %}
+                                 <strong>(+{{ accessory.price | money }})</strong>
+                              </label>
+                              <a href="{{ accessory.handle }}" target="_blank">
+                                <img src="{{ 'link-icon.svg' | asset_url }}" alt="Link icon" height="12" width="12">
+                              </a>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    <!-- Add on section -->
+                    {% if product.metafields.alh.add_on_items %}
+                      {% assign add_on_products = product.metafields.alh.add_on_items.value %}
+                      <div class="addon-card-section" data-addon-total="0">
+                        <p class="addon-header">
+                          <strong>
+                          {% if product.metafields.custom.add_on_items_title %}
+                            {{ product.metafields.custom.add_on_items_title }}
+                          {% else %}
+                          Add-ons
+                          {% endif %}
+                          </strong>
+                          (+$<span class="addon-total-price">0.00</span>)
+                          <span class="tooltip">?</span>
+                        </p>
+
+                        {% for addon in add_on_products %}
+                          <div class="addon-card" data-variant-id="{{ addon.variants.first.id }}"
+                            data-available="{{ addon.variants.first.available }}" data-price="{{ addon.price }}">
+                            <div class="addon-card__image">
+                              <img src="{{ addon.featured_image | image_url: width: 100 }}" alt="{{ addon.title }}">
+                            </div>
+                            <div class="addon-card__info">
+                              <h4>
+                                {% if addon.metafields.custom.addon_title %}
+                                  {{ addon.metafields.custom.addon_title }}
+                                {% else %}
+                                  {{ addon.title }}
+                                {% endif %}
+                              </h4>
+                              {% comment %} <div class="addon-rating">
+                                <div class="alh-review_container">
+                                  <div class="start-container">
+                                    {% for i in (1..5) %}
+                                      <img src="{{ 'tabler_star-filled.svg' | asset_url }}" alt="Email icon" height="12" width="12">
+                                    {% endfor %}
+                                  </div>
+                                  <p><strong> 4.9 </strong> (27)</p>
+                                </div>
+                              </div> {% endcomment %}
+                              <!-- Start of Judge.me code --> 
+                                <div class='jdgm-widget jdgm-preview-badge' data-id='{{ addon.id }}'> 
+                                  {{ addon.metafields.judgeme.badge }} 
+                                </div> 
+                              <!-- End of Judge.me code -->
+
+                            </div>
+                            <div class="addon-card__action">
+                              <div class="addon-price">{{ addon.price | money }}</div>
+                              <button type="button" class="addon-toggle-btn">ADD +</button>
+                            </div>
+                          </div>
+                        {% endfor %}
+
+
+                      </div>
+                    {% endif %}
+
+                    <!-- SSD section -->
+                    {% if product.metafields.custom.m2_ssd_options %}
+                      {% assign ssd_products = product.metafields.custom.m2_ssd_options.value %}
+
+                      <div class="m2-ssd-addon" data-name="m2_ssd">
+                        <p><strong>
+                          {% if product.metafields.custom.storage_title %}
+                            {{ product.metafields.custom.storage_title }}
+                          {% else %}
+                          M.2 SSD
+                          {% endif %}
+                          </strong> (+$<span id="ssd-price-display">0.00</span>)</p>
+
+                        <div class="ssd-options">
+                          <!-- Not Included Button -->
+                          <button type="button" class="ssd-option active" data-variant-id="" data-price="0">
+                            Not Included
+                          </button>
+
+                          {% for ssd in ssd_products %}
+                            <button type="button"
+                              class="ssd-option"
+                              data-variant-id="{{ ssd.variants.first.id }}"
+                              data-price="{{ ssd.price }}"
+                              data-available="{{ ssd.variants.first.available }}">
+                              {% if ssd.metafields.custom.addon_title %}
+                                {{ ssd.metafields.custom.addon_title }}
+                              {% else %}
+                                {{ ssd.title }}
+                              {% endif %}
+                               <strong>(+{{ ssd.price | money }})</strong>
+                            </button>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    {% endif %}
+
+
+
+
+
+
+
+                  {%- when 'buy_buttons' -%}
+                    <div class="alh-price-quantity_container">
+                      {% if product.metafields.custom.controller_product  %}
+                        <span data-pro-price="{{ product.price }}" class="product__price alh-product__price">{{ product.price | money }}</span>
+                      {% else %}
+                        <div></div>
+                      {% endif %}
+                      
+
+                      <div class="main-product-qty">
+                        <button type="button" id="qty-minus">−</button>
+                        <span id="qty-value">1</span>
+                        <button type="button" id="qty-plus">+</button>
+                      </div>
+
+                    </div>
+                    <div class="alh-atc-btn_container">
+                      <button id="custom-buy-now-btn" class="btn btn--secondary alh-pdp_buynow">
+                        Buy Now
+                      </button>
+                      <button id="custom-add-to-cart-btn" class="btn btn--primary alh-pdp_atc">Add to cart +</button>
+                    </div>
+                    <div class="product-block" {{ block.shopify_attributes }}>
+                      {%- unless product.empty? -%}
+                        <div class="product-block">
+                          {%- render 'product-form',
+                            form_id: form_id,
+                            product: product,
+                            show_dynamic_checkout: block.settings.show_dynamic_checkout,
+                            current_variant: current_variant,
+                            block: block,
+                          -%}
+                        </div>
+                      {%- endunless -%}
+
+                      {%- if block.settings.surface_pickup_enable -%}
+                        <div data-store-availability-holder
+                          data-product-name="{{ product.title | escape }}"
+                          data-base-url="{{ shop.url }}{{ routes.root_url }}"
+                          ></div>
+                      {%- endif -%}
+                    </div>
+                    
+                    {%- unless shop.enabled_payment_types == empty -%}
+                      <ul class="inline-list payment-icons pdp-payment__section">
+                        {%- for type in shop.enabled_payment_types -%}
+                          <li class="icon--payment">
+                            {{ type | payment_type_svg_tag }}
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endunless -%}
+                    
+                  {%- when 'sales_point' -%}
+                    {%- unless block.settings.text == blank -%}
+                      <div class="product-block product-block--sales-point" {{ block.shopify_attributes }}>
+                        <ul class="sales-points">
+                          <li class="sales-point">
+                            <span class="icon-and-text">
+                              {% case block.settings.icon %}
+                                {% when 'checkmark' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-circle-checkmark" viewBox="0 0 64 64"><path d="M52.68 24.48A22 22 0 1 1 47 15.93"/><path d="m21 32 8.5 8.5L57 13"/></svg>
+                                {% when 'gift' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-gift" viewBox="0 0 64 64"><path d="M9 20.23h46v8.68H9zm4.34 8.68h36.89v24.3H13.34zm14.48-8.25v32.98m8.09-32.76v32.98M20.52 11.43a3.73 3.73 0 0 0-.74 2.87 4.57 4.57 0 0 0 .8 2.27C22 18.09 25.15 20 32 20.23a12 12 0 0 0-2.43-7 7.52 7.52 0 0 0-5.66-3.12 4 4 0 0 0-3.39 1.32Z"/><path d="M43.37 11.43a3.73 3.73 0 0 1 .74 2.87 4.48 4.48 0 0 1-.8 2.27c-1.42 1.52-4.57 3.41-11.42 3.66a12.08 12.08 0 0 1 2.43-7A7.56 7.56 0 0 1 40 10.14a4 4 0 0 1 3.37 1.29Z"/></svg>
+                                {% when 'globe' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-globe" viewBox="0 0 64 64"><circle cx="32" cy="32" r="22"/><path d="M13 21h38M10 32h44M13 43h38M32 10c-12 8-12 37 0 44m0-44c12 8 12 37 0 44"/></svg>
+                                {% when 'heart' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-heart" viewBox="0 0 64 64"><path d="M51.27 15.05a13 13 0 0 0-18.44 0l-.83.83-.83-.83a13 13 0 0 0-18.44 18.44l.83.83L32 52.77l18.44-18.45.83-.83a13 13 0 0 0 0-18.44Z"/></svg>
+                                {% when 'leaf' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-leaf" viewBox="0 0 64 64"><defs><style>.a{stroke-miterlimit:10}</style></defs><path class="a" d="M52 11 13 50m22-37v15h16"/><path class="a" d="M52 11c6 24-16.72 47.29-33 32C7 22 29 10 52 11Z"/></svg>
+                                {% when 'lock' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-lock" viewBox="0 0 64 64"><path d="M19.45 23.6v-3.2c0-7 5.89-11.75 12.55-11.75 7.21 0 12.55 5.49 12.55 11.75v3.2M10 23.6h44v31.75H10zm22 13.87v7.47"/><circle cx="32" cy="35.87" r="1.6"/></svg>
+                                {% when 'package' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-package" viewBox="0 0 64 64"><path d="M32 54.52 10 41.95v-19.9L32 9.48l22 12.57v19.9L32 54.52z"/><path d="M32 54.52v-19.9l22-12.57M32 34.62 10 22.05m31.7-7.03L21 28.33v8.38"/></svg>
+                                {% when 'phone' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-phone" viewBox="0 0 64 64"><path d="m18.4 9.65 10.2 10.2-6.32 6.32c2.1 7 6.89 12.46 15.55 15.55l6.32-6.32 10.2 10.2-8.75 8.75C25.71 50.3 13.83 38.21 9.65 18.4Z"/></svg>
+                                {% when 'ribbon' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-ribbon" viewBox="0 0 64 64"><path d="m28.57 42.31-8.36 13.07-2.6-7.17-7.61.65 8.35-13.07a17.05 17.05 0 0 0 8.12 5.94 17.3 17.3 0 0 0 1.74.5ZM54 48.86l-7.61-.65-2.61 7.17-8.36-13.07.37-.08a16.4 16.4 0 0 0 1.73-.5 17 17 0 0 0 8.12-5.93Z"/><path d="M49 25.64a16.79 16.79 0 0 1-3.14 9.85 3.55 3.55 0 0 1-.23.31 17 17 0 0 1-8.12 5.93 16.4 16.4 0 0 1-1.73.5l-.37.08a16.74 16.74 0 0 1-3.42.35 16.91 16.91 0 0 1-3.43-.35l-.36-.08a17.3 17.3 0 0 1-1.74-.5 17.05 17.05 0 0 1-8.12-5.94c-.07-.09-.15-.19-.22-.3A16.86 16.86 0 0 1 15 25.64a17 17 0 0 1 34 0Z"/><path d="m36.09 27.78.96 5.63L32 30.75l-5.05 2.66.96-5.63-4.09-3.98 5.65-.82L32 17.86l2.53 5.12 5.64.82-4.08 3.98z"/></svg>
+                                {% when 'shield' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-shield" viewBox="0 0 64 64"><path d="M21.18 31.69 28.54 39l15.91-15.88"/><path d="M53 12.54v15.24a31.41 31.41 0 0 1-3.7 14.95A25.46 25.46 0 0 1 32 56a25.46 25.46 0 0 1-17.3-13.27A31.41 31.41 0 0 1 11 27.78V12.54C24.88 13.67 32 8 32 8s7.12 5.67 21 4.54Z"/></svg>
+                                {% when 'tag' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tag" viewBox="0 0 64 64"><path d="m46.69 10.34-10.55.07-25.8 25.8 17.45 17.45 25.8-25.8.07-10.55-6.97-6.97z"/><circle cx="43.95" cy="20.05" r="3.53"/><path d="M14.4 32.15 31.85 49.6"/></svg>
+                                {% when 'truck' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-truck" viewBox="0 0 64 64"><defs><style>.a{stroke-miterlimit:10}</style></defs><path class="a" d="M16.5 43.22H6.88V16.5h33.14v26.72H23.94m21.48 0h-5.4V30.4h17.1v12.82h-4.23m4.23-12.82-6.41-8.56H40.02"/><circle class="a" cx="20.24" cy="43.76" r="3.74"/><path class="a" d="M45.42 43.23a3.82 3.82 0 1 1 0 .37v-.37"/></svg>
+                              {% endcase %}
+                              <span>{{ block.settings.text }}</span>
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    {%- endunless -%}
+                  {%- when 'inventory_status' -%}
+                    {%- render 'product-inventory', product: product, current_variant: current_variant, block: block -%}
+                  {%- when 'share' -%}
+                    <div class="product-block" {{ block.shopify_attributes }}>
+                      {%- render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product -%}
+                    </div>
+                  {%- when 'complementary_products' -%}
+                    <div class="product-block" {{ block.shopify_attributes }}>
+                      {%- render 'product-complementary', block: block, product: product, type: 'block', image_style: block.settings.image_style -%}
+                    </div>
+                  {%- when 'trust_badge' -%}
+                    <div class="product-block" {{ block.shopify_attributes }}>
+                      <div class="aos-animate" style="max-width: {{ block.settings.trust_image.width }}px; margin: 0 auto;">
+                        <div class="image-wrap " style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.trust_image.aspect_ratio }}%;">
+                          {%- render 'image-element',
+                            img: block.settings.trust_image,
+                            widths: '360, 540, 700, 1024',
+                            sizeVariable: product_description_width,
+                          -%}
+                        </div>
+                      </div>
+                    </div>
+                  {%- when 'custom' -%}
+                    <div class="product-block" {{ block.shopify_attributes }}>
+                      {{ block.settings.code }}
+                    </div>
+                {%- endcase -%}
+              {%- else -%}
+                <div data-blocks-holder
+                     data-url="{{ product.url | within: collection }}"
+                     data-template="{{ product.template_suffix }}">
+                  <div class="placeholder-content" style="min-height: 86px;"></div>
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <div class="alh-mobile-pdp_info">
+              <div class="product-info-banner">
+                <div class="info-item">
+                  {% if section.settings.col1_icon != blank %}
+                    <img src="{{ section.settings.col1_icon | img_url: '50x50' }}" alt="Icon" class="info-icon">
+                  {% endif %}
+                  <div class="info-text">
+                    <strong>{{ section.settings.col1_title }}</strong>
+                    <span>{{ section.settings.col1_subtitle }}</span>
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="info-item">
+                  {% if section.settings.col2_icon != blank %}
+                    <img src="{{ section.settings.col2_icon | img_url: '50x50' }}" alt="Icon" class="info-icon">
+                  {% endif %}
+                  <div class="info-text">
+                    <strong>{{ section.settings.col2_title }}</strong>
+                    <span>{{ section.settings.col2_subtitle }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-secondary-images">
+                {% if product.images.size > 1 %}
+                  {% assign second_image = product.images[1] %}
+                  <div class="secondary-image">
+                    <img src="{{ second_image | img_url: '600x600' }}" alt="{{ product.title }} - Image 2">
+                  </div>
+                {% endif %}
+
+                {% if product.images.size > 2 %}
+                  {% assign third_image = product.images[2] %}
+                  <div class="secondary-image">
+                    <img src="{{ third_image | img_url: '600x600' }}" alt="{{ product.title }} - Image 3">
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="alh-pro_desc">
+                <h3>About this Product</h3>
+                {%- render 'product-description', id: product.id, product: product -%}
+              </div>
+
+              <div class="alh-sell-game">
+                <h3>Sell us your games!</h3>
+                <div class="alh-sell-game_desc">
+                  <p>We actively purchase old consoles, games and accessories</p>
+                  <a href="#"><span>Learn More</span> <img src="{{ 'learn-icon.svg' | asset_url }}" alt="Add icon" height="10" width="6"></a>
+                </div>
+              </div>
+            </div>
+
+            {%- unless product.empty? -%}
+              <textarea class="hide" aria-hidden="true" aria-label="Product JSON" data-variant-json>
+                {{ product.variants | json }}
+              </textarea>
+              {%- if product.options.size >= 1 -%}
+                <textarea class="hide" aria-hidden="true" aria-label="Variant JSON" data-current-variant-json>
+                  {{ current_variant | json }}
+                </textarea>
+              {%- endif -%}
+            {%- endunless -%}
+          </div>
+        </div>
+
+        {%- unless image_position == 'left' -%}
+          <div class="grid__item {{ product_image_width }} product-single__sticky">
+            {%- render 'product-images',
+              section_id: section_id,
+              product: product,
+              isModal: isModal,
+              image_position: image_position,
+              product_zoom_enable: product_zoom_enable,
+              product_zoom_size: product_zoom_size,
+              product_image_size: product_image_size,
+              thumbnail_arrows: thumbnail_arrows,
+              thumbnail_position: thumbnail_position,
+              video_looping: video_looping,
+              video_style: video_style,
+              context: context,
+              sizes: sizes,
+              sizeVariable: product_image_width,
+              fallback: fallback,
+              mobile_layout: mobile_layout,
+            -%}
+          </div>
+        {%- endunless -%}
+
+
+        {% comment %} Floating CTA {% endcomment %}
+        <div id="floating-cta" class="floating-cta">
+          <div class="floating-cta__content page-width">
+            <div class="floating-cta__info">
+              <h3>{{ product.title }}</h3>
+              <p class="price">
+                <span data-pro-price="{{ product.price }}" class="product__price alh-product__price">{{ product.price | money }}</span>
+              </p>
+            </div>
+            <div class="floating-cta__buttons alh-atc-btn_container">
+              <button id="floating-buy-now-btn" class="btn btn--secondary alh-pdp_buynow">Buy Now</button>
+              <button id="floating-add-to-cart-btn" class="btn btn--primary alh-pdp_atc">Add to cart +</button>
+            </div>
+          </div>
+        </div>
+
+
+        
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.product-single__form');
+    const addonWrappers = document.querySelectorAll('.addon-products-wrapper');
+    const controllerBox = document.querySelector('.controller-addon');
+    const addonSection = document.querySelector('.addon-card-section');
+    const customBtn = document.getElementById('custom-add-to-cart-btn');
+    const buyNowBtn = document.getElementById('custom-buy-now-btn');
+    const floatingAddToCart = document.getElementById("floating-add-to-cart-btn");
+    const floatingBuyNow = document.getElementById("floating-buy-now-btn");
+    const ssdButtons = document.querySelectorAll('.ssd-option');
+    const ssdPriceDisplay = document.getElementById('ssd-price-display');
+
+    if (!form || !customBtn) return;
+
+    let mainProductQty = 1;
+
+    const qtyMinusBtn = document.getElementById('qty-minus');
+    const qtyPlusBtn = document.getElementById('qty-plus');
+    const qtyValueEl = document.getElementById('qty-value');
+
+    if (qtyMinusBtn && qtyPlusBtn && qtyValueEl) {
+      qtyMinusBtn.addEventListener('click', function () {
+        if (mainProductQty > 1) {
+          mainProductQty--;
+          qtyValueEl.textContent = mainProductQty;
+          alhUpdateDisplayedProductPrice();
+        }
+      });
+
+      qtyPlusBtn.addEventListener('click', function () {
+        mainProductQty++;
+        qtyValueEl.textContent = mainProductQty;
+        alhUpdateDisplayedProductPrice();
+      });
+    }
+
+    let selectedControllerQty = 1;
+    let selectedControllerVariantId = controllerBox?.dataset.defaultVariantId;
+    let selectedAddons = [];
+    let selectedSSDVariantId = null;
+
+    {% comment %} function alhUpdateDisplayedProductPrice() {
+      const basePriceElements = document.querySelectorAll('[data-pro-price]');
+      if (!basePriceElements) return;
+
+      basePriceElements.forEach(basePriceElement => {
+        const basePrice = parseFloat(basePriceElement.dataset.proPrice || 0) / 100;
+        let total = basePrice * mainProductQty;
+
+        const activeSSD = document.querySelector('#ssd-price-display');
+        if (activeSSD) {
+          const ssdTotalPrice = parseFloat(activeSSD.textContent.replace(/[^0-9.]/g, '')) || 0;
+          total += ssdTotalPrice;
+        }
+
+        if (controllerBox) {
+          const controllerPriceDisplay = document.getElementById('controller-price-display');
+          const controllerPrice = parseFloat(controllerPriceDisplay?.textContent || 0);
+          total += controllerPrice;
+        }
+
+        if (addonSection) {
+          const totalPriceSpan = addonSection.querySelector('.addon-total-price');
+          const addonTotal = parseFloat(totalPriceSpan?.textContent || 0);
+          total += addonTotal;
+        }
+
+        const gameWrapper = document.querySelector('.games-wrapper');
+        const gamePriceEl = gameWrapper?.querySelector('.game-total-price');
+        const gameTotal = parseFloat(gamePriceEl?.textContent || 0);
+        total += gameTotal;
+
+        const accessoryWrapper = document.querySelector('.accessories-wrapper');
+        const accessoryPriceEl = accessoryWrapper?.querySelector('.accessory-total-price');
+        const accessoryTotal = parseFloat(accessoryPriceEl?.textContent || 0);
+        total += accessoryTotal;
+
+        basePriceElement.textContent = `$${total.toFixed(2)}`;
+      });
+    } {% endcomment %}
+
+    function updateAddonGroupTotal(wrapperClass, totalClass) {
+      const wrapper = document.querySelector(`.${wrapperClass}`);
+      const checkboxes = wrapper.querySelectorAll('.addon-checkbox');
+      let totalCents = 0;
+
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          const addonProduct = cb.closest('.addon-product');
+          const priceCents = parseInt(addonProduct.dataset.price, 10) || 0;
+          totalCents += priceCents;
+        }
+      });
+
+      const total = totalCents / 100;
+      const totalDisplay = wrapper.querySelector(`.${totalClass}`);
+      if (totalDisplay) {
+        totalDisplay.textContent = total.toFixed(2);
+      }
+    }
+
+    /* --------------------------
+       MAIN PRICE CALCULATOR
+    -------------------------- */
+    function alhUpdateDisplayedProductPrice() {
+      const basePriceElements = document.querySelectorAll('[data-pro-price]');
+      if (!basePriceElements) return;
+
+      basePriceElements.forEach(basePriceElement => {
+        const basePrice = parseFloat(basePriceElement.dataset.proPrice || 0) / 100;
+        let total = basePrice * mainProductQty;
+
+        const activeSSD = document.querySelector('#ssd-price-display');
+        if (activeSSD) {
+          const ssdTotalPrice = parseFloat(activeSSD.textContent.replace(/[^0-9.]/g, '')) || 0;
+          total += ssdTotalPrice;
+        }
+
+        if (controllerBox) {
+          const controllerPriceDisplay = document.getElementById('controller-price-display');
+          const controllerPrice = parseFloat(controllerPriceDisplay?.textContent || 0);
+          total += controllerPrice;
+        }
+
+        if (addonSection) {
+          const totalPriceSpan = addonSection.querySelector('.addon-total-price');
+          const addonTotal = parseFloat(totalPriceSpan?.textContent || 0);
+          total += addonTotal;
+        }
+
+        const gameWrapper = document.querySelector('.games-wrapper');
+        const gamePriceEl = gameWrapper?.querySelector('.game-total-price');
+        const gameTotal = parseFloat(gamePriceEl?.textContent || 0);
+        total += gameTotal;
+
+        const accessoryWrapper = document.querySelector('.accessories-wrapper');
+        const accessoryPriceEl = accessoryWrapper?.querySelector('.accessory-total-price');
+        const accessoryTotal = parseFloat(accessoryPriceEl?.textContent || 0);
+        total += accessoryTotal;
+
+        basePriceElement.textContent = `$${total.toFixed(2)}`;
+      });
+    }
+
+    /* --------------------------
+       CONTROLLERS
+    -------------------------- */
+    if (controllerBox) {
+      const controllerButtons = controllerBox.querySelectorAll('.controller-btn');
+      const altToggle = document.getElementById('alt-controller-toggle'); // OEM toggle
+      const controllerPriceDisplay = document.getElementById('controller-price-display');
+
+      // ✅ Button price updater
+      function updateControllerButtonsPrice() {
+        const isOEM = altToggle ? altToggle.checked : false;
+        const defaultPrice = parseInt(controllerBox.dataset.defaultPrice, 10) / 100;
+        const oemPrice = parseInt(controllerBox.dataset.altPrice, 10) / 100;
+
+        controllerButtons.forEach(btn => {
+          const qty = parseInt(btn.dataset.qty, 10);
+
+          let addonPrice = 0;
+          if (!isOEM) {
+            // Default controller: 1 free, baqi paid
+            if (qty > 1) {
+              addonPrice = (qty - 1) * defaultPrice;
+            }
+          } else {
+            // OEM: sab chargeable
+            addonPrice = qty * oemPrice;
+          }
+
+          const span = btn.querySelector("span");
+          if (span) {
+            span.textContent = new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD"
+            }).format(addonPrice);
+          }
+        });
+      }
+
+      // ✅ Total price updater
+      function updateControllerPrice() {
+        const isOEM = altToggle ? altToggle.checked : false;
+        const priceCents = parseInt(
+          isOEM ? controllerBox.dataset.altPrice : controllerBox.dataset.defaultPrice,
+          10
+        ) || 0;
+        const price = priceCents / 100;
+
+        let totalPrice = 0;
+        if (!isOEM) {
+          totalPrice = Math.max(0, selectedControllerQty - 1) * price; // 1 free
+        } else {
+          totalPrice = selectedControllerQty * price; // all paid
+        }
+
+        if (controllerPriceDisplay) {
+          controllerPriceDisplay.textContent = totalPrice.toFixed(2);
+        }
+
+        alhUpdateDisplayedProductPrice();
+      }
+
+      controllerButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+          controllerButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          selectedControllerQty = parseInt(this.dataset.qty, 10);
+          updateControllerPrice();
+        });
+      });
+
+      if (altToggle) {
+        altToggle.addEventListener('change', function () {
+          selectedControllerVariantId = this.checked && controllerBox.dataset.altVariantId
+            ? controllerBox.dataset.altVariantId
+            : controllerBox.dataset.defaultVariantId;
+
+          updateControllerButtonsPrice(); // ✅ toggle hone par har button price update
+          updateControllerPrice();        // ✅ total price bhi update
+        });
+
+        selectedControllerVariantId = altToggle.checked && controllerBox.dataset.altVariantId
+          ? controllerBox.dataset.altVariantId
+          : controllerBox.dataset.defaultVariantId;
+      } else {
+        selectedControllerVariantId = controllerBox.dataset.defaultVariantId;
+      }
+
+      // page load par bhi run kar do
+      updateControllerButtonsPrice();
+      updateControllerPrice();
+      alhUpdateDisplayedProductPrice();
+    }
+
+
+    // Games & Accessories total update
+    document.querySelectorAll('.games-wrapper .addon-checkbox').forEach(cb => {
+      cb.addEventListener('change', () => {
+        updateAddonGroupTotal('games-wrapper', 'game-total-price');
+        alhUpdateDisplayedProductPrice();
+      });
+    });
+
+    document.querySelectorAll('.accessories-wrapper .addon-checkbox').forEach(cb => {
+      cb.addEventListener('change', () => {
+        updateAddonGroupTotal('accessories-wrapper', 'accessory-total-price');
+        alhUpdateDisplayedProductPrice();
+      });
+    });
+
+    // Add-on Cards
+    if (addonSection) {
+      const totalPriceSpan = addonSection.querySelector('.addon-total-price');
+      const addonCards = addonSection.querySelectorAll('.addon-card');
+
+      addonCards.forEach(card => {
+        const toggleBtn = card.querySelector('.addon-toggle-btn');
+        const variantId = card.dataset.variantId;
+        const priceCents = parseInt(card.dataset.price, 10) || 0;
+        const price = priceCents / 100;
+
+        toggleBtn.addEventListener('click', function () {
+          card.classList.toggle('active');
+
+          if (card.classList.contains('active')) {
+            selectedAddons.push({ id: variantId, price });
+            toggleBtn.textContent = 'Remove -';
+          } else {
+            selectedAddons = selectedAddons.filter(item => item.id !== variantId);
+            toggleBtn.textContent = 'Add +';
+          }
+
+          const total = selectedAddons.reduce((sum, item) => sum + item.price, 0);
+          totalPriceSpan.textContent = total.toFixed(2);
+          alhUpdateDisplayedProductPrice();
+        });
+      });
+    }
+
+    // SSD Buttons
+    if (ssdButtons.length > 0) {
+      ssdButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+          ssdButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          selectedSSDVariantId = this.dataset.variantId || null;
+          const priceCents = parseInt(this.dataset.price, 10) || 0;
+          const price = priceCents / 100;
+
+          if (ssdPriceDisplay) {
+            ssdPriceDisplay.textContent = price.toFixed(2);
+            alhUpdateDisplayedProductPrice();
+          }
+        });
+      });
+    }
+
+    // Collect selected items
+    function getSelectedItems() {
+      const formData = new FormData(form);
+      const mainVariantId = formData.get('id');
+      if (!mainVariantId) return [];
+
+      const items = [];
+
+      if (selectedSSDVariantId) {
+        items.push({ id: selectedSSDVariantId, quantity: 1 });
+      }
+
+      if (selectedAddons.length > 0) {
+        selectedAddons.forEach(item => {
+          items.push({ id: item.id, quantity: 1 });
+        });
+      }
+
+      addonWrappers.forEach(wrapper => {
+        if (wrapper.classList.contains('accessories-wrapper') || wrapper.classList.contains('games-wrapper')) {
+          const checkedBoxes = wrapper.querySelectorAll('.addon-checkbox:checked');
+          checkedBoxes.forEach(checkbox => {
+            const variantId = checkbox.closest('.addon-product')?.dataset.variantId;
+            if (variantId) {
+              items.push({ id: variantId, quantity: 1 });
+            }
+          });
+        }
+      });
+
+      // Controller logic for cart
+      if (selectedControllerVariantId && selectedControllerQty > 0) {
+        const isOEM = document.getElementById('alt-controller-toggle')?.checked || false;
+        if (!isOEM) {
+          if (selectedControllerQty > 1) {
+            items.push({ id: selectedControllerVariantId, quantity: selectedControllerQty - 1 });
+          }
+        } else {
+          items.push({ id: selectedControllerVariantId, quantity: selectedControllerQty });
+        }
+      }
+
+      items.push({ id: mainVariantId, quantity: mainProductQty });
+
+      return items;
+    }
+
+    // Add to cart
+    customBtn.addEventListener('click', function () {
+      const items = getSelectedItems();
+      if (!items.length) return;
+
+      customBtn.disabled = true;
+      customBtn.classList.add('btn--loading');
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify({ items })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.dispatchEvent(new CustomEvent('ajaxProduct:added', { detail: data }));
+      })
+      .catch(err => console.error('Add to cart failed:', err))
+      .finally(() => {
+        customBtn.disabled = false;
+        customBtn.classList.remove('btn--loading');
+      });
+    });
+
+    // Buy Now
+    if (buyNowBtn) {
+      buyNowBtn.addEventListener('click', function () {
+        const items = getSelectedItems();
+        if (!items.length) return;
+
+        buyNowBtn.disabled = true;
+        buyNowBtn.classList.add('btn--loading');
+
+        fetch('/cart/clear.js', { method: 'POST' })
+          .then(() => {
+            return fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+              body: JSON.stringify({ items })
+            });
+          })
+          .then(() => {
+            window.location.href = '/checkout';
+          })
+          .catch(err => console.error('Buy now failed:', err))
+          .finally(() => {
+            buyNowBtn.disabled = false;
+            buyNowBtn.classList.remove('btn--loading');
+          });
+      });
+    }
+
+    // Floating buttons
+    if (floatingAddToCart && customBtn) {
+      floatingAddToCart.addEventListener("click", function () {
+        customBtn.click();
+      });
+    }
+
+    if (floatingBuyNow && buyNowBtn) {
+      floatingBuyNow.addEventListener("click", function () {
+        buyNowBtn.click();
+      });
+    }
+
+    // Update variant ID
+    form.addEventListener('change', function (e) {
+      if (e.target.name === 'id') {
+        addonWrappers.forEach(wrapper => {
+          wrapper.dataset.mainProductId = e.target.value;
+        });
+      }
+      setTimeout(() => {
+        alhUpdateDisplayedProductPrice();
+      }, 300);
+    });
+  });
+
+  // Floating CTA observer
+  document.addEventListener("DOMContentLoaded", function () {
+    const floatingCTA = document.getElementById("floating-cta");
+    const pdpButtons = document.querySelector(".alh-atc-btn_container");
+
+    if (floatingCTA && pdpButtons) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            floatingCTA.style.display = "none";
+          } else {
+            floatingCTA.style.display = "block";
+          }
+        });
+      }, { threshold: 0.1 });
+
+      observer.observe(pdpButtons);
+    }
+  });
+</script>
+
+
+

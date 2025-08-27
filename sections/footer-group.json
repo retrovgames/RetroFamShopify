@@ -1,0 +1,160 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "t:sections.footer-group.name",
+  "sections": {
+    "174956365241f35b55": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_6tWGTd": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": ""
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_6tWGTd"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": false,
+        "space_around": true
+      }
+    },
+    "footer-promotions": {
+      "type": "footer-promotions",
+      "blocks": {
+        "footer-promotions-0": {
+          "type": "promotion",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "title": "Site-wide promotion",
+            "text": "<p>Use this section to promote content throughout every page of your site. Add images for further impact.</p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        },
+        "footer-promotions-1": {
+          "type": "promotion",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "title": "Site-wide promotion",
+            "text": "<p>Use this section to promote content throughout every page of your site. Add images for further impact.</p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        },
+        "footer-promotions-2": {
+          "type": "promotion",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "title": "Site-wide promotion",
+            "text": "<p>Use this section to promote content throughout every page of your site. Add images for further impact.</p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "footer-promotions-0",
+        "footer-promotions-1",
+        "footer-promotions-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "hide_homepage": false
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "logo_social_pVVpPi": {
+          "type": "logo_social",
+          "settings": {
+            "logo": "shopify://shop_images/Group_3.png",
+            "desktop_logo_height": 60,
+            "container_width": 25
+          }
+        },
+        "footer2": {
+          "type": "newsletter",
+          "settings": {
+            "show_footer_title": true,
+            "title": "",
+            "text": "<p>Sign Up for Exclusive Offers and <br/>10% Off Your First Order!</p>",
+            "container_width": 75
+          }
+        },
+        "menu_cKGjfe": {
+          "type": "menu",
+          "settings": {
+            "show_footer_title": true,
+            "menu": "footer",
+            "container_width": 25
+          }
+        },
+        "menu_XrN43g": {
+          "type": "menu",
+          "settings": {
+            "show_footer_title": true,
+            "menu": "post-order-help",
+            "container_width": 25
+          }
+        },
+        "footer-1": {
+          "type": "menu",
+          "settings": {
+            "show_footer_title": true,
+            "menu": "our-policies",
+            "container_width": 25
+          }
+        },
+        "custom_KtmfWQ": {
+          "type": "custom",
+          "settings": {
+            "show_footer_title": true,
+            "title": "Reach Us",
+            "text": "",
+            "custom_html": "<div class=\"alh-desk_content\">\n\n<p class=\"alh-footer_info\">\n<img src=\"https://retrofam.com/cdn/shop/t/10/assets/Phone.svg?v=134284009918711335781750715755\" alt=\"Email icon\" height=\"20\" width=\"20\">\n\n<a href=\"tel:+1(484)4867326\">+1 484 486 7326</a>\n</p>\n\n<p class=\"alh-footer_info\">\n<img src=\"https://retrofam.com/cdn/shop/t/10/assets/EnvelopeSimple.svg?v=151044635330057040111750715755\" alt=\"Phone icon\" height=\"20\" width=\"20\">\n\n<a href=\"mailto:help@retrofam.com\">help@retrofam.com</a>\n</p>\n\n\n<p class=\"alh-footer_info\">\n<img src=\"https://retrofam.com/cdn/shop/t/10/assets/Clock.svg?v=39654733757294743861750763129\" alt=\"Phone icon\" height=\"20\" width=\"20\">\nMon to Sun 8AM – 11PM EST\n</p>\n\n\n<p class=\"alh-footer_info\">\n<img src=\"https://retrofam.com/cdn/shop/t/10/assets/MapPin.svg?v=72223145584024707081750763130\" alt=\"Phone icon\" height=\"20\" width=\"20\"> \n\n<a href=\"https://www.google.com/maps/search/?api=1&amp;query=RetroFam\">RetroFam 102 S Richmond St., Fleetwood, PA, 19522, United States</a>\n</p>\n\n\n</div>",
+            "container_width": 25
+          }
+        }
+      },
+      "block_order": [
+        "logo_social_pVVpPi",
+        "footer2",
+        "menu_cKGjfe",
+        "menu_XrN43g",
+        "footer-1",
+        "custom_KtmfWQ"
+      ],
+      "custom_css": [],
+      "settings": {
+        "show_locale_selector": false,
+        "show_currency_selector": false,
+        "show_currency_flags": false,
+        "show_payment_icons": true,
+        "show_copyright": true,
+        "copyright_text": "All rights reserved",
+        "background_image": "shopify://shop_images/c39a2215280e36dcd4f202040d7e3a368d62f083.png"
+      }
+    }
+  },
+  "order": [
+    "174956365241f35b55",
+    "footer-promotions",
+    "footer"
+  ]
+}

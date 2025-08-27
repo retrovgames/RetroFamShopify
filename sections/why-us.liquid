@@ -1,0 +1,224 @@
+<link rel="stylesheet" href="{{ 'about.css' | asset_url }}">
+
+<section 
+  class="why-us-section"
+  style="
+    background:{{ section.settings.bg_color }};
+    max-width:{{ section.settings.max_width }}px;
+    margin:0 auto;
+    padding:{{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px 0;
+    text-align:center;
+  "
+>
+  <h2
+    style="
+      color:{{ section.settings.heading_color }};
+      font-size:{{ section.settings.heading_size }}px;
+      margin-bottom:{{ section.settings.heading_margin_bottom }}px;
+    "
+  >
+    {{ section.settings.heading }}
+  </h2>
+  <div class="separator" style="background:{{ section.settings.separator_color }}"></div>
+
+  <div class="features-container">
+    {% for block in section.blocks %}
+      <div class="feature-block" data-feature="{{ block.id }}">
+        {% if block.settings.icon != blank %}
+          <img src="{{ block.settings.icon | img_url: '100x' }}" 
+               alt="{{ block.settings.icon_alt }}" 
+               width="48"
+               height="48"
+               class="feature-icon" 
+               style="width:48px;height:48px;"
+               loading="lazy">
+        {% endif %}
+        <div class="feature-text">
+          <span class="feature-line1" style="color:{{ block.settings.line1_color }};">{{ block.settings.line1 }}</span>
+          <span class="feature-line2" style="color:{{ block.settings.line2_color }};">{{ block.settings.line2 }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="separator" style="background:{{ section.settings.separator_color }}"></div>
+
+  <div class="feature-descriptions" style="margin-top:{{ section.settings.desc_margin_top }}px;">
+    {% for block in section.blocks %}
+      <div class="description" data-feature="{{ block.id }}">
+        <p style="color:{{ block.settings.desc_color }};">{{ block.settings.description }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const featureBlocks = document.querySelectorAll('.feature-block');
+  const descriptions = document.querySelectorAll('.description');
+
+  function showDescription(blockId) {
+    descriptions.forEach(desc => desc.style.display = 'none');
+    featureBlocks.forEach(block => block.classList.remove('active'));
+    const selectedDesc = document.querySelector('.description[data-feature="' + blockId + '"]');
+    const selectedBlock = document.querySelector('.feature-block[data-feature="' + blockId + '"]');
+    if(selectedDesc) selectedDesc.style.display = 'block';
+    if(selectedBlock) selectedBlock.classList.add('active');
+  }
+  if (featureBlocks.length > 0) {
+    featureBlocks.forEach(block => {
+      block.addEventListener('mouseenter', function() {
+        showDescription(this.dataset.feature);
+      });
+    });
+    // Show first by default
+    showDescription(featureBlocks[0].dataset.feature);
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Why Us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Why us?"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#080707"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 54,
+      "step": 2,
+      "label": "Heading Font Size (px)",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 10,
+      "label": "Space Below Heading (px)",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fff"
+    },
+    {
+      "type": "range",
+      "id": "desc_margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "label": "Descriptions Margin Top (px)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "label": "Top Padding (px)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "label": "Bottom Padding (px)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 20,
+      "label": "Max Width (px)",
+      "default": 900
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Feature Icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_alt",
+          "label": "Icon Alt Text",
+          "default": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "line1",
+          "label": "Heading Line 1",
+          "default": "QUALITY"
+        },
+        {
+          "type": "color",
+          "id": "line1_color",
+          "label": "Line 1 Color",
+          "default": "#080707"
+        },
+        {
+          "type": "text",
+          "id": "line2",
+          "label": "Heading Line 2",
+          "default": "GUARANTEED"
+        },
+        {
+          "type": "color",
+          "id": "line2_color",
+          "label": "Line 2 Color",
+          "default": "#080707"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Feature Description",
+          "default": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump."
+        },
+        {
+          "type": "color",
+          "id": "desc_color",
+          "label": "Description Color",
+          "default": "#080707"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Us",
+      "category": "About Sections"
+    }
+  ]
+}
+{% endschema %}

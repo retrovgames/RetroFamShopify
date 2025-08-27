@@ -1,0 +1,180 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "variant_labels": true,
+            "picker_type": "button",
+            "product_dynamic_variants_enable": true,
+            "color_swatches": true
+          }
+        },
+        "separator_3mW8Ga": {
+          "type": "separator",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "surface_pickup_enable": true,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "separator",
+        "price",
+        "variant_picker",
+        "separator_3mW8Ga",
+        "buy_buttons"
+      ],
+      "custom_css": [],
+      "settings": {
+        "sku_enable": false,
+        "image_position": "left",
+        "image_size": "medium",
+        "product_zoom_enable": true,
+        "thumbnail_position": "beside",
+        "thumbnail_height": "flexible",
+        "thumbnail_arrows": true,
+        "mobile_layout": "full",
+        "enable_video_looping": true,
+        "product_video_style": "muted",
+        "col1_title": "Free Shipping & Returns",
+        "col1_subtitle": "Within USA and Canada",
+        "col1_icon": "shopify://shop_images/package.png",
+        "col2_title": "1-Year Warranty",
+        "col2_subtitle": "On all products at StoreName",
+        "col2_icon": "shopify://shop_images/shield-tick.png"
+      }
+    },
+    "pdp_featured_QfBFP3": {
+      "type": "pdp-featured",
+      "blocks": {
+        "feature_dC84ML": {
+          "type": "feature",
+          "repeater": "{{ product.metafields.custom.product_features.value }}",
+          "settings": {
+            "image": "{{ block.repeater.image.value }}",
+            "title": "{{ block.repeater.title.value }}",
+            "description": "{{ block.repeater.description | metafield_tag }}"
+          }
+        }
+      },
+      "block_order": [
+        "feature_dC84ML"
+      ],
+      "name": "PDP Features",
+      "settings": {
+        "bg_color": "#e0f7fa",
+        "heading": "At RetroFam, every retro product is...",
+        "heading_color": "#000000",
+        "heading_align": "left"
+      }
+    },
+    "sub": {
+      "type": "product-full-width",
+      "disabled": true,
+      "settings": {
+        "max_width": true
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "custom_css": [
+        ".section-header {text-align: left;}",
+        "@media only screen and (max-width: 767px) {.section-header__title {font-size: 16px; line-height: 24px; max-width: 100%; margin: 0 auto; } .section-header {margin-bottom: 10px; } .grid-overflow-wrapper .grid__item {flex: 0 0 50%; } .grid-product__price--original {display: none; } .grid-product__price--savings {display: none; } .grid-product__title--body {font-size: 12px; line-height: 14px; } .alh-main_price {font-size: 16px; line-height: 24px; } .alh-pro_addToCart {height: 24px; width: 24px; }}"
+      ],
+      "settings": {
+        "product_recommendations_heading": "You may also like",
+        "related_count": 4,
+        "products_per_row": 4
+      }
+    },
+    "what_people_think_7hhzdV": {
+      "type": "what-people-think",
+      "blocks": {
+        "youtube_slide_DaBhtf": {
+          "type": "youtube_slide",
+          "repeater": "{{ product.metafields.custom.youtube_videos.value }}",
+          "settings": {
+            "youtube_link": "{{ block.repeater.link.value }}",
+            "caption": "{{ block.repeater.caption.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "youtube_slide_DaBhtf"
+      ],
+      "name": "What People Think Slider",
+      "settings": {
+        "heading": "What People Think"
+      }
+    },
+    "collection-return": {
+      "type": "collection-return",
+      "disabled": true,
+      "settings": {}
+    },
+    "175473850038a45677": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_qHgnQi": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_qHgnQi"
+      ],
+      "settings": {
+        "full_width": false,
+        "space_around": true
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "disabled": true,
+      "custom_css": [
+        ".section-header {text-align: left;}"
+      ],
+      "settings": {
+        "recent_count": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pdp_featured_QfBFP3",
+    "sub",
+    "product-recommendations",
+    "what_people_think_7hhzdV",
+    "collection-return",
+    "175473850038a45677",
+    "recently-viewed"
+  ]
+}

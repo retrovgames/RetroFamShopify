@@ -1,0 +1,81 @@
+<div class="footer__item-padding">
+  <div class="alh-mob_content">
+    <p class="alh-footer_info">
+      <img src="{{ 'EnvelopeSimple.svg' | asset_url }}" alt="Email icon" height="20" width="20"> 
+      <a href="tel:+14844867326">+1 484 486 7326</a>
+    </p>
+    <p class="alh-footer_info">
+      <img src="{{ 'Phone.svg' | asset_url }}" alt="Phone icon" height="20" width="20"> 
+      <a href="mailto:help@retrofam.com">help@retrofam.com</a>
+    </p>
+    <p class="alh-footer_info">
+      <img src="{{ 'Clock.svg' | asset_url }}" alt="Phone icon" height="20" width="20">
+      Mon to Sat: 8:00 AM to 11:00 PM (EST)
+    </p>
+    <p class="alh-footer_info">
+      <img src="{{ 'MapPin.svg' | asset_url }}" alt="Phone icon" height="20" width="20">
+      
+      <a href="https://www.google.com/maps/search/?api=1&query=RetroFam">RetroFam 102 S Richmond St.,<br>Fleetwood, PA 19522 United States</a>
+    </p>
+
+    {% render 'social-icons', additional_classes: 'footer__social' %}
+  </div>
+</div>
+
+
+<div class="footer__item-padding alh-desk_content">
+  {%- if block.settings.show_footer_title -%}
+    <h2 class="h4 footer__title small--hide">{{ block.settings.title }}</h2>
+    <button type="button" class="h4 footer__title collapsible-trigger collapsible-trigger-btn medium-up--hide" aria-controls="Footer-{{ block.id }}">
+      {{ block.settings.title }}
+      {%- render 'collapsible-icons' -%}
+    </button>
+  {%- endif -%}
+  <div
+    {% if block.settings.show_footer_title %}
+      id="Footer-{{ block.id }}" class="collapsible-content collapsible-content--small"
+    {% endif %}>
+    <div class="collapsible-content__inner">
+      <div class="footer__collapsible{% unless block.settings.show_footer_title %} footer_collapsible--disabled{% endunless %}">
+        {%- if block.settings.image != blank -%}
+          <div class="image-wrap text-spacing" style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.image.aspect_ratio }}%;">
+            {%- assign sizeVariable = container_width | append: 'vw' -%}
+            {%- render 'image-element',
+              img: block.settings.image,
+              widths: '360, 540, 720, 900, 1080, 1600',
+              role: 'presentation',
+              sizeVariable: sizeVariable,
+            -%}
+          </div>
+        {%- endif -%}
+
+        {{ block.settings.text }}
+        {%- if block.settings.custom_html != blank -%}
+          {{ block.settings.custom_html }}
+          {% comment %} <div class="alh-desk_content">
+            <p class="alh-footer_info">
+              <img src="{{ 'EnvelopeSimple.svg' | asset_url }}" alt="Email icon" height="20" width="20"> 
+              <a href="tel:14238738768">(423) 873-8768</a>
+            </p>
+            <p class="alh-footer_info">
+              <img src="{{ 'Phone.svg' | asset_url }}" alt="Phone icon" height="20" width="20"> 
+              <a href="mailto:help@retrovagames.com">help@retrovagames.com</a>
+            </p>
+            <p class="alh-footer_info">
+              <img src="{{ 'Clock.svg' | asset_url }}" alt="Phone icon" height="20" width="20">
+              Mon to Sun 8AM – 11PM EST
+            </p>
+            <p class="alh-footer_info">
+              <img src="{{ 'MapPin.svg' | asset_url }}" alt="Phone icon" height="20" width="20">
+              Retro Games
+              2121 Union Blvd<br>
+              Allentown PA 18109
+            </p>
+          </div> {% endcomment %}
+        {%- endif -%}
+
+        {% render 'social-icons', additional_classes: 'footer__social' %}
+      </div>
+    </div>
+  </div>
+</div>

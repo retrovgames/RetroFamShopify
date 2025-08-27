@@ -1,0 +1,328 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "faqs",
+      "blocks": {
+        "category_PhB489": {
+          "type": "category",
+          "settings": {
+            "category_handle": "company-information",
+            "category_title": "Legitimacy and Company Information"
+          }
+        },
+        "faq_PdaDfG": {
+          "type": "faq",
+          "settings": {
+            "question": "Is RetroFam legit?",
+            "answer": "Absolutely. RetroFam is a legitimate company with a passionate community for retro gaming. We sell rare retro gaming treasures and make sure your items arrive quickly and safely so you can enjoy the best gaming experience.",
+            "faq_category": "company-information"
+          }
+        },
+        "faq_9xFD6n": {
+          "type": "faq",
+          "settings": {
+            "question": "Where is RetroFam located?",
+            "answer": "We are based in the USA, and we serve retro gaming enthusiasts worldwide. Our team is dedicated to delivering quality products and excellent customer service.",
+            "faq_category": "company-information"
+          }
+        },
+        "category_jecRrV": {
+          "type": "category",
+          "settings": {
+            "category_handle": "quality",
+            "category_title": "Product Quality"
+          }
+        },
+        "faq_d6KVTy": {
+          "type": "faq",
+          "settings": {
+            "question": "What are the conditions of the item?",
+            "answer": "All our items are carefully refurbished, thoroughly tested, and professionally cleaned to ensure they perform like new. Each product goes through a strict quality check before being shipped to ensure you're getting the best retro gaming experience.",
+            "faq_category": "quality"
+          }
+        },
+        "faq_TXgCJe": {
+          "type": "faq",
+          "settings": {
+            "question": "Are the games authentic or third-party?",
+            "answer": "While most of our products are pre-owned and authentic without any third-party or knock-offs, we thoroughly test and refurbish each game and console to ensure they function like new. Quality is our top priority, and we only offer items that meet our strict standards.",
+            "faq_category": "quality"
+          }
+        },
+        "faq_nXbmHh": {
+          "type": "faq",
+          "settings": {
+            "question": "What is the difference between a PS3 fat console and a compatible PS?",
+            "answer": "The PS3 fat console is the original, bulky version of the PlayStation 3, while a compatible PS (like the PS3 Slim or Super Slim) offers the same gaming experience but with a more compact design and certain updated features, such as improved energy efficiency.",
+            "faq_category": "quality"
+          }
+        },
+        "faq_N6xf8k": {
+          "type": "faq",
+          "settings": {
+            "question": "What does “Complete in Box” mean?",
+            "answer": "\"Complete in Box\" (CIB) means the game includes the original manual, box, and game cartridge or disc, providing collectors with the full packaging as it was originally sold.",
+            "faq_category": "quality"
+          }
+        },
+        "category_XAKWWd": {
+          "type": "category",
+          "settings": {
+            "category_handle": "shipping",
+            "category_title": "Shipping and Delivery"
+          }
+        },
+        "faq_HWw3Yq": {
+          "type": "faq",
+          "settings": {
+            "question": "Which carrier company do you guys use?",
+            "answer": "We use USPS, UPS, FedEx, and DHL, depending on your location and shipping method.",
+            "faq_category": "shipping"
+          }
+        },
+        "faq_JirKVK": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your shipping policy?",
+            "answer": "We offer free shipping across the U.S. and Canada. International orders over $200 ship free. Orders are processed in 1–2 business days and delivered via trusted carriers like USPS, UPS, FedEx, and DHL.",
+            "faq_category": "shipping"
+          }
+        },
+        "faq_UDe6Mt": {
+          "type": "faq",
+          "settings": {
+            "question": "When will my order be shipped?",
+            "answer": "Orders are shipped within 1–2 business days after processing, Monday to Friday.",
+            "faq_category": "shipping"
+          }
+        },
+        "faq_pqNRNh": {
+          "type": "faq",
+          "settings": {
+            "question": "What is the processing and shipping time of an order?",
+            "answer": "Processing takes 1–2 business days.\nShipping time:\nU.S. orders: 5–7 business days\nExpedited: 2–5 business days\nInternational: 6–12 business days (varies by location)",
+            "faq_category": "shipping"
+          }
+        },
+        "faq_UXFBVm": {
+          "type": "faq",
+          "settings": {
+            "question": "Why is my order being shipped in multiple packages?",
+            "answer": "Some items may ship from different warehouses to speed up delivery. You’ll get tracking info for each package.",
+            "faq_category": "shipping"
+          }
+        },
+        "faq_CkpXtN": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally, and what are the shipping costs?",
+            "answer": "Yes — we ship to Canada and locations worldwide.\nCanada: free shipping on all orders.\nInternational (outside Canada & U.S.):\nOrders over $200: free shipping\nOrders under $200: shipping cost calculated at checkout based on carrier and destination.\nExpedited shipping (2–5 business days) is also available—selectable and priced at checkout.",
+            "faq_category": "shipping"
+          }
+        },
+        "faq_4xrarj": {
+          "type": "faq",
+          "settings": {
+            "question": "What is the estimated delivery timeframe?",
+            "answer": "U.S. orders: 5–7 business days\nExpedited: 2–5 business days\nInternational: 6–12 business days (varies by location)",
+            "faq_category": "shipping"
+          }
+        },
+        "faq_QPqL6L": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally or only within the US?",
+            "answer": "We ship within the U.S., Canada, and internationally to most countries.",
+            "faq_category": "shipping"
+          }
+        },
+        "category_KtBRD8": {
+          "type": "category",
+          "settings": {
+            "category_handle": "tracking",
+            "category_title": "Order Status and Tracking"
+          }
+        },
+        "faq_DKV8qe": {
+          "type": "faq",
+          "settings": {
+            "question": "What is the status of my order?",
+            "answer": "Once your order has shipped, we’ll send you a tracking number via email so you can monitor your order’s progress until it reaches your doorstep.",
+            "faq_category": "tracking"
+          }
+        },
+        "faq_Ld4bCr": {
+          "type": "faq",
+          "settings": {
+            "question": "What does Partially Shipped mean?",
+            "answer": "\"Partially Shipped\" means that some of your items have been shipped, but others are still processing. You will receive an update and tracking details once the remaining items are dispatched.",
+            "faq_category": "tracking"
+          }
+        },
+        "faq_A8WtPc": {
+          "type": "faq",
+          "settings": {
+            "question": "Can you place an order for me while we're on a call/chat?",
+            "answer": "We don't place orders manually. You have full control over your purchase. Simply add items to your cart and proceed with checkout, just like any other online shopping platform. Our system ensures a secure, hassle-free experience.",
+            "faq_category": "tracking"
+          }
+        },
+        "faq_crJKHN": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I check what's included in the order?",
+            "answer": "You can find the details of each item in the product description. If there are additional accessories, manuals, or special packaging included, it will be clearly listed. We recommend checking the product page before purchasing.",
+            "faq_category": "tracking"
+          }
+        },
+        "category_P3f9np": {
+          "type": "category",
+          "settings": {
+            "category_handle": "returns",
+            "category_title": "Returns and Warranty"
+          }
+        },
+        "faq_NqDwyX": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "At RetroFam, we offer a 1-Year warranty on all purchases, new or used. If you have any issues, you can exchange the product or get store credit within 1 Year of delivery. For further details, check out our return policy.",
+            "faq_category": "returns"
+          }
+        },
+        "faq_atbCFJ": {
+          "type": "faq",
+          "settings": {
+            "question": "What are the terms of your warranty?",
+            "answer": "We provide a 1-Year money-back warranty on all refurbished consoles and games. If your product stops working due to a manufacturing defect, we’ll repair or replace it at no cost to you.",
+            "faq_category": "returns"
+          }
+        },
+        "faq_iawCDH": {
+          "type": "faq",
+          "settings": {
+            "question": "What if the items don’t work properly after purchase?",
+            "answer": "If any item doesn’t work properly, please reach out to our customer support team at help@retrofam.com, and we’ll guide you through the return or replacement process. We stand by the quality of our products and ensure satisfaction.",
+            "faq_category": "returns"
+          }
+        },
+        "category_e7mAKL": {
+          "type": "category",
+          "settings": {
+            "category_handle": "customization",
+            "category_title": "Product Selection and Customization"
+          }
+        },
+        "faq_hkWYRW": {
+          "type": "faq",
+          "settings": {
+            "question": "Will I get the same color that I selected?",
+            "answer": "Yes, we make every effort to ensure that the color you select is what you receive. If, for any reason, the color you selected is out of stock, we will notify you before processing your order.",
+            "faq_category": "customization"
+          }
+        },
+        "faq_diFbfd": {
+          "type": "faq",
+          "settings": {
+            "question": "Which model will I get?",
+            "answer": "You will receive the exact model listed on the product page. If there are any variations, such as bundled games or accessories, they will be clearly stated.",
+            "faq_category": "customization"
+          }
+        },
+        "faq_ranEmG": {
+          "type": "faq",
+          "settings": {
+            "question": "Are all bundled items listed on the product page?",
+            "answer": "Yes, all items included in a bundle will be listed on the product page. If you’re unsure, feel free to contact us for clarification before making your purchase.",
+            "faq_category": "customization"
+          }
+        },
+        "category_WYfjRA": {
+          "type": "category",
+          "settings": {
+            "category_handle": "discounts",
+            "category_title": "Promotions and Discounts"
+          }
+        },
+        "faq_BnEqzA": {
+          "type": "faq",
+          "settings": {
+            "question": "Is there any promo/military discount?",
+            "answer": "We don’t have a specific military discount, but we appreciate the service of military personnel. You can sign up for our 10% exclusive discount by entering your email in the \"Sign up for exclusive offers and 10% off your first order!\" section at the bottom of any page.",
+            "faq_category": "discounts"
+          }
+        },
+        "category_A7Kr7Q": {
+          "type": "category",
+          "settings": {
+            "category_handle": "other",
+            "category_title": "Other"
+          }
+        },
+        "faq_4LWXXq": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your color policy?",
+            "answer": "You can mention your first and second color preferences in the order notes. While we try to accommodate requests, specific colors may be out of stock during busy periods. Since our items are vintage, restocks can take time, and color preferences are not guaranteed.",
+            "faq_category": "other"
+          }
+        }
+      },
+      "block_order": [
+        "category_PhB489",
+        "faq_PdaDfG",
+        "faq_9xFD6n",
+        "category_jecRrV",
+        "faq_d6KVTy",
+        "faq_TXgCJe",
+        "faq_nXbmHh",
+        "faq_N6xf8k",
+        "category_XAKWWd",
+        "faq_HWw3Yq",
+        "faq_JirKVK",
+        "faq_UDe6Mt",
+        "faq_pqNRNh",
+        "faq_UXFBVm",
+        "faq_CkpXtN",
+        "faq_4xrarj",
+        "faq_QPqL6L",
+        "category_KtBRD8",
+        "faq_DKV8qe",
+        "faq_Ld4bCr",
+        "faq_A8WtPc",
+        "faq_crJKHN",
+        "category_P3f9np",
+        "faq_NqDwyX",
+        "faq_atbCFJ",
+        "faq_iawCDH",
+        "category_e7mAKL",
+        "faq_hkWYRW",
+        "faq_diFbfd",
+        "faq_ranEmG",
+        "category_WYfjRA",
+        "faq_BnEqzA",
+        "category_A7Kr7Q",
+        "faq_4LWXXq"
+      ],
+      "settings": {
+        "faq_header_icon": "shopify://shop_images/Vector_6.png",
+        "blue_vector_svg": "shopify://shop_images/Vector_7.png",
+        "pink_vector_svg": "shopify://shop_images/Vector_8.png",
+        "contact_icon_svg": "shopify://shop_images/image_16.png",
+        "contact_button_link": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

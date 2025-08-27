@@ -1,0 +1,217 @@
+<link rel="stylesheet" href="{{ 'about.css' | asset_url }}">
+
+<section 
+  class="gaming-green-section"
+  style="
+    max-width:{{ section.settings.max_width }}px;
+    margin:0 auto;
+    padding:{{ section.settings.padding }}px 20px;
+    text-align:center;
+    background:{{ section.settings.bg_color }};
+  "
+>
+  <h2
+    style="
+      color:{{ section.settings.heading_color }};
+      font-size:{{ section.settings.heading_size }}px;
+      margin-bottom:{{ section.settings.heading_margin_bottom }}px;
+    "
+  >
+    {{ section.settings.heading }}
+  </h2>
+  <div class="gaming-image-container" style="position:relative;max-width:100%;margin:20px 0;">
+    {% if section.settings.main_image != blank %}
+      <img src="{{ section.settings.main_image | img_url: 'master' }}" 
+           alt="Gaming Goes Green Image" 
+           width="800"
+           height="{{ section.settings.main_image_height }}"
+           class="gaming-main-image" 
+           style="width:100%;height:{{ section.settings.main_image_height }}px;object-fit:cover;filter:brightness(0.9) contrast(1.1);"
+           loading="lazy">
+    {% endif %}
+    <div class="image-overlay" style="position:absolute;bottom:0;left:0;right:0;padding:{{ section.settings.overlay_padding }}px 20px {{ section.settings.overlay_padding_bottom }}px;background:linear-gradient(transparent, rgba(0,0,0,0.7));color:#fff;">
+      {% if section.settings.logo_image != blank %}
+        <img src="{{ section.settings.logo_image | img_url: 'master' }}" 
+             alt="Logo" 
+             width="{{ section.settings.logo_width }}"
+             height="{{ section.settings.logo_height }}"
+             class="logo-image" 
+             style="width:{{ section.settings.logo_width }}px;height:{{ section.settings.logo_height }}px;"
+             loading="lazy">
+      {% endif %}
+      <div class="overlay-text" style="font-size:{{ section.settings.overlay_text_size }}px;color:{{ section.settings.overlay_text_color }};font-family:'Press Start 2P',system-ui;">
+        {{ section.settings.overlay_text }}
+      </div>
+    </div>
+  </div>
+  <div class="gaming-content" style="margin:30px 0;max-width:600px;margin-left:auto;margin-right:auto;">
+    <p style="color:{{ section.settings.text_color }};font-size:{{ section.settings.text_size }}px;font-weight:400;line-height:1.6;text-align:center;">
+      {{ section.settings.text }}
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gaming Goes Green",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Gaming Goes Green"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#080707"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 54,
+      "step": 2,
+      "label": "Heading Font Size (px)",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 10,
+      "label": "Space Below Heading (px)",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fff"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Background Image"
+    },
+    {
+      "type": "range",
+      "id": "main_image_height",
+      "min": 100,
+      "max": 600,
+      "step": 20,
+      "label": "Main Image Height (px)",
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "overlay_text_color",
+      "label": "Overlay Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "overlay_text",
+      "label": "Overlay Text",
+      "default": "Let's keep Retro Gaming alive!"
+    },
+    {
+      "type": "range",
+      "id": "overlay_text_size",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "label": "Overlay Text Size (px)",
+      "default": 24
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo Overlay Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "label": "Logo Width (px)",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "label": "Logo Height (px)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "overlay_padding",
+      "min": 0,
+      "max": 80,
+      "step": 10,
+      "label": "Overlay Top Padding (px)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "overlay_padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 10,
+      "label": "Overlay Bottom Padding (px)",
+      "default": 20
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Paragraph",
+      "default": "We're committed to sustainability. By refurbishing and reviving retro consoles and games, we reduce e-waste and keep gaming history alive."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Paragraph Text Color",
+      "default": "#080707"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 2,
+      "label": "Paragraph Font Size (px)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 20,
+      "label": "Max Width (px)",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "label": "Top/Bottom Padding (px)",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gaming Goes Green",
+      "category": "About Sections"
+    }
+  ]
+}
+{% endschema %}

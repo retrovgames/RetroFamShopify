@@ -1,0 +1,531 @@
+<style>
+  .retro-section {
+    padding: 55px 0;
+  }
+  .retro-section-heading {
+    margin-bottom: 45px;
+  }
+  .retro-section-heading h2 {
+    margin: 0;
+  }
+
+  /* Remove grid layout when using Swiper */
+  .retro-features {
+    display: none; /* fallback for no-js */
+  }
+
+  .swiper {
+    padding-bottom: 40px; /* space for pagination */
+  }
+
+  .retro-feature-card {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    color: white;
+  }
+  .retro-feature-card img {
+    width: 100%;
+    height: 464px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .retro-feature-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(8, 7, 7, 0) 14.18%, #080707 100%);
+    pointer-events: none;
+    z-index: 1;
+    transition: top 0.5s ease;
+  }
+
+  .retro-feature-title {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    font-weight: bold;
+    font-size: 24px;
+    z-index: 3;
+    line-height: 32px;
+    width: 50%;
+    text-align: left;
+  }
+
+  .retro-feature-toggle {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    z-index: 3;
+    border: 1px solid #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3px;
+    transition: transform 0.5s ease;
+  }
+
+  .retro-feature-toggle.rotated {
+    transform: rotate(45deg);
+  }
+
+  .retro-feature-overlay {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    padding: 15px;
+    font-size: 14px;
+    transition: top 0.3s ease;
+    z-index: 2;
+    word-wrap: break-word;
+  }
+  .retro-feature-overlay.active {
+    top: 0;
+    bottom: 0;
+  }
+
+  .retro-feature-readmore {
+    color: #fff;
+    text-decoration: underline;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  .retro-feature-readmore:hover {
+    color: #fff;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .retro-section {
+      padding: 28px 0;
+    }
+    .retro-section-heading {
+      margin-bottom: 15px;
+    }
+    .retro-section-heading h2 {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .retro-feature-card img {
+      height: 164px;
+    }
+    .retro-feature-title {
+      font-size: 12px;
+      line-height: 16px;
+      text-align: left;
+    }
+    .retro-feature-toggle {
+      font-size: 18px;
+      width: 24px;
+      height: 24px;
+      padding-bottom: 4px;
+      padding-right: 7px;
+    }
+    .retro-feature-overlay {
+      font-size: 10px;
+    }
+  }
+</style>
+
+<div class="retro-section" style="background-color: {{ section.settings.bg_color }}">
+  <div class="page-width">
+    <div class="retro-section-heading" style="text-align: {{ section.settings.heading_align }}">
+      <h2 style="color: {{ section.settings.heading_color }}">{{ section.settings.heading }}</h2>
+    </div>
+
+    <!-- Swiper Container -->
+    <div class="swiper retro-features-swiper">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide">
+            <div class="retro-feature-card">
+              {% if block.settings.image %}
+                <img src="{{ block.settings.image | img_url: '600x' }}" alt="{{ block.settings.title }}">
+              {% endif %}
+
+              <div class="retro-feature-title">{{ block.settings.title }}</div>
+              <button class="retro-feature-toggle" data-toggle>+</button>
+
+              <div class="retro-feature-overlay">
+                <p>{{ block.settings.description }}</p>
+                {% if block.settings.link != blank %}
+                  <a href="{{ block.settings.link }}" class="retro-feature-readmore">Read More</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Optional navigation -->
+      {% comment %} <div class="swiper-pagination"></div> {% endcomment %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toggle overlay
+    document.querySelectorAll('.retro-feature-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        let overlay = this.parentElement.querySelector('.retro-feature-overlay');
+        overlay.classList.toggle('active');
+        {% comment %} this.textContent = overlay.classList.contains('active') ? '-' : '+'; {% endcomment %}
+         this.classList.toggle('rotated');
+      });
+    });
+
+    // Swiper init
+    const swiper = new Swiper('.retro-features-swiper', {
+      slidesPerView: 4,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        0: {
+          slidesPerView: 2.5,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 10,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+      }
+    });
+  });
+</script>
+
+
+{% schema %}
+{
+  "name": "PDP Features",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#e0f7fa"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "At RetroFam, every retro product is..."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Carefully Sourced"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Short Description"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "PDP Features",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% comment %}
+Section: RetroFam Features
+{% endcomment %}
+
+<style>
+  .retro-section {
+    padding: 55px 0;
+  }
+  .retro-section-heading {
+    margin-bottom: 45px;
+  }
+  .retro-section-heading h2 {
+    margin: 0;
+  }
+
+  .retro-features {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .retro-feature-card {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    color: white;
+  }
+  .retro-feature-card img {
+    width: 100%;
+    height: 464px; /* fixed height */
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Gradient overlay */
+.retro-feature-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(8, 7, 7, 0) 14.18%, #080707 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.retro-feature-title {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  font-weight: bold;
+  font-size: 24px;
+  z-index: 3;
+  line-height: 32px;
+  width: 50%;
+}
+
+.retro-feature-toggle {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-align: center;
+  z-index: 3;
+  border: 1px solid #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 3px;
+}
+
+  .retro-feature-overlay {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    padding: 15px;
+    font-size: 14px;
+    transition: top 0.3s ease;
+    z-index: 2;
+    word-wrap: break-word;
+  }
+  .retro-feature-overlay.active {
+    top: 0;
+    bottom: 0;
+  }
+  .retro-feature-readmore {
+    color: #fff;
+    text-decoration: underline;
+    display: inline-block;
+    margin-top: 5px;
+  }
+
+  .retro-feature-readmore:hover {
+    color: #fff;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+    .retro-features {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .retro-features {
+      grid-template-columns: 1fr;
+    }
+    .retro-feature-card img {
+      height: 220px;
+    }
+  }
+</style>
+<div class="retro-section" style="background-color: {{ section.settings.bg_color }}">
+  <div class="page-width">
+    <div class="retro-section-heading" style="text-align: {{ section.settings.heading_align }}">
+      <h2 style="color: {{ section.settings.heading_color }}">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="retro-features">
+      {% for block in section.blocks %}
+        <div class="retro-feature-card">
+          {% if block.settings.image %}
+            <img src="{{ block.settings.image | img_url: '600x' }}" alt="{{ block.settings.title }}">
+          {% endif %}
+
+          <div class="retro-feature-title">{{ block.settings.title }}</div>
+          <button class="retro-feature-toggle" data-toggle>+</button>
+
+          <div class="retro-feature-overlay">
+            <p>{{ block.settings.description }}</p>
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" class="retro-feature-readmore">Read More</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.retro-feature-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        let overlay = this.parentElement.querySelector('.retro-feature-overlay');
+        overlay.classList.toggle('active');
+        this.textContent = overlay.classList.contains('active') ? '-' : '+';
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "PDP Features",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#e0f7fa"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "At RetroFam, every retro product is..."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Carefully Sourced"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Short Description"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Read More Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "PDP Features",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+

@@ -1,0 +1,1668 @@
+{% comment %}
+  Contact Us Form Section
+  Dynamic contact form with configurable content, styling, and map integration
+{% endcomment %}
+
+<style>
+  /* Contact Form Styles */
+  .contact-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5rem;
+    padding: 1.25rem 1rem 2.5rem 1rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    background-color: {{ section.settings.background_color | default: '#ffffff' }};
+  }
+
+  @media (min-width: 768px) {
+    .contact-main-content {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .contact-main-content {
+      flex-direction: row;
+      align-items: center;
+      gap: 5rem;
+      padding: 0 5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .contact-main-content {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+  }
+
+  /* Desktop Props */
+  .contact-desktop-prop {
+    position: absolute;
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-desktop-prop {
+      display: block;
+    }
+  }
+
+  .contact-desktop-prop-1 {
+    top: 431px;
+    right: 0;
+  }
+
+  .contact-desktop-prop-2 {
+    top: 471px;
+    left: 0;
+  }
+
+  /* Content Wrapper */
+  .contact-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-content-wrapper {
+      flex-direction: row;
+      align-items: center;
+      gap: 5rem;
+    }
+  }
+
+  /* Form Intro */
+  .contact-form-intro {
+    flex: 1;
+  }
+
+  .contact-form-title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    max-width: 414px;
+    margin-bottom: 0.625rem;
+    color: {{ section.settings.title_color | default: '#080707' }};
+  }
+
+  @media (min-width: 1024px) {
+    .contact-form-title {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .contact-form-description {
+    font-size: 1rem;
+    max-width: 414px;
+    margin-bottom: 0.625rem;
+    color: {{ section.settings.description_color | default: '#080707' }};
+  }
+
+  @media (min-width: 1024px) {
+    .contact-form-description {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .contact-form-subtitle {
+    font-size: 1rem;
+    max-width: 414px;
+    color: {{ section.settings.subtitle_color | default: '#080707' }};
+  }
+
+  /* Map Styles */
+  .contact-map-title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: {{ section.settings.map_title_color | default: '#080707' }};
+  }
+
+  .contact-map-iframe {
+    border-radius: 0.375rem;
+    border: none;
+  }
+
+  .contact-desktop-map {
+    display: none;
+    margin-top: 8.1875rem;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-desktop-map {
+      display: block;
+    }
+  }
+
+  .contact-mobile-map {
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-mobile-map {
+      display: none;
+    }
+  }
+
+  /* Contact Form Container */
+  .contact-form-container {
+    flex: 1;
+    max-width: 550px;
+    position: relative;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-form-container {
+      margin-top: 0;
+      max-width: 737px;
+    }
+  }
+
+  /* Form Props */
+  .contact-desktop-top-prop {
+    position: absolute;
+    top: -22px;
+    left: 15px;
+    z-index: 1;
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-desktop-top-prop {
+      display: block;
+    }
+  }
+
+  .contact-mobile-top-prop {
+    position: absolute;
+    right: 18px;
+    top: -22px;
+    z-index: 1;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-mobile-top-prop {
+      display: none;
+    }
+  }
+
+  .contact-bottom-prop {
+    position: absolute;
+    top: 466px;
+    left: -39px;
+    width: 74px;
+    height: auto;
+    object-fit: contain;
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .contact-bottom-prop {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .contact-bottom-prop {
+      left: -60px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .contact-bottom-prop {
+      left: -79px;
+      width: 88px;
+    }
+  }
+
+  /* Form Wrapper */
+  .contact-form-wrapper {
+    position: relative;
+    padding: 11px;
+    color: white;
+  }
+
+  @media (min-width: 768px) {
+    .contact-form-wrapper {
+      padding: 23px;
+    }
+  }
+
+  .contact-form-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  .contact-form-banner {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    height: auto;
+  }
+
+  .contact-form-controller {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 10;
+  }
+
+  /* Form Content */
+  .contact-form-content {
+    background-image: url('{{ section.settings.form_background_image | img_url: "master" }}');
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    border: 20px solid {{ section.settings.form_border_color | default: '#000000' }};
+  }
+
+  @media (min-width: 768px) {
+    .contact-form-content {
+      padding: 1.25rem;
+    }
+  }
+
+  /* Form Progress */
+  .contact-form-progress {
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-progress-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid {{ section.settings.progress_bar_color | default: '#FF6B35' }};
+    background-color: rgba(255, 107, 53, 0.1);
+  }
+
+  .contact-progress-bar {
+    height: 12px;
+    background-color: {{ section.settings.progress_bar_color | default: '#FF6B35' }};
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  /* Contact Form */
+  .contact-form {
+    background-image: url('{{ section.settings.form_splash_image | img_url: "master" }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 2px 2px 0px {{ section.settings.form_shadow_color | default: '#080707' }};
+    padding: 1.25rem 1.25rem 25% 1.25rem;
+    border: 1px solid {{ section.settings.form_border_color | default: '#080707' }};
+    position: relative;
+  }
+
+  .contact-form-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-form-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .contact-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .contact-form-field.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .contact-form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: {{ section.settings.label_color | default: '#ffffff' }};
+  }
+
+  .contact-form-input,
+  .contact-form-textarea {
+    padding: 0.75rem;
+    border: 1px solid {{ section.settings.input_border_color | default: '#080707' }};
+    background-color: {{ section.settings.input_background_color | default: '#ffffff' }};
+    color: {{ section.settings.input_text_color | default: '#080707' }};
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .contact-form-input:focus,
+  .contact-form-textarea:focus {
+    outline: none;
+    border-color: {{ section.settings.input_focus_color | default: '#FF6B35' }};
+  }
+
+  .contact-form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .contact-error-message {
+    color: {{ section.settings.error_color | default: '#EF4444' }};
+    font-size: 0.75rem;
+    min-height: 1rem;
+  }
+
+  /* Submit Button */
+  .contact-submit-btn {
+    background-color: {{ section.settings.button_background_color | default: '#10B981' }};
+    color: {{ section.settings.button_text_color | default: '#ffffff' }};
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .contact-submit-btn:hover {
+    background-color: {{ section.settings.button_hover_color | default: '#059669' }};
+  }
+
+  .contact-submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .contact-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: none;
+  }
+
+  .contact-loading-spinner.active {
+    display: block;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 767px) {
+    .contact-main-content {
+      padding: 1rem 0.5rem 2rem 0.5rem;
+      gap: 3rem;
+    }
+    
+    .contact-content-wrapper {
+      gap: 1rem;
+    }
+    
+    .contact-form-title {
+      font-size: 1.5rem;
+      max-width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-form-description {
+      max-width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-form-subtitle {
+      max-width: 100%;
+    }
+    
+    .contact-form-container {
+      max-width: 100%;
+      margin-top: 1rem;
+    }
+    
+    .contact-form-wrapper {
+      padding: 8px;
+    }
+    
+    .contact-form-content {
+      padding: 8px;
+      border-width: 15px;
+    }
+    
+    .contact-form {
+      padding: 1rem 1rem 20% 1rem;
+    }
+    
+    .contact-form-grid {
+      gap: 1rem;
+      margin-top: 0.25rem;
+    }
+    
+    .contact-form-input,
+    .contact-form-textarea {
+      padding: 0.625rem;
+      font-size: 0.875rem;
+    }
+    
+    .contact-form-textarea {
+      min-height: 60px;
+    }
+    
+    .contact-submit-btn {
+      padding: 0.625rem 0.75rem;
+      font-size: 0.875rem;
+    }
+    
+    .contact-mobile-map {
+      margin-top: 2rem;
+    }
+    
+    .contact-map-iframe {
+      height: 250px;
+    }
+    
+    .contact-success-message {
+      padding: 8px 8px 25% 8px;
+    }
+    
+    .contact-success-content {
+      margin-top: 4rem;
+      max-width: 100%;
+    }
+    
+    .contact-success-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-success-description {
+      font-size: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    
+    .contact-success-divider {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    
+    .contact-reward-title {
+      font-size: 1rem;
+    }
+    
+    .contact-reward-description {
+      font-size: 0.625rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .contact-main-content {
+      padding: 0.75rem 0.25rem 1.5rem 0.25rem;
+      gap: 2rem;
+    }
+    
+    .contact-form-wrapper {
+      padding: 6px;
+    }
+    
+    .contact-form-content {
+      padding: 6px;
+      border-width: 12px;
+    }
+    
+    .contact-form {
+      padding: 0.75rem 0.75rem 18% 0.75rem;
+    }
+    
+    .contact-form-grid {
+      gap: 0.75rem;
+    }
+    
+    .contact-form-input,
+    .contact-form-textarea {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+    
+    .contact-form-label {
+      font-size: 0.75rem;
+    }
+    
+    .contact-submit-btn {
+      padding: 0.5rem 0.625rem;
+      font-size: 0.8rem;
+    }
+    
+    .contact-map-iframe {
+      height: 200px;
+    }
+  }
+
+  /* Animation Classes */
+  .contact-fade-in {
+    animation: contactFadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes contactFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Form Validation Styles */
+  .contact-form-input.error,
+  .contact-form-textarea.error {
+    border-color: {{ section.settings.error_color | default: '#EF4444' }};
+  }
+
+  .contact-form-input.success,
+  .contact-form-textarea.success {
+    border-color: {{ section.settings.success_color | default: '#10B981' }};
+  }
+
+  /* Loading States */
+  .contact-loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Focus Styles */
+  .contact-form-input:focus,
+  .contact-form-textarea:focus,
+  .contact-submit-btn:focus {
+    outline: 2px solid {{ section.settings.focus_color | default: '#FF6B35' }};
+    outline-offset: 2px;
+  }
+
+  /* Toast Styles */
+  .contact-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    max-width: 300px;
+    word-wrap: break-word;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .contact-toast.error {
+    background-color: {{ section.settings.error_color | default: '#EF4444' }};
+  }
+
+  .contact-toast.success {
+    background-color: {{ section.settings.success_color | default: '#10B981' }};
+  }
+
+  .contact-toast.info {
+    background-color: {{ section.settings.info_color | default: '#3B82F6' }};
+  }
+
+  /* Success Message */
+  .contact-success-message {
+    background-image: url('{{ section.settings.form_splash_image | img_url: "master" }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 10px 10px 30% 10px;
+    color: {{ section.settings.success_text_color | default: '#ffffff' }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .contact-success-message {
+      padding: 1.25rem 1.25rem 30% 1.25rem;
+    }
+  }
+
+  .contact-success-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5.6875rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 327px;
+  }
+
+  @media (min-width: 768px) {
+    .contact-success-content {
+      margin-top: 4.8125rem;
+    }
+  }
+
+  .contact-success-icon {
+    width: 79px;
+    height: 79px;
+    background-color: {{ section.settings.success_icon_background | default: '#10B981' }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-success-icon {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .contact-success-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.625rem;
+    color: {{ section.settings.success_text_color | default: '#ffffff' }};
+  }
+
+  @media (min-width: 768px) {
+    .contact-success-title {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .contact-success-description {
+    font-size: 0.875rem;
+    color: {{ section.settings.success_description_color | default: '#ffffff' }};
+    margin-bottom: 3.8125rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-success-description {
+      margin-bottom: 2.1875rem;
+    }
+  }
+
+  .contact-success-divider {
+    width: 700px;
+    border: 1px dashed {{ section.settings.success_divider_color | default: '#ffffff' }};
+    margin-bottom: 3.5625rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-success-divider {
+      margin-bottom: 1.8125rem;
+    }
+  }
+
+  .contact-reward-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-reward-section {
+      gap: 0.25rem;
+    }
+  }
+
+  .contact-reward-icon {
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-reward-icon {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .contact-reward-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    color: {{ section.settings.success_text_color | default: '#ffffff' }};
+  }
+
+  @media (min-width: 768px) {
+    .contact-reward-title {
+      margin-bottom: 0;
+    }
+  }
+
+  .contact-reward-description {
+    font-size: 0.75rem;
+    color: {{ section.settings.reward_description_color | default: '#ffffff' }};
+  }
+</style>
+
+<!-- Main Content Section -->
+<section class="contact-main-content">
+  <!-- Desktop Props -->
+  {% if section.settings.show_desktop_props %}
+    <div class="contact-desktop-prop contact-desktop-prop-1">
+      <svg width="40" height="48" viewBox="0 0 40 48" fill="none">
+        <path d="M26.7357 34.7127L13.856 26.736L5.87931 39.6157L18.759 47.5924L26.7357 34.7127Z" fill="#E7699E"/>
+        <path d="M42.689 8.95336L29.8094 0.976681L21.8327 13.8563L34.7123 21.833L42.689 8.95336Z" fill="#E7699E"/>
+        <path d="M21.8327 13.8563L8.95301 5.87967L0.976326 18.7593L13.856 26.736L21.8327 13.8563Z" fill="#E7699E"/>
+        <path d="M47.592 29.8097L34.7123 21.833L26.7357 34.7127L39.6153 42.6894L47.592 29.8097Z" fill="#E7699E"/>
+      </svg>
+    </div>
+
+    <div class="contact-desktop-prop contact-desktop-prop-2">
+      <svg width="43" height="48" viewBox="0 0 43 48" fill="none">
+        <path d="M21.7357 34.7127L8.85599 26.736L0.879309 39.6157L13.759 47.5924L21.7357 34.7127Z" fill="#3FB8D0"/>
+        <path d="M37.689 8.95336L24.8094 0.976681L16.8327 13.8563L29.7123 21.833L37.689 8.95336Z" fill="#3FB8D0"/>
+        <path d="M16.8327 13.8563L3.95301 5.87967L-4.02367 18.7593L8.85599 26.736L16.8327 13.8563Z" fill="#3FB8D0"/>
+        <path d="M42.592 29.8097L29.7123 21.833L21.7357 34.7127L34.6153 42.6894L42.592 29.8097Z" fill="#3FB8D0"/>
+      </svg>
+    </div>
+  {% endif %}
+
+  <div class="contact-content-wrapper">
+    <div class="contact-form-intro">
+      {% if section.settings.form_title %}
+        <h2 class="contact-form-title">{{ section.settings.form_title }}</h2>
+      {% endif %}
+      
+      {% if section.settings.form_description %}
+        <div class="contact-form-description">{{ section.settings.form_description }}</div>
+      {% endif %}
+      
+      {% if section.settings.form_subtitle %}
+        <p class="contact-form-subtitle">{{ section.settings.form_subtitle }}</p>
+      {% endif %}
+      
+      <!-- Desktop Map -->
+      {% if section.settings.show_map %}
+        <div class="contact-desktop-map">
+          {% if section.settings.map_title %}
+            <p class="contact-map-title">{{ section.settings.map_title }}</p>
+          {% endif %}
+          {% if section.settings.map_embed_url %}
+            <iframe
+              src="{{ section.settings.map_embed_url }}"
+              width="100%"
+              height="350"
+              class="contact-map-iframe"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form-container">
+      <!-- Desktop Top Prop -->
+      {% if section.settings.show_desktop_top_prop %}
+        <div class="contact-desktop-top-prop">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M26.7357 34.7127L13.856 26.736L5.87931 39.6157L18.759 47.5924L26.7357 34.7127Z" fill="#080707"/>
+            <path d="M42.689 8.95336L29.8094 0.976681L21.8327 13.8563L34.7123 21.833L42.689 8.95336Z" fill="#080707"/>
+            <path d="M21.8327 13.8563L8.95301 5.87967L0.976326 18.7593L13.856 26.736L21.8327 13.8563Z" fill="#080707"/>
+            <path d="M47.592 29.8097L34.7123 21.833L26.7357 34.7127L39.6153 42.6894L47.592 29.8097Z" fill="#080707"/>
+          </svg>
+        </div>
+      {% endif %}
+
+      <!-- Mobile Top Prop -->
+      {% if section.settings.show_mobile_top_prop %}
+        <div class="contact-mobile-top-prop">
+          <svg width="33" height="33" viewBox="0 0 33 33" fill="none">
+            <path d="M18.5586 23.9908L9.73641 18.527L4.27264 27.3492L13.0948 32.813L18.5586 23.9908Z" fill="#080707"/>
+            <path d="M29.4861 6.34649L20.664 0.882717L15.2002 9.70488L24.0223 15.1686L29.4861 6.34649Z" fill="#080707"/>
+            <path d="M15.2002 9.70488L6.37802 4.24111L0.914253 13.0633L9.73641 18.527L15.2002 9.70488Z" fill="#080707"/>
+            <path d="M32.8445 20.6324L24.0223 15.1686L18.5586 23.9908L27.3807 29.4546L32.8445 20.6324Z" fill="#080707"/>
+          </svg>
+        </div>
+      {% endif %}
+
+      {% if section.settings.bottom_prop_image %}
+        <img src="{{ section.settings.bottom_prop_image | img_url: 'master' }}" alt="" class="contact-bottom-prop" width="88" height="88">
+      {% endif %}
+
+      <div class="contact-form-wrapper">
+        {% if section.settings.form_background_image %}
+          <img src="{{ section.settings.form_background_image | img_url: 'master' }}" alt="" class="contact-form-bg" width="400" height="400">
+        {% endif %}
+        
+        {% if section.settings.form_controller_image %}
+          <img src="{{ section.settings.form_controller_image | img_url: 'master' }}" alt="" class="contact-form-controller" width="400" height="400">
+        {% endif %}
+
+        <div class="contact-form-content">
+          <!-- Form Progress Bar -->
+          {% if section.settings.show_progress_bar %}
+            <div class="contact-form-progress">
+              <div class="contact-progress-container">
+                <div class="contact-progress-bar" id="contactProgressBar"></div>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Contact Form -->
+          <form id="contactForm" class="contact-form">
+            <div class="contact-form-grid">
+              <div class="contact-form-field full-width">
+                <label for="name" class="contact-form-label">{{ section.settings.name_label | default: 'Name' }}</label>
+                <input type="text" id="name" name="name" class="contact-form-input" placeholder="{{ section.settings.name_placeholder | default: 'Full Name' }}" required>
+                <span class="contact-error-message" id="nameError"></span>
+              </div>
+
+              <div class="contact-form-field">
+                <label for="phone" class="contact-form-label">{{ section.settings.phone_label | default: 'Phone' }}</label>
+                <input type="tel" id="phone" name="phone" class="contact-form-input" placeholder="{{ section.settings.phone_placeholder | default: '+1 484 206 5351' }}" required>
+                <span class="contact-error-message" id="phoneError"></span>
+              </div>
+
+              <div class="contact-form-field">
+                <label for="email" class="contact-form-label">{{ section.settings.email_label | default: 'Email Address' }}</label>
+                <input type="email" id="email" name="email" class="contact-form-input" placeholder="{{ section.settings.email_placeholder | default: 'Johndoe@gmail.com' }}" required>
+                <span class="contact-error-message" id="emailError"></span>
+              </div>
+
+              <div class="contact-form-field full-width">
+                <label for="subject" class="contact-form-label">{{ section.settings.subject_label | default: 'Subject' }}</label>
+                <input type="text" id="subject" name="subject" class="contact-form-input" placeholder="{{ section.settings.subject_placeholder | default: 'Enter Subject' }}" required>
+                <span class="contact-error-message" id="subjectError"></span>
+              </div>
+
+              <div class="contact-form-field full-width">
+                <label for="message" class="contact-form-label">{{ section.settings.message_label | default: 'Your Message' }}</label>
+                <textarea id="message" name="message" class="contact-form-textarea" rows="3" placeholder="{{ section.settings.message_placeholder | default: 'Type Your Message Here...' }}" required></textarea>
+                <span class="contact-error-message" id="messageError"></span>
+              </div>
+
+              <div class="contact-form-field full-width">
+                <button type="submit" class="contact-submit-btn" id="contactSubmitBtn">
+                  <span class="btn-text">{{ section.settings.submit_button_text | default: 'Submit' }}</span>
+                  <div class="contact-loading-spinner" id="contactLoadingSpinner"></div>
+                </button>
+              </div>
+            </div>
+                     </form>
+
+           <!-- Success Message -->
+           <div id="contactSuccessMessage" class="contact-success-message" style="display: none;">
+             <div class="contact-success-content">
+               <div class="contact-success-icon">
+                 <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+                   <path d="M35.9375 37.5V43.75H34.375V45.3125H20.3125V43.75H18.75C18.75 41.8229 18.75 40.6458 18.75 39.0625H20.3125V37.5C19.5312 37.5 19.5312 37.5 18.75 37.5H17.1875V35.9375H15.625H14.0625V34.375H12.5V32.8125H10.9375V26.5625H14.0625V29.6875H15.625V31.25H18.75V29.6875H20.3125V21.875H18.75V20.3125H15.625V21.875H14.0625V25H10.9375V20.3125H12.5V18.75H14.0625V17.1875H20.3125V18.75H21.875V21.875H23.4375C23.4375 17.7708 23.4375 10.3542 23.4375 6.25H26.5625V10.9375V20.3125H28.125C28.125 20.3125 28.125 13.4427 28.125 10.9375V9.375H31.25V15.625C31.25 15.625 31.25 19.9167 31.25 21.875H32.8125C32.8125 21.875 32.8125 17.0156 32.8125 15.625V14.0625H35.9375V35.9375H34.375V37.5C33.5938 37.5 32.0312 37.5 31.25 37.5C30.4688 37.5 28.9062 37.5 28.125 37.5V39.0625H34.375V37.5H35.9375Z" fill="#080707"/>
+                 </svg>
+               </div>
+               {% if section.settings.success_title %}
+                 <h2 class="contact-success-title">{{ section.settings.success_title }}</h2>
+               {% endif %}
+               {% if section.settings.success_description %}
+                 <p class="contact-success-description">{{ section.settings.success_description }}</p>
+               {% endif %}
+               <div class="contact-success-divider"></div>
+               {% if section.settings.show_reward_section %}
+                 <div class="contact-reward-section">
+                   <div class="contact-reward-icon">
+                     <svg width="49" height="49" viewBox="0 0 49 49" fill="none">
+                       <g clip-path="url(#clip0_1300_18926)">
+                         <path d="M46.1174 20.1761V17.2945H20.1761V14.4119H23.0587V11.5294H25.9413V8.64678H28.8239V5.76516H31.7055V2.88258H28.8239V0H23.0587V2.88258H20.1761V5.76516H17.2945V0H11.5294V2.88258H8.64678V8.64678H2.88258V11.5294H0V17.2945H5.76516V20.1761H2.88258V23.0587H0V28.8239H2.88258V31.7055H5.76516V28.8239H8.64678V25.9413H11.5294V46.1174H14.4119V49H46.1174V46.1174H49V20.1761H46.1174Z" fill="white" fill-opacity="0.9"/>
+                         <path d="M40.3535 8.64673H43.2351V11.5293H40.3535V8.64673Z" fill="#FFC906"/>
+                         <path d="M34.5879 5.76514H37.4705V8.64676H34.5879V5.76514Z" fill="#FFC906"/>
+                         <path d="M28.8242 11.5293H31.7058V14.4119H28.8242V11.5293Z" fill="#FFC906"/>
+                         <path d="M34.5879 20.176H46.1172V46.1173H34.5879V20.176Z" fill="#00A8E1"/>
+                         <path d="M23.0591 2.88257V5.76515H20.1765V8.64677H17.2949V14.4119H20.1765V11.5293H23.0591V8.64677H25.9417V5.76515H28.8243V2.88257H23.0591Z" fill="#00A8E1"/>
+                         <path d="M14.4121 20.176H25.9415V46.1173H14.4121V20.176Z" fill="#00A8E1"/>
+                         <path d="M8.64701 17.2944V20.1761H5.76539V23.0586H2.88281V28.8238H5.76539V25.9412H8.64701V23.0586H11.5296V20.1761H14.4122V17.2944H8.64701Z" fill="#00A8E1"/>
+                         <path d="M28.8242 20.176H31.7058V46.1173H28.8242V20.176Z" fill="#EA4325"/>
+                         <path d="M11.5293 14.4119V17.2945H17.2945V11.5293H14.4119V14.4119H11.5293Z" fill="#EA4325"/>
+                         <path d="M14.4119 2.88257H11.5293V11.5293H14.4119V8.64677H17.2945V5.76515H14.4119V2.88257Z" fill="#EA4325"/>
+                         <path d="M2.88281 11.5293V14.4119H5.76539V17.2945H8.64701V14.4119H11.5296V11.5293H2.88281Z" fill="#EA4325"/>
+                         <path d="M43.2351 20.176V43.2347H40.3535V46.1173H46.1177V20.176H43.2351Z" fill="#0D74C9"/>
+                         <path d="M23.0586 2.88257V8.64677H25.9412V5.76515H28.8237V2.88257H23.0586Z" fill="#0D74C9"/>
+                       </g>
+                       <defs>
+                         <clipPath id="clip0_1300_18926">
+                           <rect width="49" height="49" fill="white"/>
+                         </clipPath>
+                       </defs>
+                     </svg>
+                   </div>
+                   {% if section.settings.reward_title %}
+                     <h3 class="contact-reward-title">{{ section.settings.reward_title }}</h3>
+                   {% endif %}
+                   {% if section.settings.reward_description %}
+                     <p class="contact-reward-description">{{ section.settings.reward_description }}</p>
+                   {% endif %}
+                 </div>
+               {% endif %}
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+
+  <!-- Mobile Map -->
+  {% if section.settings.show_map %}
+    <div class="contact-mobile-map">
+      {% if section.settings.map_title %}
+        <p class="contact-map-title">{{ section.settings.map_title }}</p>
+      {% endif %}
+      {% if section.settings.map_embed_url %}
+        <iframe
+          src="{{ section.settings.map_embed_url }}"
+          width="100%"
+          height="350"
+          class="contact-map-iframe"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+
+<script>
+  // Contact Form JavaScript
+  class ContactForm {
+    constructor() {
+      this.form = document.getElementById('contactForm');
+      this.progressBar = document.getElementById('contactProgressBar');
+      this.submitBtn = document.getElementById('contactSubmitBtn');
+      this.loadingSpinner = document.getElementById('contactLoadingSpinner');
+      this.successMessage = document.getElementById('contactSuccessMessage');
+      this.formFields = {};
+      this.formPercentage = 0;
+      
+      this.init();
+    }
+
+    init() {
+      this.setupFormFields();
+      this.setupEventListeners();
+      this.setupProgressBar();
+    }
+
+    setupFormFields() {
+      const fieldIds = ['name', 'phone', 'email', 'subject', 'message'];
+      
+      fieldIds.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        const errorElement = document.getElementById(fieldId + 'Error');
+        
+        if (field && errorElement) {
+          this.formFields[fieldId] = {
+            element: field,
+            errorElement: errorElement,
+            value: '',
+            isValid: false
+          };
+        }
+      });
+    }
+
+    setupEventListeners() {
+      // Form submission
+      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+      // Real-time validation and progress tracking
+      Object.keys(this.formFields).forEach(fieldId => {
+        const field = this.formFields[fieldId];
+        
+        field.element.addEventListener('input', (e) => {
+          this.updateFieldValue(fieldId, e.target.value);
+          this.validateField(fieldId);
+          this.updateProgress();
+        });
+
+        field.element.addEventListener('blur', () => {
+          this.validateField(fieldId);
+        });
+
+        field.element.addEventListener('focus', () => {
+          this.clearFieldError(fieldId);
+        });
+      });
+
+      // Window resize for progress bar
+      window.addEventListener('resize', () => {
+        this.updateProgressBar();
+      });
+    }
+
+    setupProgressBar() {
+      this.updateProgressBar();
+    }
+
+    updateFieldValue(fieldId, value) {
+      if (this.formFields[fieldId]) {
+        this.formFields[fieldId].value = value;
+      }
+    }
+
+    validateField(fieldId) {
+      const field = this.formFields[fieldId];
+      if (!field) return;
+
+      let isValid = false;
+      let errorMessage = '';
+
+      switch (fieldId) {
+        case 'name':
+          isValid = field.value.trim().length > 0;
+          errorMessage = isValid ? '' : 'Name is required';
+          break;
+        
+        case 'phone':
+          isValid = field.value.trim().length > 0;
+          errorMessage = isValid ? '' : 'Phone number is required';
+          break;
+        
+        case 'email':
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          isValid = emailRegex.test(field.value.trim());
+          errorMessage = isValid ? '' : 'Please enter a valid email address';
+          break;
+        
+        case 'subject':
+          isValid = field.value.trim().length > 0;
+          errorMessage = isValid ? '' : 'Subject is required';
+          break;
+        
+        case 'message':
+          isValid = field.value.trim().length > 0;
+          errorMessage = isValid ? '' : 'Message is required';
+          break;
+      }
+
+      field.isValid = isValid;
+      this.displayFieldError(fieldId, errorMessage);
+      this.updateFieldStyles(fieldId, isValid);
+    }
+
+    displayFieldError(fieldId, message) {
+      const field = this.formFields[fieldId];
+      if (field && field.errorElement) {
+        field.errorElement.textContent = message;
+      }
+    }
+
+    clearFieldError(fieldId) {
+      const field = this.formFields[fieldId];
+      if (field && field.errorElement) {
+        field.errorElement.textContent = '';
+      }
+    }
+
+    updateFieldStyles(fieldId, isValid) {
+      const field = this.formFields[fieldId];
+      if (!field) return;
+
+      field.element.classList.remove('error', 'success');
+      
+      if (field.value.trim().length > 0) {
+        field.element.classList.add(isValid ? 'success' : 'error');
+      }
+    }
+
+    updateProgress() {
+      let filledFields = 0;
+      const totalFields = Object.keys(this.formFields).length;
+
+      Object.values(this.formFields).forEach(field => {
+        if (field.value.trim().length > 0) {
+          filledFields++;
+        }
+      });
+
+      this.formPercentage = Math.round((filledFields / totalFields) * 100);
+      this.updateProgressBar();
+    }
+
+    updateProgressBar() {
+      if (this.progressBar) {
+        this.progressBar.style.width = `${this.formPercentage}%`;
+      }
+    }
+
+    async handleSubmit(e) {
+      e.preventDefault();
+
+      // Validate all fields
+      let isValid = true;
+      Object.keys(this.formFields).forEach(fieldId => {
+        this.validateField(fieldId);
+        if (!this.formFields[fieldId].isValid) {
+          isValid = false;
+        }
+      });
+
+      if (!isValid) {
+        this.showToast('Please fill in all required fields correctly.', 'error');
+        return;
+      }
+
+      // Show loading state
+      this.setLoadingState(true);
+
+      try {
+        // Prepare form data
+        const formData = {};
+        Object.keys(this.formFields).forEach(fieldId => {
+          formData[fieldId] = this.formFields[fieldId].value.trim();
+        });
+
+        // Simulate API call (replace with actual API endpoint)
+        const response = await this.submitForm(formData);
+
+        if (response.success) {
+          this.showSuccessMessage();
+          this.resetForm();
+        } else {
+          throw new Error(response.message || 'Failed to submit form');
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        this.showToast('Failed to submit form! Please try again.', 'error');
+      } finally {
+        this.setLoadingState(false);
+      }
+    }
+
+    async submitForm(formData) {
+      // Simulate API call - replace with actual implementation
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          // Simulate successful submission
+          resolve({ success: true, message: 'Form submitted successfully' });
+          
+          // Uncomment below for testing error scenarios
+          // resolve({ success: false, message: 'Server error' });
+        }, 2000);
+      });
+    }
+
+    setLoadingState(isLoading) {
+      if (isLoading) {
+        this.submitBtn.disabled = true;
+        this.submitBtn.classList.add('contact-loading');
+        this.loadingSpinner.classList.add('active');
+        this.submitBtn.querySelector('.btn-text').textContent = 'Submitting...';
+      } else {
+        this.submitBtn.disabled = false;
+        this.submitBtn.classList.remove('contact-loading');
+        this.loadingSpinner.classList.remove('active');
+        this.submitBtn.querySelector('.btn-text').textContent = 'Submit';
+      }
+    }
+
+    showSuccessMessage() {
+      this.form.style.display = 'none';
+      this.successMessage.style.display = 'block';
+      this.successMessage.classList.add('contact-fade-in');
+    }
+
+    resetForm() {
+      Object.keys(this.formFields).forEach(fieldId => {
+        const field = this.formFields[fieldId];
+        field.element.value = '';
+        field.value = '';
+        field.isValid = false;
+        field.element.classList.remove('error', 'success');
+        this.clearFieldError(fieldId);
+      });
+      
+      this.formPercentage = 0;
+      this.updateProgressBar();
+    }
+
+    showToast(message, type = 'info') {
+      // Create toast notification
+      const toast = document.createElement('div');
+      toast.className = `contact-toast contact-toast-${type}`;
+      toast.textContent = message;
+      
+      // Add to page
+      document.body.appendChild(toast);
+
+      // Animate in
+      setTimeout(() => {
+        toast.style.transform = 'translateX(0)';
+      }, 100);
+
+      // Remove after 5 seconds
+      setTimeout(() => {
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+          }
+        }, 300);
+      }, 5000);
+    }
+  }
+
+  // Initialize everything when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize contact form
+    const contactForm = new ContactForm();
+    
+    // Add keyboard navigation for form fields
+    const formFields = document.querySelectorAll('.contact-form-input, .contact-form-textarea');
+    formFields.forEach((field, index) => {
+      field.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          const nextField = formFields[index + 1];
+          if (nextField) {
+            nextField.focus();
+          }
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Contact Us Form",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form Title",
+      "default": "Fill Out the Form"
+    },
+    {
+      "type": "richtext",
+      "id": "form_description",
+      "label": "Form Description",
+      "default": "<p>Got a question or need help? We're here for you. Just fill out the form below, and one of our friendly experts will reach out to assist you fast.</p>"
+    },
+    {
+      "type": "text",
+      "id": "form_subtitle",
+      "label": "Form Subtitle",
+      "default": "Your answers are just a click away! Let us take care of the rest."
+    },
+    {
+      "type": "header",
+      "content": "Map Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_map",
+      "label": "Show Map",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "map_title",
+      "label": "Map Title",
+      "default": "Something about Map"
+    },
+    {
+      "type": "text",
+      "id": "map_embed_url",
+      "label": "Map Embed URL",
+      "default": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.0669563232227!2d-75.81941619999999!3d40.451654999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c5d744c171372d%3A0x35e60ebb9a5ded42!2sRetroFam!5e0!3m2!1sen!2s!4v1745935298807!5m2!1sen!2s"
+    },
+    {
+      "type": "header",
+      "content": "Form Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "form_background_image",
+      "label": "Form Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "form_splash_image",
+      "label": "Form Splash Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "form_controller_image",
+      "label": "Form Controller Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_prop_image",
+      "label": "Bottom Prop Image"
+    },
+    {
+      "type": "header",
+      "content": "Form Fields"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name Label",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "label": "Name Placeholder",
+      "default": "Full Name"
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone Label",
+      "default": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "phone_placeholder",
+      "label": "Phone Placeholder",
+      "default": "+1 484 206 5351"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email Label",
+      "default": "Email Address"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email Placeholder",
+      "default": "Johndoe@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "subject_label",
+      "label": "Subject Label",
+      "default": "Subject"
+    },
+    {
+      "type": "text",
+      "id": "subject_placeholder",
+      "label": "Subject Placeholder",
+      "default": "Enter Subject"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message Label",
+      "default": "Your Message"
+    },
+    {
+      "type": "text",
+      "id": "message_placeholder",
+      "label": "Message Placeholder",
+      "default": "Type Your Message Here..."
+    },
+    {
+      "type": "text",
+      "id": "submit_button_text",
+      "label": "Submit Button Text",
+      "default": "Submit"
+    },
+    {
+      "type": "header",
+      "content": "Success Message"
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Success Title",
+      "default": "Thank You for Reaching Out!"
+    },
+    {
+      "type": "richtext",
+      "id": "success_description",
+      "label": "Success Description",
+      "default": "<p>Your message has been successfully submitted, and one of our experts will be in touch with you shortly. We appreciate you taking the time to connect with us.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reward_section",
+      "label": "Show Reward Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reward_title",
+      "label": "Reward Title",
+      "default": "You have also got a reward"
+    },
+    {
+      "type": "text",
+      "id": "reward_description",
+      "label": "Reward Description",
+      "default": "Some instructions about how they can claim the reward"
+    },
+    {
+      "type": "header",
+      "content": "Display Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show Progress Bar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desktop_props",
+      "label": "Show Desktop Props",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desktop_top_prop",
+      "label": "Show Desktop Top Prop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mobile_top_prop",
+      "label": "Show Mobile Top Prop",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "map_title_color",
+      "label": "Map Title Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Form Label Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input Border Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "input_background_color",
+      "label": "Input Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input Text Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_color",
+      "label": "Input Focus Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button Background Color",
+      "default": "#10B981"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button Hover Color",
+      "default": "#059669"
+    },
+    {
+      "type": "color",
+      "id": "progress_bar_color",
+      "label": "Progress Bar Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "form_border_color",
+      "label": "Form Border Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "form_shadow_color",
+      "label": "Form Shadow Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "error_color",
+      "label": "Error Color",
+      "default": "#EF4444"
+    },
+    {
+      "type": "color",
+      "id": "success_color",
+      "label": "Success Color",
+      "default": "#10B981"
+    },
+    {
+      "type": "color",
+      "id": "focus_color",
+      "label": "Focus Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "success_text_color",
+      "label": "Success Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "success_description_color",
+      "label": "Success Description Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "success_divider_color",
+      "label": "Success Divider Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "success_icon_background",
+      "label": "Success Icon Background",
+      "default": "#10B981"
+    },
+    {
+      "type": "color",
+      "id": "reward_description_color",
+      "label": "Reward Description Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "info_color",
+      "label": "Info Color",
+      "default": "#3B82F6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Form",
+      "category": "Contact"
+    }
+  ]
+}
+{% endschema %}

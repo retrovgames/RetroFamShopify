@@ -1,0 +1,137 @@
+<div class="icon-features-bar">
+  <div class="features-wrapper page-width">
+    {% for block in section.blocks %}
+      <div class="feature-item">
+        {% if block.settings.image %}
+          <img
+            src="{{ block.settings.image | image_url: width: 40 }}"
+            alt="{{ block.settings.text | escape }}"
+            width="40"
+            height="40"
+            loading="lazy"
+          >
+        {% endif %}
+        <p>{{ block.settings.text }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.icon-features-bar {
+  background-color: #000;
+  padding: 20px 0;
+  color: #fff;
+}
+
+.features-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  {% comment %} flex-wrap: wrap; {% endcomment %}
+  gap: 30px;
+  text-align: center;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 220px;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.feature-item img {
+  max-width: 40px;
+  height: auto;
+  filter: brightness(0) invert(1); /* makes dark icons white */
+}
+
+.feature-item p {
+  margin: 0;
+}
+
+.feature-divider {
+  display: none;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dotted #007bff;
+  margin: 10px 0;
+}
+
+/* Responsive for tablets and smaller */
+@media screen and (max-width: 768px) {
+  .features-wrapper {
+    gap: 24px;
+    justify-content: left;
+  }
+  .feature-item img {
+    max-width: 20px;
+    height: auto;
+    filter: brightness(0) invert(1);
+  }
+  .feature-item {
+    flex-direction: column;
+    align-items: self-start;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 20px;
+    min-width: unset;
+    text-align: left;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Icon Features Bar",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Feature Text",
+          "default": "Free Shipping in USA"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon Features Bar",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "text": "Free Shipping in USA"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "text": "121-Day Warranty"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "text": "24/7 Customer Support"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

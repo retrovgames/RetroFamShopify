@@ -1,0 +1,120 @@
+{% style %}
+.header-toolbar-wrapper {
+  background-color: {{ section.settings.background_color }};
+  color: {{ section.settings.text_color }};
+  padding: 10px 20px;
+  width: 100%;
+}
+
+.header-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.header-toolbar-center {
+  flex: 1;
+  text-align: center;
+  padding-left: 260px;
+}
+
+.header-toolbar-center a {
+  color: {{ section.settings.text_color }};
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.header-toolbar-right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.header-toolbar-right .icon-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+{% endstyle %}
+
+<div class="header-toolbar-wrapper small--hide">
+  <div class="page-width header-toolbar">
+    <div>
+      <div class="toolbar__item">
+          {%- render 'multi-selectors',
+            currency_selector: true,
+            show_currency_flags: true
+            location: 'toolbar'
+          -%}
+        </div>
+    </div>
+    <div class="header-toolbar-center">
+      <a href="{{ section.settings.center_link }}">{{ section.settings.center_text }}</a>
+    </div>
+    <div class="header-toolbar-right">
+      <a href="mailto:{{ section.settings.email }}" class="icon-text" style="text-decoration: none; color: inherit;">
+        <img src="{{ 'EnvelopeSimple.svg' | asset_url }}" alt="Email icon" height="20" width="20">
+        <span>{{ section.settings.email }}</span>
+      </a>
+      <a href="tel:{{ section.settings.phone | remove: ' ' }}" class="icon-text" style="text-decoration: none; color: inherit;">
+        <img src="{{ 'Phone.svg' | asset_url }}" alt="Phone icon" height="20" width="20">
+        <span>{{ section.settings.phone }}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header Toolbar",
+  "tag": "section",
+  "class": "header-toolbar",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "center_text",
+      "label": "Center Text",
+      "default": "Welcome to Our Store"
+    },
+    {
+      "type": "url",
+      "id": "center_link",
+      "label": "Center Link"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "info@example.com"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone Number",
+      "default": "+1 234 567 890"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header Toolbar",
+      "category": "Header"
+    }
+  ]
+}
+{% endschema %}

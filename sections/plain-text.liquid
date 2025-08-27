@@ -1,0 +1,131 @@
+<link rel="stylesheet" href="{{ 'about.css' | asset_url }}">
+
+<section 
+  class="about-section"
+  style="
+    background:{{ section.settings.bg_color }};
+    text-align:{{ section.settings.text_align }};
+    padding:{{ section.settings.padding }}px 0;
+    max-width:{{ section.settings.max_width }}px;
+    margin:0 auto;
+  "
+>
+  {% if section.settings.heading != blank %}
+    <h2 
+      style="
+        color:{{ section.settings.heading_color }};
+        font-size:{{ section.settings.heading_size }}px;
+        margin-bottom:{{ section.settings.heading_margin_bottom }}px;
+      "
+    >{{ section.settings.heading }}</h2>
+  {% endif %}
+  <p 
+    style="
+      color:{{ section.settings.text_color }};
+      font-size:{{ section.settings.text_size }}px;
+      line-height:1.8;
+      padding:0 16px;
+      margin:0;
+    "
+  >{{ section.settings.text }}</p>
+</section>
+
+{% schema %}
+{
+  "name": "Plain Text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Plain Text Section"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#080707"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 54,
+      "step": 2,
+      "label": "Heading Font Size (px)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "label": "Space Below Heading (px)",
+      "default": 18
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Plain Text",
+      "default": "At Retro Fam, we believe that retro games are more than just pixels and plastic—they're memories pressed into cartridges, the soundtracks of childhood, and the stories we grew up with. Whether it's your first console or your all-time favorite game, we're here to help you relive that magic. We are more than just an online retro game store; we are a community passionate about bringing the magic of old-school gaming to you."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#080707"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "label": "Text Size (px)",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "label": "Top/Bottom Padding (px)",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 10,
+      "label": "Max Width (px)",
+      "default": 900
+    }
+  ],
+   "presets": [
+    {
+      "name": "Plain Text",
+      "category": "About Sections"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,706 @@
+{% comment %}
+  Contact Bottom Banner Section
+  Dynamic bottom banner with configurable background, text, colors, and animations
+{% endcomment %}
+
+<style>
+  /* Contact Bottom Banner Styles */
+  .contact-bottom-banner-section {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.57;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(0deg, {{ section.settings.overlay_color | default: 'rgba(0, 0, 0, 0.40)' }} 0%, {{ section.settings.overlay_color | default: 'rgba(0, 0, 0, 0.40)' }} 100%), url('{{ section.settings.background_image | img_url: "master" }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  @media (min-width: 768px) {
+    .contact-bottom-banner-section {
+      aspect-ratio: auto;
+      height: {{ section.settings.desktop_height | default: '440' }}px;
+    }
+  }
+  
+       .contact-bottom-banner-title {
+    font-size: {{ section.settings.title_font_size_mobile | default: '30' }}px;
+    font-weight: bold;
+    text-transform: {{ section.settings.title_text_transform | default: 'uppercase' }};
+    color: {{ section.settings.title_color | default: '#ffffff' }};
+    position: relative;
+    z-index: 2;
+    animation: contactTitleGlow 2s ease-in-out infinite alternate;
+  }
+  
+  @media (min-width: 768px) {
+    .contact-bottom-banner-title {
+      font-size: {{ section.settings.title_font_size_desktop | default: '36' }}px;
+    }
+  }
+  
+  @keyframes contactTitleGlow {
+    from {
+      text-shadow: 0 0 10px {{ section.settings.title_glow_color | default: 'rgba(255, 255, 255, 0.5)' }};
+    }
+    to {
+      text-shadow: 0 0 20px {{ section.settings.title_glow_color | default: 'rgba(255, 255, 255, 0.8)' }}, 0 0 30px {{ section.settings.title_glow_color | default: 'rgba(255, 255, 255, 0.6)' }};
+    }
+  }
+  
+  /* Animated Background Elements */
+  .contact-banner-bg-element {
+    position: absolute;
+    background: {{ section.settings.bg_element_color | default: 'rgba(255, 255, 255, 0.1)' }};
+    border-radius: 50%;
+    animation: contactFloat 6s ease-in-out infinite;
+  }
+  
+  .contact-banner-bg-element:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+  
+  .contact-banner-bg-element:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 15%;
+    animation-delay: 2s;
+  }
+  
+  .contact-banner-bg-element:nth-child(3) {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+  }
+  
+  @keyframes contactFloat {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+      opacity: 0.6;
+    }
+  }
+  
+  /* Parallax Effect */
+  .contact-parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, {{ section.settings.parallax_gradient_color_1 | default: 'rgba(255, 107, 53, 0.1)' }}, {{ section.settings.parallax_gradient_color_2 | default: 'rgba(30, 58, 138, 0.1)' }});
+    transform: translateZ(0);
+  }
+  
+  /* Hover Effects */
+  .contact-bottom-banner-section:hover .contact-bottom-banner-title {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .contact-bottom-banner-section {
+      aspect-ratio: 1.2;
+    }
+    
+    .contact-bottom-banner-title {
+      font-size: 1.5rem;
+      padding: 0 1rem;
+    }
+  }
+  
+  /* Animation Classes */
+  .contact-fade-in {
+    animation: contactFadeIn 1s ease-in-out;
+  }
+  
+  @keyframes contactFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .contact-slide-up {
+    animation: contactSlideUp 0.8s ease-out;
+  }
+  
+  @keyframes contactSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Loading Animation */
+  .contact-loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Focus Styles */
+  .contact-bottom-banner-section:focus-within {
+    outline: 2px solid {{ section.settings.focus_color | default: '#FF6B35' }};
+    outline-offset: 2px;
+  }
+  
+    /* Interactive Elements */
+  .contact-banner-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .contact-banner-subtitle {
+    color: {{ section.settings.subtitle_color | default: 'rgba(255, 255, 255, 0.8)' }};
+    font-size: {{ section.settings.subtitle_font_size | default: '18' }}px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .contact-banner-cta {
+    background-color: {{ section.settings.cta_background_color | default: '#FF6B35' }};
+    color: {{ section.settings.cta_text_color | default: '#ffffff' }};
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    margin-top: 1rem;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .contact-banner-cta:hover {
+    background-color: {{ section.settings.cta_hover_background_color | default: '#E55A2B' }};
+    transform: translateY(-2px);
+  }
+  
+  .contact-banner-cta:active {
+    transform: translateY(0);
+  }
+  
+  /* Particle Effects */
+  .contact-particle {
+    position: absolute;
+    background: {{ section.settings.particle_color | default: 'rgba(255, 255, 255, 0.3)' }};
+    border-radius: 50%;
+    pointer-events: none;
+    animation: contactParticleFloat 8s linear infinite;
+  }
+  
+  @keyframes contactParticleFloat {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  /* Additional animations */
+  .contact-animate-in {
+    animation: contactFadeInUp 0.8s ease-out forwards;
+  }
+  
+  @keyframes contactFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Hover effects for interactive elements */
+  .contact-banner-content:hover .contact-bottom-banner-title {
+    animation-play-state: paused;
+  }
+  
+  /* Focus styles for accessibility */
+  .contact-banner-cta:focus {
+    outline: 2px solid {{ section.settings.cta_focus_color | default: '#ffffff' }};
+    outline-offset: 2px;
+  }
+</style>
+
+<!-- Contact Bottom Banner -->
+<section class="contact-bottom-banner-section" id="contactBottomBanner">
+  <!-- Background Elements -->
+  <div class="contact-parallax-bg"></div>
+  {% if section.settings.show_bg_elements %}
+    <div class="contact-banner-bg-element"></div>
+    <div class="contact-banner-bg-element"></div>
+    <div class="contact-banner-bg-element"></div>
+  {% endif %}
+  
+  <!-- Content -->
+  <div class="contact-banner-content">
+    {% if section.settings.title %}
+      <h1 class="contact-bottom-banner-title" id="contactBannerTitle">{{ section.settings.title }}</h1>
+    {% endif %}
+    
+    {% if section.settings.subtitle %}
+      <p class="contact-banner-subtitle" id="contactBannerSubtitle">{{ section.settings.subtitle }}</p>
+    {% endif %}
+    
+    {% if section.settings.cta_text and section.settings.cta_link %}
+      <a href="{{ section.settings.cta_link }}" class="contact-banner-cta" id="contactBannerCta">
+        {{ section.settings.cta_text }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  class ContactBottomBanner {
+    constructor() {
+      this.banner = document.getElementById('contactBottomBanner');
+      this.title = document.getElementById('contactBannerTitle');
+      this.subtitle = document.getElementById('contactBannerSubtitle');
+      this.cta = document.getElementById('contactBannerCta');
+      this.particles = [];
+      
+      this.init();
+    }
+
+    init() {
+      this.setupEventListeners();
+      this.addAnimationClasses();
+      {% if section.settings.show_particles %}
+        this.createParticles();
+      {% endif %}
+      this.setupParallax();
+    }
+
+    setupEventListeners() {
+      // CTA button click
+      if (this.cta) {
+        this.cta.addEventListener('click', () => this.handleCtaClick());
+      }
+      
+      // Mouse move for parallax effect
+      if (this.banner) {
+        this.banner.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+      }
+      
+      // Scroll for parallax
+      window.addEventListener('scroll', () => this.handleScroll());
+      
+      // Resize for responsive adjustments
+      window.addEventListener('resize', () => this.handleResize());
+      
+      // Keyboard navigation
+      if (this.banner) {
+        this.banner.addEventListener('keydown', (e) => this.handleKeydown(e));
+      }
+    }
+
+    addAnimationClasses() {
+      // Add staggered animations
+      setTimeout(() => {
+        if (this.title) this.title.classList.add('contact-fade-in');
+      }, 200);
+      
+      setTimeout(() => {
+        if (this.subtitle) this.subtitle.classList.add('contact-slide-up');
+      }, 400);
+      
+      setTimeout(() => {
+        if (this.cta) this.cta.classList.add('contact-slide-up');
+      }, 600);
+    }
+
+    createParticles() {
+      const particleCount = {{ section.settings.particle_count | default: 15 }};
+      
+      for (let i = 0; i < particleCount; i++) {
+        setTimeout(() => {
+          this.createParticle();
+        }, i * 500);
+      }
+    }
+
+    createParticle() {
+      const particle = document.createElement('div');
+      particle.className = 'contact-particle';
+      
+      // Random size
+      const size = Math.random() * 4 + 2;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      
+      // Random position
+      const startX = Math.random() * window.innerWidth;
+      particle.style.left = `${startX}px`;
+      
+      // Random animation duration
+      const duration = Math.random() * 4 + 4;
+      particle.style.animationDuration = `${duration}s`;
+      
+      if (this.banner) {
+        this.banner.appendChild(particle);
+        this.particles.push(particle);
+        
+        // Remove particle after animation
+        setTimeout(() => {
+          if (particle.parentNode) {
+            particle.parentNode.removeChild(particle);
+            this.particles = this.particles.filter(p => p !== particle);
+          }
+        }, duration * 1000);
+      }
+    }
+
+    setupParallax() {
+      // Initial parallax setup
+      this.updateParallax();
+    }
+
+    handleMouseMove(e) {
+      if (!this.banner) return;
+      
+      const rect = this.banner.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const moveX = (x - centerX) / centerX * 10;
+      const moveY = (y - centerY) / centerY * 10;
+      
+      this.banner.style.transform = `perspective(1000px) rotateX(${moveY}deg) rotateY(${moveX}deg)`;
+    }
+
+    handleScroll() {
+      this.updateParallax();
+    }
+
+    updateParallax() {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * -0.5;
+      
+      if (this.banner) {
+        const parallaxBg = this.banner.querySelector('.contact-parallax-bg');
+        if (parallaxBg) {
+          parallaxBg.style.transform = `translateY(${rate}px)`;
+        }
+      }
+    }
+
+    handleResize() {
+      // Recalculate positions and sizes on resize
+      this.updateParallax();
+    }
+
+    handleKeydown(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.handleCtaClick();
+      }
+    }
+
+    handleCtaClick() {
+      console.log('CTA button clicked!');
+      
+      // Add click animation
+      if (this.cta) {
+        this.cta.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.cta.style.transform = '';
+        }, 150);
+      }
+    }
+  }
+
+  // Initialize everything when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize contact bottom banner
+    const contactBottomBanner = new ContactBottomBanner();
+    
+    // Add periodic particle creation
+    {% if section.settings.show_particles %}
+      setInterval(() => {
+        if (contactBottomBanner.particles.length < 10) {
+          contactBottomBanner.createParticle();
+        }
+      }, 3000);
+    {% endif %}
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Contact Bottom Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "RETRO GAMES"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Experience the nostalgia of classic gaming with our curated collection of retro games and consoles"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "rgba(0, 0, 0, 0.40)"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Height",
+      "default": 440
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+         {
+       "type": "range",
+       "id": "title_font_size_mobile",
+       "min": 10,
+       "max": 40,
+       "step": 1,
+       "unit": "px",
+       "label": "Title Font Size (Mobile)",
+       "default": 30
+     },
+         {
+       "type": "range",
+       "id": "title_font_size_desktop",
+       "min": 16,
+       "max": 80,
+       "step": 1,
+       "unit": "px",
+       "label": "Title Font Size (Desktop)",
+       "default": 36
+     },
+    {
+      "type": "select",
+      "id": "title_text_transform",
+      "label": "Title Text Transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    },
+         {
+       "type": "range",
+       "id": "subtitle_font_size",
+       "min": 12,
+       "max": 32,
+       "step": 1,
+       "unit": "px",
+       "label": "Subtitle Font Size",
+       "default": 18
+     },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_glow_color",
+      "label": "Title Glow Color",
+      "default": "rgba(255, 255, 255, 0.8)"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "rgba(255, 255, 255, 0.8)"
+    },
+    {
+      "type": "color",
+      "id": "cta_background_color",
+      "label": "CTA Background Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "CTA Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_hover_background_color",
+      "label": "CTA Hover Background Color",
+      "default": "#E55A2B"
+    },
+    {
+      "type": "color",
+      "id": "cta_focus_color",
+      "label": "CTA Focus Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "focus_color",
+      "label": "Focus Outline Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "bg_element_color",
+      "label": "Background Element Color",
+      "default": "rgba(255, 255, 255, 0.1)"
+    },
+    {
+      "type": "color",
+      "id": "parallax_gradient_color_1",
+      "label": "Parallax Gradient Color 1",
+      "default": "rgba(255, 107, 53, 0.1)"
+    },
+    {
+      "type": "color",
+      "id": "parallax_gradient_color_2",
+      "label": "Parallax Gradient Color 2",
+      "default": "rgba(30, 58, 138, 0.1)"
+    },
+    {
+      "type": "color",
+      "id": "particle_color",
+      "label": "Particle Color",
+      "default": "rgba(255, 255, 255, 0.3)"
+    },
+    {
+      "type": "header",
+      "content": "Effects"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bg_elements",
+      "label": "Show Background Elements",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_particles",
+      "label": "Show Particles",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "particle_count",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "label": "Particle Count",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Bottom Banner",
+      "category": "Contact"
+    }
+  ]
+}
+{% endschema %} 

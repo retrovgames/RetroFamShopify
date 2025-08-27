@@ -1,0 +1,113 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "collection-header": {
+      "type": "collection-header",
+      "custom_css": [],
+      "settings": {
+        "enable": true,
+        "collection_image_enable": true
+      }
+    },
+    "icon_features_bar_qFcJHk": {
+      "type": "icon-features-bar",
+      "blocks": {
+        "feature_BKP3pe": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/fi_709790.png",
+            "text": "Free Shipping in USA and Canada"
+          }
+        },
+        "feature_jn6tMa": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/fi_17295400.png",
+            "text": "1-Year Warranty"
+          }
+        },
+        "feature_4xyWhz": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/fi_510421.png",
+            "text": "24/7 Customer Support"
+          }
+        }
+      },
+      "block_order": [
+        "feature_BKP3pe",
+        "feature_jn6tMa",
+        "feature_4xyWhz"
+      ],
+      "custom_css": [
+        "@media only screen and (max-width: 767px) {.icon-features-bar {display: none; }}"
+      ],
+      "name": "Icon Features Bar",
+      "settings": {}
+    },
+    "main-collection": {
+      "type": "main-collection",
+      "blocks": {
+        "product_grid": {
+          "type": "product_grid",
+          "settings": {
+            "enable_collection_count": true,
+            "per_row": 3,
+            "rows_per_page": 7,
+            "mobile_flush_grid": true
+          }
+        },
+        "subcollections": {
+          "type": "subcollections",
+          "disabled": true,
+          "settings": {
+            "subcollections_per_row": 5
+          }
+        }
+      },
+      "block_order": [
+        "product_grid",
+        "subcollections"
+      ],
+      "settings": {
+        "enable_sidebar": true,
+        "collapsed": true,
+        "filter_style": "sidebar",
+        "enable_color_swatches": false,
+        "enable_swatch_labels": true,
+        "enable_sort": true
+      }
+    },
+    "featured_collection_jffyKj": {
+      "type": "featured-collection",
+      "custom_css": [
+        ".index-section {margin-bottom: 0; padding-top: 38px; padding-bottom: 72px; background: #f2f2f2;}",
+        "@media only screen and (max-width: 767px) {.section-header__title {max-width: 100%; text-align: left; } .alh-featured-collection .section-header {justify-content: left; }}"
+      ],
+      "name": "t:sections.featured-collection.presets.featured_collection.name",
+      "settings": {
+        "title": "Recently Viewed Products",
+        "home_featured_products": "game-gear",
+        "per_row": 10,
+        "rows": 1,
+        "mobile_scrollable": false,
+        "view_all": false,
+        "divider": false
+      }
+    }
+  },
+  "order": [
+    "collection-header",
+    "icon_features_bar_qFcJHk",
+    "main-collection",
+    "featured_collection_jffyKj"
+  ]
+}

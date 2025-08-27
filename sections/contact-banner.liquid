@@ -1,0 +1,843 @@
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #080707;
+    }
+
+    /* Utility Classes */
+    .text-orange {
+        color: #FF6B35;
+    }
+
+    .text-white {
+        color: white;
+    }
+
+    .bg-green-muted {
+        background-color: #E8F5E8;
+    }
+
+    .bg-blue {
+        background-color: #1E3A8A;
+    }
+
+    .bg-blue-light {
+        background-color: #EFF6FF;
+    }
+
+    .bg-cgreen {
+        background-color: #10B981;
+    }
+
+    .bg-white {
+        background-color: white;
+    }
+
+    .border-dark {
+        border-color: #080707;
+    }
+
+    .shadow-plain-drop {
+        box-shadow: 4px 4px 0px #080707;
+    }
+
+    .shadow-plain-drop-sm {
+        box-shadow: 2px 2px 0px #080707;
+    }
+
+    /* Banner Section */
+    .banner-section {
+        position: relative;
+        background-color: {{ section.settings.background_color | default: '#42b792db' }};
+        padding: 1rem 1rem 4rem 1rem;
+        min-height: 404px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    {% if section.settings.background_image %}
+    .banner-section {
+        background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');
+    }
+    {% endif %}
+
+    @media (min-width: 1024px) {
+        .banner-section {
+            padding-left: 5.3125rem;
+            padding-right: 5.3125rem;
+        }
+    }
+
+    @media (min-width: 1536px) {
+        .banner-section {
+            padding-right: 11.25rem;
+        }
+    }
+
+    .controller-tag {
+        position: absolute;
+        top: 363px;
+        right: 0;
+        width: 100px;
+        height: auto;
+    }
+
+    @media (min-width: 768px) {
+        .controller-tag {
+            top: 60px;
+            right: -28px;
+            width: 135px;
+        }
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        margin-bottom: 1.25rem;
+    }
+
+    .breadcrumb-list {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        gap: 0.5rem;
+    }
+
+    .breadcrumb-link {
+        color: {{ section.settings.breadcrumb_color | default: '#080707' }};
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+
+    .breadcrumb-link:hover {
+        text-decoration: underline;
+    }
+
+    .breadcrumb-separator {
+        color: {{ section.settings.breadcrumb_color | default: '#080707' }};
+        font-size: 0.875rem;
+    }
+
+    /* Banner Content */
+    .banner-content {
+        margin-top: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    @media (min-width: 1280px) {
+        .banner-content {
+            margin-top: 2.9375rem;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8.0625rem;
+        }
+    }
+
+    .banner-text {
+        max-width: 422px;
+    }
+
+    .banner-title {
+        font-size: 2.25rem;
+        font-weight: bold;
+        line-height: 1.2;
+        max-width: 319px;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        color: {{ section.settings.title_color | default: '#080707' }};
+    }
+
+    @media (min-width: 1024px) {
+        .banner-title {
+            max-width: 400px;
+            gap: 0.75rem;
+        }
+    }
+
+    .crown-icon {
+        width: 26px;
+        height: 26px;
+        margin-top: -0.75rem;
+        object-fit: contain;
+    }
+
+    @media (min-width: 1024px) {
+        .crown-icon {
+            width: 55px;
+            height: 55px;
+            margin-top: -1.25rem;
+        }
+    }
+
+    .banner-description {
+        margin-top: 1.25rem;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: {{ section.settings.description_color | default: '#080707' }};
+    }
+
+    .banner-faq {
+        margin-top: 1.25rem;
+        font-size: 1rem;
+        color: {{ section.settings.description_color | default: '#080707' }};
+    }
+
+    .faq-link {
+        color: {{ section.settings.accent_color | default: '#FF6B35' }};
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .faq-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Contact Info Grid */
+    .contact-info-grid {
+        flex: 1;
+        max-width: 650px;
+        display: grid;
+        gap: 1.125rem;
+    }
+
+    @media (min-width: 768px) {
+        .contact-info-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .contact-info-grid {
+            max-width: 650px;
+        }
+    }
+
+    .contact-item {
+        display: flex;
+        gap: 1.25rem;
+    }
+
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        aspect-ratio: 1;
+        margin-top: 2px;
+        border: 1px solid {{ section.settings.icon_border_color | default: '#080707' }};
+        background-color: {{ section.settings.icon_background_color | default: 'white' }};
+        box-shadow: 4px 4px 0px {{ section.settings.icon_border_color | default: '#080707' }};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .contact-icon .icon[src*="location-mark.svg"],
+    .contact-icon .icon[src*="clock.svg"] {
+        width: 22px;
+        height: 22px;
+    }
+
+    .contact-icon .icon[src*="heart-cgreen.svg"] {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contact-details {
+        flex: 1;
+    }
+
+    .contact-label {
+        font-weight: bold;
+        font-size: 1rem;
+        margin-bottom: 0.625rem;
+        color: {{ section.settings.label_color | default: '#080707' }};
+    }
+
+    .contact-value {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: {{ section.settings.text_color | default: '#080707' }};
+    }
+
+    .contact-link {
+        color: {{ section.settings.link_color | default: '#080707' }};
+        text-decoration: none;
+    }
+
+    .contact-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Social Links */
+    .social-links {
+        margin-top: 0.625rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+    }
+
+    .social-link {
+        display: inline-block;
+        transition: transform 0.2s ease;
+    }
+
+    .social-link:hover {
+        transform: scale(1.1);
+    }
+
+    .social-link svg path {
+        fill: {{ section.settings.social_icon_color | default: '#080707' }};
+    }
+
+    /* Responsive Design */
+    @media (max-width: 767px) {
+        .banner-title {
+            font-size: 1.875rem;
+        }
+    }
+
+    /* Animation Classes */
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .slide-in {
+        animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    .main-background{
+        background-image: url('/img/main-background.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<!-- Banner Section -->
+<div class="main-background">
+    <section class="banner-section">
+        {% if section.settings.controller_image %}
+            <img src="{{ section.settings.controller_image | image_url: width: 200 }}" alt="{{ section.settings.controller_image.alt | default: 'controller tag' }}" class="controller-tag" width="200" height="auto">
+        {% else %}
+            <img src="/images/controller-tag.png" alt="controller tag" class="controller-tag" width="200" height="auto">
+        {% endif %}
+        
+        <!-- Breadcrumb -->
+        {% if section.settings.show_breadcrumb %}
+        <nav class="breadcrumb">
+            <ul class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                    <a href="/" class="breadcrumb-link">{{ section.settings.home_text | default: 'Home' }}</a>
+                </li>
+                <li class="breadcrumb-separator">/</li>
+                <li class="breadcrumb-item">
+                    <a href="/contact" class="breadcrumb-link">{{ section.settings.contact_text | default: 'Contact Us' }}</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+
+        <div class="banner-content">
+            <div class="banner-text">
+                <h1 class="banner-title">
+                    {{ section.settings.title | default: "We're So Pleased to Have You Here!" }}
+                    {% if section.settings.crown_image %}
+                        <img src="{{ section.settings.crown_image | image_url: width: 55 }}" alt="{{ section.settings.crown_image.alt | default: '' }}" class="crown-icon" width="55" height="55">
+                    {% else %}
+                        <img src="/images/crown.svg" alt="" class="crown-icon" width="55" height="55">
+                    {% endif %}
+                </h1>
+                <p class="banner-description">
+                    {{ section.settings.description | default: "Got questions? Get in touch with a RetroFam representative. Our team of video game sales experts is here to help with anything related to our business, whether it's about games, systems, orders, or more. Please note that RetroFam is an online-only retailer. We're always here online to assist you!" }}
+                </p>
+                {% if section.settings.show_faq_link %}
+                <p class="banner-faq">
+                    <a href="{{ section.settings.faq_link | default: 'https://retrofam.com/pages/faq' }}" class="faq-link">{{ section.settings.faq_link_text | default: 'Visit our FAQs page' }}</a>
+                    <span>{{ section.settings.faq_link_suffix | default: 'and find what you need quickly!' }}</span>
+                </p>
+                {% endif %}
+            </div>
+
+            <div class="contact-info-grid">
+                <!-- Contact Info -->
+                {% if section.settings.show_contact_info %}
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        {% if section.settings.phone_icon %}
+                            <img src="{{ section.settings.phone_icon | image_url: width: 40 }}" alt="" class="icon" width="40" height="40">
+                        {% else %}
+                            <img src="/icons/phone.svg" alt="" class="icon" width="40" height="40">
+                        {% endif %}
+                    </div>
+                    <div class="contact-details">
+                        <p class="contact-label">{{ section.settings.contact_label | default: 'Our Contact Info' }}</p>
+                        <p class="contact-value">
+                            <a href="tel:{{ section.settings.phone_number | default: '+14842065351' }}" class="contact-link">{{ section.settings.phone_number | default: '+1 484 206 5351' }}</a><br>
+                            <a href="mailto:{{ section.settings.email | default: 'info@retrofam.com' }}" class="contact-link">{{ section.settings.email | default: 'info@retrofam.com' }}</a>
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Mailing Address -->
+                {% if section.settings.show_address %}
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        {% if section.settings.location_icon %}
+                            <img src="{{ section.settings.location_icon | image_url: width: 40 }}" alt="" class="icon" width="22" height="22">
+                        {% else %}
+                            <img src="/icons/location-mark.svg" alt="" class="icon" width="22" height="22">
+                        {% endif %}
+                    </div>
+                    <div class="contact-details">
+                        <p class="contact-label">{{ section.settings.address_label | default: 'Our Mailing Address' }}</p>
+                        <p class="contact-value">
+                            <a href="{{ section.settings.map_link | default: 'https://www.google.com/maps/search/?api=1&query=Retro%20Fam' }}" target="_blank" class="contact-link">
+                                {{ section.settings.address | default: '123 Retro Street, Gaming City, GC 12345' }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Business Hours -->
+                {% if section.settings.show_hours %}
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        {% if section.settings.clock_icon %}
+                            <img src="{{ section.settings.clock_icon | image_url: width: 40 }}" alt="" class="icon" width="22" height="22">
+                        {% else %}
+                            <img src="/icons/clock.svg" alt="" class="icon" width="22" height="22">
+                        {% endif %}
+                    </div>
+                    <div class="contact-details">
+                        <p class="contact-label">{{ section.settings.hours_label | default: 'Business Hours' }}</p>
+                        <p class="contact-value">{{ section.settings.business_hours | default: 'Monday - Friday: 9AM - 6PM EST' }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Follow Us -->
+                {% if section.settings.show_social %}
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        {% if section.settings.heart_icon %}
+                            <img src="{{ section.settings.heart_icon | image_url: width: 40 }}" alt="" class="icon" width="20" height="20">
+                        {% else %}
+                            <img src="/icons/heart-cgreen.svg" alt="" class="icon" width="20" height="20">
+                        {% endif %}
+                    </div>
+                    <div class="contact-details">
+                        <p class="contact-label">{{ section.settings.social_label | default: 'Follow Us' }}</p>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/retrofam" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M22.002 12.0005C22.002 6.48049 17.522 2.00049 12.002 2.00049C6.48195 2.00049 2.00195 6.48049 2.00195 12.0005C2.00195 16.8405 5.44195 20.8705 10.002 21.8005V15.0005H8.00195V12.0005H10.002V9.50049C10.002 7.57049 11.572 6.00049 13.502 6.00049H16.002V9.00049H14.002C13.452 9.00049 13.002 9.45049 13.002 10.0005V12.0005H16.002V15.0005H13.002V21.9505C18.052 21.4505 22.002 17.1905 22.002 12.0005Z" fill="#080707"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.instagram.com/retrofam" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M7.80195 2.00049H16.202C19.402 2.00049 22.002 4.60049 22.002 7.80049V16.2005C22.002 17.7387 21.3909 19.214 20.3032 20.3017C19.2155 21.3894 17.7402 22.0005 16.202 22.0005H7.80195C4.60195 22.0005 2.00195 19.4005 2.00195 16.2005V7.80049C2.00195 6.26223 2.61302 4.78698 3.70073 3.69927C4.78844 2.61156 6.2637 2.00049 7.80195 2.00049ZM7.60195 4.00049C6.64717 4.00049 5.7315 4.37977 5.05637 5.0549C4.38124 5.73003 4.00195 6.64571 4.00195 7.60049V16.4005C4.00195 18.3905 5.61195 20.0005 7.60195 20.0005H16.402C17.3567 20.0005 18.2724 19.6212 18.9475 18.9461C19.6227 18.2709 20.002 17.3553 20.002 16.4005V7.60049C20.002 5.61049 18.392 4.00049 16.402 4.00049H7.60195ZM17.252 5.50049C17.5835 5.50049 17.9014 5.63218 18.1358 5.8666C18.3703 6.10103 18.502 6.41897 18.502 6.75049C18.502 7.08201 18.3703 7.39995 18.1358 7.63437C17.9014 7.86879 17.5835 8.00049 17.252 8.00049C16.9204 8.00049 16.6025 7.86879 16.3681 7.63437C16.1336 7.39995 16.002 7.08201 16.002 6.75049C16.002 6.41897 16.1336 6.10103 16.3681 5.8666C16.6025 5.63218 16.9204 5.50049 17.252 5.50049ZM12.002 7.00049C13.328 7.00049 14.5998 7.52727 15.5375 8.46495C16.4752 9.40264 17.002 10.6744 17.002 12.0005C17.002 13.3266 16.4752 14.5983 15.5375 15.536C14.5998 16.4737 13.328 17.0005 12.002 17.0005C10.6759 17.0005 9.4041 16.4737 8.46642 15.536C7.52874 14.5983 7.00195 13.3266 7.00195 12.0005C7.00195 10.6744 7.52874 9.40264 8.46642 8.46495C9.4041 7.52727 10.6759 7.00049 12.002 7.00049ZM12.002 9.00049C11.2063 9.00049 10.4432 9.31656 9.88063 9.87917C9.31802 10.4418 9.00195 11.2048 9.00195 12.0005C9.00195 12.7961 9.31802 13.5592 9.88063 14.1218C10.4432 14.6844 11.2063 15.0005 12.002 15.0005C12.7976 15.0005 13.5607 14.6844 14.1233 14.1218C14.6859 13.5592 15.002 12.7961 15.002 12.0005C15.002 11.2048 14.6859 10.4418 14.1233 9.87917C13.5607 9.31656 12.7976 9.00049 12.002 9.00049Z" fill="#080707"/>
+                                </svg>
+                            </a>
+                            <a href="https://twitter.com/retrofam" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M17.176 4H19.936L13.9061 10.7775L21 20H15.4454L11.0951 14.4065L6.11727 20H3.35539L9.80498 12.7508L3 4H8.69528L12.6277 9.11254L17.176 4ZM16.2073 18.3753H17.7367L7.86432 5.5394H6.22323L16.2073 18.3753Z" fill="#080707"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.youtube.com/@retrofam" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M22.0617 6.93984C21.9422 6.49462 21.7078 6.0886 21.382 5.76243C21.0563 5.43625 20.6505 5.20136 20.2055 5.08125C18.5672 4.64063 12 4.64062 12 4.64062C12 4.64062 5.43281 4.64062 3.79453 5.07891C3.34927 5.19862 2.94334 5.43339 2.61751 5.75962C2.29169 6.08586 2.05744 6.49208 1.93828 6.9375C1.5 8.57812 1.5 12 1.5 12C1.5 12 1.5 15.4219 1.93828 17.0602C2.17969 17.9648 2.89219 18.6773 3.79453 18.9188C5.43281 19.3594 12 19.3594 12 19.3594C12 19.3594 18.5672 19.3594 20.2055 18.9188C21.1102 18.6773 21.8203 17.9648 22.0617 17.0602C22.5 15.4219 22.5 12 22.5 12C22.5 12 22.5 8.57813 22.0617 6.93984ZM9.91406 15.1406V8.85938L15.3516 11.9766L9.91406 15.1406Z" fill="#080707"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.tiktok.com/@retrofam" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M18.3113 6.00882C17.1995 5.30647 16.3973 4.18234 16.1468 2.87247C16.0929 2.58958 16.0627 2.29811 16.0627 2H12.5142L12.5086 15.78C12.449 17.3232 11.1383 18.5616 9.53154 18.5616C9.03221 18.5616 8.56188 18.4407 8.14792 18.2296C7.19839 17.7454 6.54846 16.7812 6.54846 15.6715C6.54846 14.0776 7.88698 12.781 9.53114 12.781C9.83839 12.781 10.1328 12.8301 10.4114 12.9144V9.40426C10.1231 9.36602 9.82993 9.34261 9.53114 9.34261C5.92993 9.34261 3 12.1812 3 15.6715C3 17.8125 4.10376 19.7072 5.78859 20.8532C6.84926 21.5751 8.13987 22 9.53154 22C13.1332 22 16.0631 19.161 16.0631 15.6715L16.0627 8.68357C17.4544 9.65164 19.1601 10.2217 21 10.2217V6.78335C20.009 6.78335 19.086 6.49812 18.3113 6.00882Z" fill="#080707"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Banner Section JavaScript
+    document.addEventListener('DOMContentLoaded', () => {
+        // Add animation classes to elements
+        const contactItems = document.querySelectorAll('.contact-item');
+        const bannerText = document.querySelector('.banner-text');
+        
+        // Animate banner text
+        if (bannerText) {
+            bannerText.classList.add('fade-in');
+        }
+        
+        // Animate contact items with delay
+        contactItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add('slide-in');
+            }, index * 200);
+        });
+        
+        // Add hover effects for social links
+        const socialLinks = document.querySelectorAll('.social-link');
+        socialLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.transform = 'scale(1.1)';
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = 'scale(1)';
+            });
+        });
+    });
+</script>
+
+{% schema %}
+{
+  "name": "Contact Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#42b792db"
+    },
+    {
+      "type": "image_picker",
+      "id": "controller_image",
+      "label": "Controller Tag Image"
+    },
+    {
+      "type": "header",
+      "content": "Breadcrumb Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show Breadcrumb",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "home_text",
+      "label": "Home Text",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "Contact Text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "color",
+      "id": "breadcrumb_color",
+      "label": "Breadcrumb Color",
+      "default": "#080707"
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "We're So Pleased to Have You Here!"
+    },
+    {
+      "type": "image_picker",
+      "id": "crown_image",
+      "label": "Crown Icon"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Got questions? Get in touch with a RetroFam representative. Our team of video game sales experts is here to help with anything related to our business, whether it's about games, systems, orders, or more. Please note that RetroFam is an online-only retailer. We're always here online to assist you!</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_faq_link",
+      "label": "Show FAQ Link",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "faq_link",
+      "label": "FAQ Link URL"
+    },
+    {
+      "type": "text",
+      "id": "faq_link_text",
+      "label": "FAQ Link Text",
+      "default": "Visit our FAQs page"
+    },
+    {
+      "type": "text",
+      "id": "faq_link_suffix",
+      "label": "FAQ Link Suffix",
+      "default": "and find what you need quickly!"
+    },
+    {
+      "type": "header",
+      "content": "Contact Information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_info",
+      "label": "Show Contact Info",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "phone_icon",
+      "label": "Phone Icon"
+    },
+    {
+      "type": "text",
+      "id": "contact_label",
+      "label": "Contact Label",
+      "default": "Our Contact Info"
+    },
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Phone Number",
+      "default": "+1 484 206 5351"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email Address",
+      "default": "info@retrofam.com"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_address",
+      "label": "Show Address",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "location_icon",
+      "label": "Location Icon"
+    },
+    {
+      "type": "text",
+      "id": "address_label",
+      "label": "Address Label",
+      "default": "Our Mailing Address"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "Address",
+      "default": "123 Retro Street, Gaming City, GC 12345"
+    },
+    {
+      "type": "url",
+      "id": "map_link",
+      "label": "Map Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hours",
+      "label": "Show Business Hours",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "clock_icon",
+      "label": "Clock Icon"
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "Hours Label",
+      "default": "Business Hours"
+    },
+    {
+      "type": "text",
+      "id": "business_hours",
+      "label": "Business Hours",
+      "default": "Monday - Friday: 9AM - 6PM EST"
+    },
+    {
+      "type": "header",
+      "content": "Social Media"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Media",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "heart_icon",
+      "label": "Heart Icon"
+    },
+    {
+      "type": "text",
+      "id": "social_label",
+      "label": "Social Label",
+      "default": "Follow Us"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "social_icon_color",
+      "label": "Social Icon Color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "icon_background_color",
+      "label": "Icon Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "icon_border_color",
+      "label": "Icon Border Color",
+      "default": "#080707"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Banner",
+      "category": "Contact"
+    }
+  ]
+}
+{% endschema %}

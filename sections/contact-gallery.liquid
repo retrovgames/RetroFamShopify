@@ -1,0 +1,664 @@
+{% comment %}
+  Contact Gallery Section
+  Dynamic gallery carousel with configurable images, colors, and settings
+{% endcomment %}
+
+<style>
+  /* Gallery Section Styles */
+  .gallery-section {
+    background-color: {{ section.settings.background_color | default: '#449ADF' }};
+    padding: 2.5rem 1rem 2.25rem 1rem;
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .gallery-section {
+      padding: 3.75rem 1rem 4.0625rem 1rem;
+    }
+  }
+
+  .gallery-container {
+    display: flex;
+    gap: 1.5rem;
+    overflow: hidden;
+    padding: 0 1rem;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 640px) {
+    .gallery-container {
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .gallery-container {
+      gap: 2.5rem;
+    }
+  }
+
+  .gallery-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .gallery-wrapper {
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .gallery-wrapper {
+      gap: 2.5rem;
+    }
+  }
+
+  .gallery-item {
+    height: 235px;
+    width: calc(100vw - 2rem);
+    max-width: 350px;
+    border: 2px solid {{ section.settings.border_color | default: '#080707' }};
+    box-shadow: 2px 2px 0px {{ section.settings.shadow_color | default: '#080707' }};
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .gallery-item {
+      height: 285px;
+      width: calc((100vw - 8rem) / 3);
+      max-width: 300px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery-item {
+      width: calc((100vw - 12rem) / 3);
+      max-width: 350px;
+    }
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Navigation Arrows */
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: {{ section.settings.nav_background_color | default: 'rgba(255, 255, 255, 0.9)' }};
+    border: 2px solid {{ section.settings.nav_border_color | default: '#080707' }};
+    box-shadow: 2px 2px 0px {{ section.settings.nav_shadow_color | default: '#080707' }};
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    color: {{ section.settings.nav_icon_color | default: '#080707' }};
+  }
+
+  .gallery-nav:hover {
+    background: {{ section.settings.nav_hover_background_color | default: '#FF6B35' }};
+    color: {{ section.settings.nav_hover_icon_color | default: '#ffffff' }};
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .gallery-nav:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .gallery-nav.prev {
+    left: 1rem;
+  }
+
+  .gallery-nav.next {
+    right: 1rem;
+  }
+
+  .gallery-nav svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  /* Counter */
+     .gallery-counter {
+     text-align: center;
+     margin-top: 1.5rem;
+     font-weight: bold;
+     color: {{ section.settings.counter_color | default: '#1E3A8A' }};
+     font-size: {{ section.settings.counter_font_size | default: '16' }}px;
+   }
+
+  /* Animation Classes */
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .slide-in {
+    animation: slideIn 0.5s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  /* Loading Animation */
+  .loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Focus Styles */
+  .gallery-item:focus,
+  .gallery-nav:focus {
+    outline: 2px solid {{ section.settings.focus_color | default: '#FF6B35' }};
+    outline-offset: 2px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .gallery-nav {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .gallery-nav svg {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .gallery-nav.prev {
+      left: 0.5rem;
+    }
+    
+    .gallery-nav.next {
+      right: 0.5rem;
+    }
+  }
+
+  /* Disabled state for navigation buttons */
+  .gallery-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .gallery-nav:disabled:hover {
+    transform: translateY(-50%);
+    background: {{ section.settings.nav_background_color | default: 'rgba(255, 255, 255, 0.9)' }};
+    color: {{ section.settings.nav_icon_color | default: '#080707' }};
+  }
+</style>
+
+<!-- Gallery Section -->
+<section class="gallery-section">
+  <div class="gallery-container">
+    <div class="gallery-wrapper">
+      {% for block in section.blocks %}
+        {% if block.type == 'gallery_image' %}
+          <div class="gallery-item">
+            {% if block.settings.image %}
+                             <img 
+                 src="{{ block.settings.image | img_url: '400x400', crop: 'center' }}" 
+                 alt="{{ block.settings.alt_text | default: 'Gallery Image' }}" 
+                 class="gallery-image"
+                 loading="lazy"
+                 width="400"
+                 height="400"
+               >
+            {% else %}
+              <div style="width: 100%; height: 100%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    
+    <!-- Navigation Arrows -->
+    <button class="gallery-nav prev" id="prevBtn" aria-label="{{ section.settings.prev_button_label | default: 'Previous image' }}">
+      <svg viewBox="0 0 24 24">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+      </svg>
+    </button>
+    <button class="gallery-nav next" id="nextBtn" aria-label="{{ section.settings.next_button_label | default: 'Next image' }}">
+      <svg viewBox="0 0 24 24">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Counter -->
+  {% if section.settings.show_counter %}
+    <div class="gallery-counter" id="galleryCounter">
+      <span id="currentSlide">1</span> / <span id="totalSlides">{{ section.blocks.size }}</span>
+    </div>
+  {% endif %}
+</section>
+
+<script>
+  // Gallery Carousel Functionality
+  class GalleryCarousel {
+    constructor() {
+      this.container = document.querySelector('.gallery-container');
+      this.wrapper = document.querySelector('.gallery-wrapper');
+      this.items = document.querySelectorAll('.gallery-item');
+      this.prevBtn = document.getElementById('prevBtn');
+      this.nextBtn = document.getElementById('nextBtn');
+      this.currentSlide = document.getElementById('currentSlide');
+      this.totalSlides = document.getElementById('totalSlides');
+      
+      this.currentIndex = 0;
+      this.itemsPerView = 3;
+      this.totalItems = this.items.length;
+      this.isTransitioning = false;
+      
+      this.init();
+    }
+
+    init() {
+      if (!this.container || !this.wrapper || this.items.length === 0) return;
+      
+      this.updateItemsPerView();
+      this.setupEventListeners();
+      this.updateCounter();
+      this.updateNavigation();
+      
+      // Clone items for infinite loop
+      this.setupInfiniteLoop();
+    }
+
+    setupInfiniteLoop() {
+      if (this.items.length === 0) return;
+      
+      // Clone first 3 items and append to end
+      for (let i = 0; i < this.itemsPerView; i++) {
+        const clone = this.items[i].cloneNode(true);
+        this.wrapper.appendChild(clone);
+      }
+      
+      // Clone last 3 items and prepend to beginning
+      for (let i = this.totalItems - this.itemsPerView; i < this.totalItems; i++) {
+        const clone = this.items[i].cloneNode(true);
+        this.wrapper.insertBefore(clone, this.wrapper.firstChild);
+      }
+      
+      // Update total items count
+      this.totalItems = this.wrapper.children.length;
+      
+      // Set initial position to show first real item
+      this.currentIndex = this.itemsPerView;
+      this.updateTransform();
+    }
+
+    setupEventListeners() {
+      // Navigation buttons
+      if (this.prevBtn) {
+        this.prevBtn.addEventListener('click', () => this.prev());
+      }
+      
+      if (this.nextBtn) {
+        this.nextBtn.addEventListener('click', () => this.next());
+      }
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          this.prev();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          this.next();
+        }
+      });
+      
+      // Touch/swipe support
+      this.setupTouchSupport();
+      
+      // Window resize
+      window.addEventListener('resize', () => {
+        this.updateItemsPerView();
+        this.updateTransform();
+      });
+    }
+
+    setupTouchSupport() {
+      let startX = 0;
+      let startY = 0;
+      let isDragging = false;
+
+      this.container.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+      });
+
+      this.container.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const diffX = startX - currentX;
+        const diffY = startY - currentY;
+        
+        // Prevent vertical scrolling if horizontal swipe is detected
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+          e.preventDefault();
+        }
+      });
+
+      this.container.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
+        const threshold = 50;
+        
+        if (Math.abs(diffX) > threshold) {
+          if (diffX > 0) {
+            this.next();
+          } else {
+            this.prev();
+          }
+        }
+        
+        isDragging = false;
+      });
+    }
+
+    updateItemsPerView() {
+      if (window.innerWidth < 768) {
+        this.itemsPerView = 1;
+      } else {
+        this.itemsPerView = 3;
+      }
+    }
+
+    prev() {
+      if (this.isTransitioning) return;
+      
+      this.currentIndex--;
+      this.updateTransform();
+      this.handleInfiniteLoop();
+    }
+
+    next() {
+      if (this.isTransitioning) return;
+      
+      this.currentIndex++;
+      this.updateTransform();
+      this.handleInfiniteLoop();
+    }
+
+    updateTransform() {
+      this.isTransitioning = true;
+      
+      const itemWidth = this.items[0].offsetWidth;
+      const gap = 24; // 1.5rem in pixels
+      const translateX = -(this.currentIndex * (itemWidth + gap));
+      
+      this.wrapper.style.transform = `translateX(${translateX}px)`;
+      
+      setTimeout(() => {
+        this.isTransitioning = false;
+      }, 500);
+    }
+
+    handleInfiniteLoop() {
+      // If we're at the cloned items at the end, jump to real items
+      if (this.currentIndex >= this.totalItems - this.itemsPerView) {
+        setTimeout(() => {
+          this.wrapper.style.transition = 'none';
+          this.currentIndex = this.itemsPerView;
+          this.updateTransform();
+          setTimeout(() => {
+            this.wrapper.style.transition = 'transform 0.5s ease-in-out';
+          }, 10);
+        }, 500);
+      }
+      
+      // If we're at the cloned items at the beginning, jump to real items
+      if (this.currentIndex < this.itemsPerView) {
+        setTimeout(() => {
+          this.wrapper.style.transition = 'none';
+          this.currentIndex = this.totalItems - this.itemsPerView * 2;
+          this.updateTransform();
+          setTimeout(() => {
+            this.wrapper.style.transition = 'transform 0.5s ease-in-out';
+          }, 10);
+        }, 500);
+      }
+      
+      this.updateCounter();
+      this.updateNavigation();
+    }
+
+    updateCounter() {
+      if (this.currentSlide) {
+        // Calculate the real slide number (accounting for cloned items)
+        let realIndex = this.currentIndex - this.itemsPerView;
+        if (realIndex < 0) realIndex = this.totalItems - this.itemsPerView * 2 + realIndex;
+        if (realIndex >= this.totalItems - this.itemsPerView * 2) realIndex = realIndex - (this.totalItems - this.itemsPerView * 2);
+        
+        this.currentSlide.textContent = realIndex + 1;
+      }
+      
+      if (this.totalSlides) {
+        this.totalSlides.textContent = this.totalItems - this.itemsPerView * 2;
+      }
+    }
+
+    updateNavigation() {
+      // Navigation buttons are always enabled due to infinite loop
+      if (this.prevBtn) {
+        this.prevBtn.disabled = false;
+      }
+      if (this.nextBtn) {
+        this.nextBtn.disabled = false;
+      }
+    }
+  }
+
+  // Initialize everything when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize gallery carousel
+    const galleryCarousel = new GalleryCarousel();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Contact Gallery",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Gallery Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter",
+      "label": "Show slide counter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "prev_button_label",
+      "label": "Previous button label",
+      "default": "Previous image"
+    },
+    {
+      "type": "text",
+      "id": "next_button_label",
+      "label": "Next button label",
+      "default": "Next image"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#449ADF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Image border color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Image shadow color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "nav_background_color",
+      "label": "Navigation button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_border_color",
+      "label": "Navigation button border",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "nav_shadow_color",
+      "label": "Navigation button shadow",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "nav_icon_color",
+      "label": "Navigation icon color",
+      "default": "#080707"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_background_color",
+      "label": "Navigation hover background",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_icon_color",
+      "label": "Navigation hover icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "counter_color",
+      "label": "Counter text color",
+      "default": "#1E3A8A"
+    },
+    {
+      "type": "color",
+      "id": "focus_color",
+      "label": "Focus outline color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+         {
+       "type": "range",
+       "id": "counter_font_size",
+       "min": 1,
+       "max": 20,
+       "step": 1,
+       "unit": "px",
+       "label": "Counter font size",
+       "default": 16
+     }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Gallery Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text",
+          "info": "Description for screen readers"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Gallery",
+      "category": "Contact",
+      "blocks": [
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %} 
