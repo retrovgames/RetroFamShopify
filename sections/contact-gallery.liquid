@@ -64,6 +64,7 @@
     border: 2px solid {{ section.settings.border_color | default: '#080707' }};
     box-shadow: 2px 2px 0px {{ section.settings.shadow_color | default: '#080707' }};
     flex-shrink: 0;
+    overflow: hidden;
   }
 
   @media (min-width: 768px) {
@@ -85,6 +86,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
   }
 
   /* Navigation Arrows */
@@ -131,14 +133,63 @@
     fill: currentColor;
   }
 
-  /* Counter */
-     .gallery-counter {
-     text-align: center;
-     margin-top: 1.5rem;
-     font-weight: bold;
-     color: {{ section.settings.counter_color | default: '#1E3A8A' }};
-     font-size: {{ section.settings.counter_font_size | default: '16' }}px;
-   }
+  /* Custom Scroll Bar */
+  .gallery-scroll-container {
+    text-align: center;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery-scroll-track {
+    width: 60%;
+    height: 4px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .gallery-scroll-thumb {
+    width: 30px;
+    height: 30px;
+    {% if section.settings.scroll_thumb_image %}
+      background-image: url('{{ section.settings.scroll_thumb_image | img_url: "60x12", crop: "center" }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    {% else %}
+      background-color: #1E3A8A;
+    {% endif %}
+    border-radius: 6px;
+    position: absolute;
+    top: -14px;
+    left: 0;
+    transition: left 0.5s ease-in-out;
+    cursor: grab;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .gallery-scroll-thumb:active {
+    cursor: grabbing;
+  }
+
+  {% comment %} .gallery-scroll-thumb::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: scrollShine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  } {% endcomment %}
 
   /* Animation Classes */
   .fade-in {
@@ -210,6 +261,17 @@
     .gallery-nav.next {
       right: 0.5rem;
     }
+
+    .gallery-scroll-track {
+      width: 250px;
+      height: 5px;
+    }
+
+    .gallery-scroll-thumb {
+      width: 30px;
+      height: 30px;
+      top: -13px;
+    }
   }
 
   /* Disabled state for navigation buttons */
@@ -233,14 +295,14 @@
         {% if block.type == 'gallery_image' %}
           <div class="gallery-item">
             {% if block.settings.image %}
-                             <img 
-                 src="{{ block.settings.image | img_url: '400x400', crop: 'center' }}" 
-                 alt="{{ block.settings.alt_text | default: 'Gallery Image' }}" 
-                 class="gallery-image"
-                 loading="lazy"
-                 width="400"
-                 height="400"
-               >
+              <img 
+                src="{{ block.settings.image | img_url: '400x400', crop: 'center' }}" 
+                alt="{{ block.settings.alt_text | default: 'Gallery Image' }}" 
+                class="gallery-image"
+                loading="lazy"
+                width="400"
+                height="400"
+              >
             {% else %}
               <div style="width: 100%; height: 100%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;">
                 {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -264,10 +326,12 @@
     </button>
   </div>
   
-  <!-- Counter -->
-  {% if section.settings.show_counter %}
-    <div class="gallery-counter" id="galleryCounter">
-      <span id="currentSlide">1</span> / <span id="totalSlides">{{ section.blocks.size }}</span>
+  <!-- Custom Scroll Bar -->
+  {% if section.settings.show_scroll_bar %}
+    <div class="gallery-scroll-container" id="galleryScroll">
+      <div class="gallery-scroll-track" id="scrollTrack">
+        <div class="gallery-scroll-thumb" id="scrollThumb"></div>
+      </div>
     </div>
   {% endif %}
 </section>
@@ -281,13 +345,14 @@
       this.items = document.querySelectorAll('.gallery-item');
       this.prevBtn = document.getElementById('prevBtn');
       this.nextBtn = document.getElementById('nextBtn');
-      this.currentSlide = document.getElementById('currentSlide');
-      this.totalSlides = document.getElementById('totalSlides');
+      this.scrollTrack = document.getElementById('scrollTrack');
+      this.scrollThumb = document.getElementById('scrollThumb');
       
       this.currentIndex = 0;
       this.itemsPerView = 3;
       this.totalItems = this.items.length;
       this.isTransitioning = false;
+      this.isDragging = false;
       
       this.init();
     }
@@ -297,34 +362,8 @@
       
       this.updateItemsPerView();
       this.setupEventListeners();
-      this.updateCounter();
+      this.updateScrollBar();
       this.updateNavigation();
-      
-      // Clone items for infinite loop
-      this.setupInfiniteLoop();
-    }
-
-    setupInfiniteLoop() {
-      if (this.items.length === 0) return;
-      
-      // Clone first 3 items and append to end
-      for (let i = 0; i < this.itemsPerView; i++) {
-        const clone = this.items[i].cloneNode(true);
-        this.wrapper.appendChild(clone);
-      }
-      
-      // Clone last 3 items and prepend to beginning
-      for (let i = this.totalItems - this.itemsPerView; i < this.totalItems; i++) {
-        const clone = this.items[i].cloneNode(true);
-        this.wrapper.insertBefore(clone, this.wrapper.firstChild);
-      }
-      
-      // Update total items count
-      this.totalItems = this.wrapper.children.length;
-      
-      // Set initial position to show first real item
-      this.currentIndex = this.itemsPerView;
-      this.updateTransform();
     }
 
     setupEventListeners() {
@@ -350,6 +389,9 @@
       
       // Touch/swipe support
       this.setupTouchSupport();
+      
+      // Scroll bar interactions
+      this.setupScrollBarEvents();
       
       // Window resize
       window.addEventListener('resize', () => {
@@ -402,6 +444,68 @@
       });
     }
 
+    setupScrollBarEvents() {
+      if (!this.scrollTrack || !this.scrollThumb) return;
+
+      // Click on track to jump to position
+      this.scrollTrack.addEventListener('click', (e) => {
+        const rect = this.scrollTrack.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const trackWidth = rect.width;
+        const thumbWidth = this.scrollThumb.offsetWidth;
+        const maxScroll = trackWidth - thumbWidth;
+        
+        const percentage = clickX / trackWidth;
+        const targetIndex = Math.floor(percentage * (this.totalItems - this.itemsPerView));
+        
+        this.goToSlide(targetIndex);
+      });
+
+      // Drag scroll thumb
+      this.scrollThumb.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        this.isDragging = true;
+        document.addEventListener('mousemove', this.handleScrollDrag.bind(this));
+        document.addEventListener('mouseup', this.stopScrollDrag.bind(this));
+      });
+
+      // Touch support for scroll thumb
+      this.scrollThumb.addEventListener('touchstart', (e) => {
+        this.isDragging = true;
+        document.addEventListener('touchmove', this.handleScrollDrag.bind(this));
+        document.addEventListener('touchend', this.stopScrollDrag.bind(this));
+      });
+    }
+
+    handleScrollDrag(e) {
+      if (!this.isDragging || !this.scrollTrack || !this.scrollThumb) return;
+
+      const rect = this.scrollTrack.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clickX = clientX - rect.left;
+      const trackWidth = rect.width;
+      const thumbWidth = this.scrollThumb.offsetWidth;
+      const maxScroll = trackWidth - thumbWidth;
+      
+      let newLeft = Math.max(0, Math.min(maxScroll, clickX - thumbWidth / 2));
+      this.scrollThumb.style.left = `${newLeft}px`;
+      
+      const percentage = newLeft / maxScroll;
+      const targetIndex = Math.floor(percentage * (this.totalItems - this.itemsPerView));
+      
+      if (targetIndex !== this.currentIndex) {
+        this.goToSlide(targetIndex);
+      }
+    }
+
+    stopScrollDrag() {
+      this.isDragging = false;
+      document.removeEventListener('mousemove', this.handleScrollDrag.bind(this));
+      document.removeEventListener('mouseup', this.stopScrollDrag.bind(this));
+      document.removeEventListener('touchmove', this.handleScrollDrag.bind(this));
+      document.removeEventListener('touchend', this.stopScrollDrag.bind(this));
+    }
+
     updateItemsPerView() {
       if (window.innerWidth < 768) {
         this.itemsPerView = 1;
@@ -413,17 +517,22 @@
     prev() {
       if (this.isTransitioning) return;
       
-      this.currentIndex--;
+      this.currentIndex = Math.max(0, this.currentIndex - 1);
       this.updateTransform();
-      this.handleInfiniteLoop();
     }
 
     next() {
       if (this.isTransitioning) return;
       
-      this.currentIndex++;
+      this.currentIndex = Math.min(this.totalItems - this.itemsPerView, this.currentIndex + 1);
       this.updateTransform();
-      this.handleInfiniteLoop();
+    }
+
+    goToSlide(index) {
+      if (this.isTransitioning) return;
+      
+      this.currentIndex = Math.max(0, Math.min(this.totalItems - this.itemsPerView, index));
+      this.updateTransform();
     }
 
     updateTransform() {
@@ -438,59 +547,31 @@
       setTimeout(() => {
         this.isTransitioning = false;
       }, 500);
-    }
-
-    handleInfiniteLoop() {
-      // If we're at the cloned items at the end, jump to real items
-      if (this.currentIndex >= this.totalItems - this.itemsPerView) {
-        setTimeout(() => {
-          this.wrapper.style.transition = 'none';
-          this.currentIndex = this.itemsPerView;
-          this.updateTransform();
-          setTimeout(() => {
-            this.wrapper.style.transition = 'transform 0.5s ease-in-out';
-          }, 10);
-        }, 500);
-      }
       
-      // If we're at the cloned items at the beginning, jump to real items
-      if (this.currentIndex < this.itemsPerView) {
-        setTimeout(() => {
-          this.wrapper.style.transition = 'none';
-          this.currentIndex = this.totalItems - this.itemsPerView * 2;
-          this.updateTransform();
-          setTimeout(() => {
-            this.wrapper.style.transition = 'transform 0.5s ease-in-out';
-          }, 10);
-        }, 500);
-      }
-      
-      this.updateCounter();
+      this.updateScrollBar();
       this.updateNavigation();
     }
 
-    updateCounter() {
-      if (this.currentSlide) {
-        // Calculate the real slide number (accounting for cloned items)
-        let realIndex = this.currentIndex - this.itemsPerView;
-        if (realIndex < 0) realIndex = this.totalItems - this.itemsPerView * 2 + realIndex;
-        if (realIndex >= this.totalItems - this.itemsPerView * 2) realIndex = realIndex - (this.totalItems - this.itemsPerView * 2);
-        
-        this.currentSlide.textContent = realIndex + 1;
-      }
+    updateScrollBar() {
+      if (!this.scrollThumb || !this.scrollTrack) return;
       
-      if (this.totalSlides) {
-        this.totalSlides.textContent = this.totalItems - this.itemsPerView * 2;
-      }
+      const trackWidth = this.scrollTrack.offsetWidth;
+      const thumbWidth = this.scrollThumb.offsetWidth;
+      const maxScroll = trackWidth - thumbWidth;
+      
+      const totalSlides = this.totalItems - this.itemsPerView;
+      const percentage = totalSlides > 0 ? this.currentIndex / totalSlides : 0;
+      
+      const newLeft = percentage * maxScroll;
+      this.scrollThumb.style.left = `${newLeft}px`;
     }
 
     updateNavigation() {
-      // Navigation buttons are always enabled due to infinite loop
       if (this.prevBtn) {
-        this.prevBtn.disabled = false;
+        this.prevBtn.disabled = this.currentIndex === 0;
       }
       if (this.nextBtn) {
-        this.nextBtn.disabled = false;
+        this.nextBtn.disabled = this.currentIndex >= this.totalItems - this.itemsPerView;
       }
     }
   }
@@ -514,9 +595,15 @@
     },
     {
       "type": "checkbox",
-      "id": "show_counter",
-      "label": "Show slide counter",
+      "id": "show_scroll_bar",
+      "label": "Show scroll bar",
       "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "scroll_thumb_image",
+      "label": "Scroll Thumb Image",
+      "info": "Image to use as the scroll bar thumb/cursor"
     },
     {
       "type": "text",
@@ -590,30 +677,10 @@
     },
     {
       "type": "color",
-      "id": "counter_color",
-      "label": "Counter text color",
-      "default": "#1E3A8A"
-    },
-    {
-      "type": "color",
       "id": "focus_color",
       "label": "Focus outline color",
       "default": "#FF6B35"
-    },
-    {
-      "type": "header",
-      "content": "Typography"
-    },
-         {
-       "type": "range",
-       "id": "counter_font_size",
-       "min": 1,
-       "max": 20,
-       "step": 1,
-       "unit": "px",
-       "label": "Counter font size",
-       "default": 16
-     }
+    }
   ],
   "blocks": [
     {
