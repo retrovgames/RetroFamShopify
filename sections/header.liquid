@@ -98,6 +98,10 @@
     background: {{ section.settings.menu_item_6_color }};
     color: #fff;
   }
+  #site-nav-item--7 .site-nav__dropdown ul, #site-nav-item--7 .site-nav__dropdown a {
+    background: {{ section.settings.menu_item_7_color }};
+    color: #000;
+  }
 </style>
 
 <div data-section-id="{{ section.id }}" data-section-type="header">
@@ -223,6 +227,9 @@
     </div>
   </div>
 </div>
+
+
+
 
 {% schema %}
 {
@@ -431,6 +438,17 @@
       "type": "image_picker",
       "id": "menu_item_6_image",
       "label": "Menu Item 6 Image"
+    },
+    {
+      "type": "color",
+      "id": "menu_item_7_color",
+      "label": "Bg color Menu 7",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "menu_item_7_image",
+      "label": "Menu Item 7 Image"
     },
     {
       "type": "header",

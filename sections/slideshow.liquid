@@ -274,17 +274,19 @@
                         {%- if block.settings.reviewrating != blank -%}
                           <div class="alh-reviews_container">
                             <div class="animation-cropper"><div class="animation-contents">
-                            <div class="alh-reviews_rating">
-                              <div class="start-container">
-                                {% for i in (1..5) %}
-                                  <img src="{{ 'tabler_star-filled.svg' | asset_url }}" alt="Email icon" height="12" width="12" loading="lazy">
-                                {% endfor %}
+                            <a href="#shopify-section-template--24541364879664__review_marquee_mMUAHR">
+                              <div class="alh-reviews_rating">
+                                <div class="start-container">
+                                  {% for i in (1..5) %}
+                                    <img src="{{ 'tabler_star-filled.svg' | asset_url }}" alt="Email icon" height="12" width="12" loading="lazy">
+                                  {% endfor %}
+                                </div>
+                                {{ block.settings.reviewrating }}
                               </div>
-                              {{ block.settings.reviewrating }}
-                            </div>
-                            <div class="alh-total_reviews">
-                              {{ block.settings.totalreview }}
-                            </div>
+                              <div class="alh-total_reviews">
+                                {{ block.settings.totalreview }}
+                              </div>
+                            </a>
                             </div>
                             </div>
                           </div>
@@ -300,6 +302,9 @@
       </div>
     </div>
   {%- endif -%}
+
+
+  
 
   {%- if section.blocks.size == 0 -%}
     <div class="placeholder-noblocks">

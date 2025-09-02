@@ -162,7 +162,16 @@
 
               <div class="alh-pro_desc">
                 <h3>About this Product</h3>
-                {%- render 'product-description', id: product.id, product: product -%}
+                <div class="product-description collapsed">
+                  {%- render 'product-description', id: product.id, product: product -%}
+                </div>
+
+                <button class="read-more-btn">
+                  <span>READ MORE</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L6.29289 9.70711C5.90237 9.31658 5.90237 8.68342 6.29289 8.29289C6.68342 7.90237 7.31658 7.90237 7.70711 8.29289L12 12.5858L16.2929 8.29289C16.6834 7.90237 17.3166 7.90237 17.7071 8.29289C18.0976 8.68342 18.0976 9.31658 17.7071 9.70711L12.7071 14.7071Z" fill="#000000"/>
+                  </svg>
+                </button>
               </div>
 
               <div class="alh-sell-game">
@@ -1343,3 +1352,61 @@
 
 
 
+{% comment %} Custom CSS & JS for Readmore btn {% endcomment %}
+<style>
+  .product-description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 10; 
+    -webkit-box-orient: vertical;
+    transition: all 0.3s ease;
+  }
+
+  .product-description.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+
+  .read-more-btn {
+    margin-top: 10px;
+    background: white;
+    border: 1px solid #080707;
+    color: black;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 11px 20px;
+    border-radius: 50px;
+    line-height: 26px;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .read-more-btn svg {
+    transition: transform 0.3s ease;
+  }
+
+  .read-more-btn.active svg {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const desc = document.querySelector(".product-description");
+    const btn = document.querySelector(".read-more-btn");
+    const btnText = btn.querySelector("span");
+
+    btn.addEventListener("click", function () {
+      desc.classList.toggle("expanded");
+      btn.classList.toggle("active");
+
+      if (desc.classList.contains("expanded")) {
+        btnText.textContent = "READ LESS";
+      } else {
+        btnText.textContent = "READ MORE";
+      }
+    });
+  });
+</script>

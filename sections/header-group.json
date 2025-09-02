@@ -92,6 +92,8 @@
         "menu_item_5_image": "shopify://shop_images/play_station_1.png",
         "menu_item_6_color": "#000000",
         "menu_item_6_image": "shopify://shop_images/atari-seeklogo_1.png",
+        "menu_item_7_color": "#ffffff",
+        "menu_item_7_image": "shopify://shop_images/Help_icon_1.png",
         "show_locale_selector": true,
         "show_currency_selector": true,
         "show_currency_flags": true

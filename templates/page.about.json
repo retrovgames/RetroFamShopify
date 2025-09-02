@@ -175,10 +175,10 @@
           "type": "slide",
           "settings": {
             "slide_image": "shopify://shop_images/Group_1597882093.webp",
-            "slide_alt": "Console Image",
+            "slide_alt": "Games Image",
             "button_text": "Games",
-            "button_link": "",
-            "button_bg_color": "#449adf",
+            "button_link": "shopify://collections/all-games",
+            "button_bg_color": "#429488",
             "button_text_color": "#ffffff"
           }
         },
@@ -186,9 +186,9 @@
           "type": "slide",
           "settings": {
             "slide_image": "shopify://shop_images/Group_1597882091.webp",
-            "slide_alt": "Console Image",
+            "slide_alt": "Consoles Image",
             "button_text": "Consoles",
-            "button_link": "shopify://collections/xbox",
+            "button_link": "shopify://collections/all-home-consoles",
             "button_bg_color": "#449adf",
             "button_text_color": "#ffffff"
           }
@@ -197,10 +197,32 @@
           "type": "slide",
           "settings": {
             "slide_image": "shopify://shop_images/Group_1597882092.webp",
-            "slide_alt": "Console Image",
-            "button_text": "Handheld",
-            "button_link": "",
-            "button_bg_color": "#449adf",
+            "slide_alt": "Handhelds Image",
+            "button_text": "Handhelds",
+            "button_link": "shopify://collections/all-handhelds",
+            "button_bg_color": "#845dbf",
+            "button_text_color": "#ffffff"
+          }
+        },
+        "slide_DMC4hM": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Accessories.png",
+            "slide_alt": "Accessories Image",
+            "button_text": "Accessories",
+            "button_link": "shopify://collections/all-accessories",
+            "button_bg_color": "#f70000",
+            "button_text_color": "#ffffff"
+          }
+        },
+        "slide_WGcPdF": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/Group_1597882099.webp",
+            "slide_alt": "Bundles Image",
+            "button_text": "Bundles",
+            "button_link": "shopify://collections/all-bundles",
+            "button_bg_color": "#f9bc26",
             "button_text_color": "#ffffff"
           }
         }
@@ -208,7 +230,9 @@
       "block_order": [
         "slide_DVRQfT",
         "slide_79aMjb",
-        "slide_CV6ADA"
+        "slide_CV6ADA",
+        "slide_DMC4hM",
+        "slide_WGcPdF"
       ],
       "name": "Main Section",
       "settings": {
@@ -238,7 +262,7 @@
     "our_mission_GAFxkn": {
       "type": "our-mission",
       "custom_css": [
-        ".mission-section{margin-top:50px;}"
+        ".mission-section {margin-top: 50px;}"
       ],
       "name": "Our Mission",
       "settings": {
@@ -250,7 +274,7 @@
         "box_margin_top": 20,
         "heading": "Our Mission",
         "heading_color": "#ffffff",
-        "heading_size": 24,
+        "heading_size": 30,
         "heading_margin_bottom": 20,
         "text": "To keep the spirit of retro gaming alive. We offer a handpicked collection of authentic consoles, timeless games, and nostalgic collectibles—handpicked with care. We make it easy for you to reconnect with your gaming roots, whether you're a seasoned gamer reliving your childhood or discovering the legends of the past for the first time. We aim to bring you the real retro gaming experience.",
         "text_color": "#ffffff",
@@ -269,11 +293,11 @@
           "settings": {
             "icon": "shopify://shop_images/Asset_1_1.png",
             "icon_alt": "Icon",
-            "line1": "QUALITY",
+            "line1": "Quality",
             "line1_color": "#080707",
-            "line2": "GUARANTEED",
+            "line2": "Guaranteed",
             "line2_color": "#080707",
-            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "description": "Every console is expertly refurbished, and every game is carefully cleaned and tested, ensuring the original feel and the reliability gamers deserve.",
             "desc_color": "#080707"
           }
         },
@@ -286,7 +310,7 @@
             "line1_color": "#080707",
             "line2": "Experience",
             "line2_color": "#080707",
-            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "description": "From unboxing to first play, we recreate the magic of childhood gaming, bringing back nostalgia, memories, and the thrill of playing it like day one.",
             "desc_color": "#080707"
           }
         },
@@ -299,7 +323,7 @@
             "line1_color": "#080707",
             "line2": "Real Stories",
             "line2_color": "#080707",
-            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "description": "We hunt down authentic, hard-to-find classics, each with its own legacy, so you’re not just buying a game or console, you’re preserving gaming history.",
             "desc_color": "#080707"
           }
         },
@@ -312,7 +336,7 @@
             "line1_color": "#080707",
             "line2": "Service",
             "line2_color": "#080707",
-            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "description": "Every customer is part of our mission. We are here to offer support, transparency, and trust, so your retro journey with us is always smooth and satisfying.",
             "desc_color": "#080707"
           }
         },
@@ -325,7 +349,7 @@
             "line1_color": "#080707",
             "line2": "Shipping",
             "line2_color": "#080707",
-            "description": "Every item we sell has been tested, cleaned, and restored, staying true to its original glory. You'll feel the difference in every click and jump.",
+            "description": "No delays, no false promises, your retro treasures ship free, fast, and securely, arriving in 5–7 days, packaged with care and ready to plug in.",
             "desc_color": "#080707"
           }
         }
@@ -357,7 +381,7 @@
         "paragraph_YrFpHr": {
           "type": "paragraph",
           "settings": {
-            "paragraph": "Retro Fam began as a forum— for retro gaming enthusiasts sharing memories, tips, and repair guide lists. From that passion grew something bigger: a mission to make retro gaming accessible to all and keeping it alive for future generations."
+            "paragraph": "RetroFam began as a forum for retro gaming enthusiasts sharing memories, tips, and repair guide lists. From that passion grew something bigger: a mission to make retro gaming accessible to all and keeping it alive for future generations."
           }
         }
       },
@@ -372,10 +396,8 @@
         "heading_top": "Our",
         "heading_bottom": "Story",
         "heading_color": "#080707",
-        "heading_size": 24,
-        "text_color": "#080707",
-        "max_width": 900,
-        "padding_bottom": 40
+        "heading_size": 40,
+        "text_color": "#080707"
       }
     },
     "shop_by_categories_i8Db3X": {
@@ -474,7 +496,7 @@
       "type": "join-the-fam",
       "name": "Join the Fam",
       "settings": {
-        "bg_color": "#e7699e",
+        "bg_color": "#449adf",
         "border_color": "#080707",
         "heading": "Join the Fam",
         "heading_color": "#ffffff",

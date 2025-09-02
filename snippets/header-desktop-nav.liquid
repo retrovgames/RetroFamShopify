@@ -167,7 +167,13 @@
                   {% if section.settings.menu_item_6_image %}
                     <img src="{{ section.settings.menu_item_6_image | image_url: width: 300 }}" class="site-nav__dropdown-image" alt="Menu 6 Image">
                   {% endif %}
+                {% when 7 %}
+                  {% if section.settings.menu_item_7_image %}
+                    <img src="{{ section.settings.menu_item_7_image | image_url: width: 300 }}" class="site-nav__dropdown-image" alt="Menu 7 Image">
+                  {% endif %}
               {% endcase %}
+
+              
             </ul>
           </div>
         {%- endif -%}

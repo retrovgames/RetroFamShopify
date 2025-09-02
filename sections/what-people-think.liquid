@@ -1,3 +1,12 @@
+{% assign has_video = false %}
+{% for block in section.blocks %}
+  {% if block.settings.youtube_link contains 'v=' %}
+    {% assign has_video = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if has_video %}
 <div class="what-people-think">
   <div class="page-width">
     {% if section.settings.heading != blank %}
@@ -8,16 +17,18 @@
       <div class="swiper-wrapper">
         {% for block in section.blocks %}
           {% assign youtube_id = block.settings.youtube_link | split: 'v=' | last %}
-          <div class="swiper-slide">
-            <div class="slide-media youtube-wrapper" data-video-id="{{ youtube_id }}">
-              <img src="https://img.youtube.com/vi/{{ youtube_id }}/hqdefault.jpg" alt="{{ product.title }}" class="youtube-thumb">
-              <div class="play-button"></div>
-            </div>
+          {% if youtube_id != blank %}
+            <div class="swiper-slide">
+              <div class="slide-media youtube-wrapper" data-video-id="{{ youtube_id }}">
+                <img src="https://img.youtube.com/vi/{{ youtube_id }}/hqdefault.jpg" alt="{{ product.title }}" class="youtube-thumb">
+                <div class="play-button"></div>
+              </div>
 
-            {% if block.settings.caption != blank %}
-              <p class="slide-caption">{{ block.settings.caption }}</p>
-            {% endif %}
-          </div>
+              {% if block.settings.caption != blank %}
+                <p class="slide-caption">{{ block.settings.caption }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
         {% endfor %}
       </div>
 
@@ -26,6 +37,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 
 <style>
 .what-people-think {

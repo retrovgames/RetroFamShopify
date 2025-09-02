@@ -1,5 +1,9 @@
 /* AH Custom CSS */
 
+html {
+  scroll-behavior: smooth;
+}
+
 .h4, h4 {
     font-size: 18px;
     letter-spacing: unset;
@@ -227,6 +231,8 @@
     line-height: 24px;
 }
 
+
+
 .hero__link .btn {
   display: flex;
   justify-content: space-between;
@@ -286,7 +292,7 @@
   .hero__subtitle {
     font-size: 14px;
     margin-bottom: 15px;
-    line-height: 22px;
+    line-height: 20px;
   }
   .hero__link .btn {
     justify-content: center;
@@ -336,7 +342,7 @@
   .section-header__title {
     font-size: 24px;
     line-height: 32px;
-    max-width: 50%;
+    max-width: 100%;
     margin: 0 auto;
   }
   .logo-bar {
@@ -444,8 +450,8 @@
 
 .alh-border {
     border-top: 3px dotted #EA4325;
-    padding-top: 30px;
-    margin-top: 80px;
+    padding-top: 20px;
+    margin-top: 20px;
     z-index: 1;
     position: inherit;
 }
@@ -2137,9 +2143,9 @@ button#qty-minus, button#qty-plus {
     font-size: 16px;
     line-height: 22px;
   }
-  .start-container img:nth-child(1), .start-container img:nth-child(2), .start-container img:nth-child(3), .start-container img:nth-child(4) {
+  /* .start-container img:nth-child(1), .start-container img:nth-child(2), .start-container img:nth-child(3), .start-container img:nth-child(4) {
     display: none;
-  }
+  } */
   .alh-pdp-info {
     gap: 15px;
     font-size: 12px;
@@ -2203,8 +2209,8 @@ button#qty-minus, button#qty-plus {
 }
 
 .floating-cta__buttons .btn {
-  border-radius: 0;
-  box-shadow: 4px 4px #CECDCD;
+  /* border-radius: 0; */
+  box-shadow: none;
 }
 @media only screen and (max-width: 1000px) {
   .floating-cta {
@@ -2743,3 +2749,8 @@ button#qty-minus, button#qty-plus {
     height: 50px;
 }
 }
+
+.alh-info_container .grid-product__price--savings {
+  display: none;
+}
+

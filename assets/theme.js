@@ -8660,3 +8660,46 @@ document.addEventListener('DOMContentLoaded', function () {
     window.location.search = urlParams.toString();
   });
 });
+
+
+function alhSetEqualHeights(selector) {
+    const divs = document.querySelectorAll(selector);
+    if (!divs.length) return;
+
+    let maxHeight = 0;
+
+    // Reset first to recalc properly
+    divs.forEach(div => div.style.height = "auto");
+
+    // Find max height
+    divs.forEach(div => {
+      if (div.offsetHeight > maxHeight) {
+        maxHeight = div.offsetHeight;
+      }
+    });
+
+    // Apply max height
+    divs.forEach(div => {
+      div.style.height = maxHeight + "px";
+    });
+  }
+
+  function applyHeights() {
+    alhSetEqualHeights(".rte.article__excerpt");
+    alhSetEqualHeights(".shop-category-block:nth-child(-n+3) .shop-category-text");
+  }
+
+  
+
+  document.addEventListener("DOMContentLoaded", applyHeights);
+  window.addEventListener("resize", applyHeights);
+
+
+// Custom JS for cart
+  document.querySelector('.js-drawer-open-cart').addEventListener('click', function () {
+  document.getElementById('floating-cta').style.zIndex = "1";
+  const cartDrawer = document.getElementById('CartDrawer');
+  if (cartDrawer) {
+    cartDrawer.style.zIndex = "9999";
+  }
+});
