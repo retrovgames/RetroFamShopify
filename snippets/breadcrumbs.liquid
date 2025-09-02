@@ -19,6 +19,7 @@
         {% endif %}
       {% endif %}
       <span class="breadcrumb__divider" aria-hidden="true">&gt;</span>
+      <span>{{ product.title }}</span>
 
     {% elsif template.name == 'collection' and collection.handle %}
       {% if settings.show_breadcrumbs_collection_link %}
@@ -36,6 +37,7 @@
         {{ collection.title | link_to: url }}
 
         <span class="breadcrumb__divider" aria-hidden="true">&gt;</span>
+        <span>{{ collection.title }}</span>
 
         {% for tag in current_tags %}
           {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% if tag_count %}{%- assign tag_count = tag_count | minus: 1 | at_least: 0 -%}{% endif %}{% continue %}{% endif %}{% endif %}
@@ -65,6 +67,7 @@
       <span class="breadcrumb__divider" aria-hidden="true">/</span>
       {{ blog.title | link_to: blog.url }}
       <span class="breadcrumb__divider" aria-hidden="true">/</span>
+      <span>{{ article.title }}</span>
 
     {% elsif template.name == 'page' %}
 

@@ -107,11 +107,7 @@
     transform: translateZ(0);
   }
   
-  /* Hover Effects */
-  .contact-bottom-banner-section:hover .contact-bottom-banner-title {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-  }
+  /* Hover Effects - Removed moving effects */
   
   /* Responsive Design */
   @media (max-width: 480px) {
@@ -211,7 +207,6 @@
   
   .contact-banner-cta:hover {
     background-color: {{ section.settings.cta_hover_background_color | default: '#E55A2B' }};
-    transform: translateY(-2px);
   }
   
   .contact-banner-cta:active {
@@ -327,11 +322,6 @@
         this.cta.addEventListener('click', () => this.handleCtaClick());
       }
       
-      // Mouse move for parallax effect
-      if (this.banner) {
-        this.banner.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-      }
-      
       // Scroll for parallax
       window.addEventListener('scroll', () => this.handleScroll());
       
@@ -405,21 +395,7 @@
       this.updateParallax();
     }
 
-    handleMouseMove(e) {
-      if (!this.banner) return;
-      
-      const rect = this.banner.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const moveX = (x - centerX) / centerX * 10;
-      const moveY = (y - centerY) / centerY * 10;
-      
-      this.banner.style.transform = `perspective(1000px) rotateX(${moveY}deg) rotateY(${moveX}deg)`;
-    }
+
 
     handleScroll() {
       this.updateParallax();

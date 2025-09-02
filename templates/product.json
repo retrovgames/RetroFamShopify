@@ -69,35 +69,65 @@
         "col2_icon": "shopify://shop_images/shield-tick.png"
       }
     },
-    "pdp_featured_QfBFP3": {
-      "type": "pdp-featured",
-      "blocks": {
-        "feature_dC84ML": {
-          "type": "feature",
-          "repeater": "{{ product.metafields.custom.product_features.value }}",
-          "settings": {
-            "image": "{{ block.repeater.image.value }}",
-            "title": "{{ block.repeater.title.value }}",
-            "description": "{{ block.repeater.description | metafield_tag }}"
-          }
-        }
-      },
-      "block_order": [
-        "feature_dC84ML"
-      ],
-      "name": "PDP Features",
-      "settings": {
-        "bg_color": "#e0f7fa",
-        "heading": "At RetroFam, every retro product is...",
-        "heading_color": "#000000",
-        "heading_align": "left"
-      }
-    },
     "sub": {
       "type": "product-full-width",
       "disabled": true,
       "settings": {
         "max_width": true
+      }
+    },
+    "pdp_featured_HBwpWe": {
+      "type": "pdp-featured",
+      "blocks": {
+        "feature_wdzWHF": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/image_241.webp",
+            "title": "Carefully Sourced",
+            "description": "We search far and wide to find authentic retro gaming products from trusted suppliers and collectors. Every item is verified for originality and quality before it reaches you.",
+            "link": ""
+          }
+        },
+        "feature_Lki7Kx": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/image_243.webp",
+            "title": "Deeply Refurbished",
+            "description": "Our experts restore every console and accessory to peak performance. From internal cleaning to part replacement, we ensure your retro gear works like new.",
+            "link": ""
+          }
+        },
+        "feature_N6GDPp": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/box_in_warehouse_2.webp",
+            "title": "Neatly Packaged",
+            "description": "Your nostalgia deserves premium protection. Each product is securely packed to prevent damage during transit, so it arrives safe and ready to play.",
+            "link": ""
+          }
+        },
+        "feature_wUBQmg": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/Delivery_2.webp",
+            "title": "Quickly Delivered",
+            "description": "We know you can’t wait to relive the classics! That’s why we ship your order fast and provide tracking every step of the way for a smooth experience.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_wdzWHF",
+        "feature_Lki7Kx",
+        "feature_N6GDPp",
+        "feature_wUBQmg"
+      ],
+      "name": "PDP Features",
+      "settings": {
+        "bg_color": "#e0f7fa",
+        "heading": "At RetroFam, Every Retro Product Is...",
+        "heading_color": "#000000",
+        "heading_align": "left"
       }
     },
     "product-recommendations": {
@@ -169,8 +199,8 @@
   },
   "order": [
     "main",
-    "pdp_featured_QfBFP3",
     "sub",
+    "pdp_featured_HBwpWe",
     "product-recommendations",
     "what_people_think_7hhzdV",
     "collection-return",

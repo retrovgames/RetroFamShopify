@@ -1,67 +1,216 @@
-<link rel="stylesheet" href="{{ 'about.css' | asset_url }}">
-
-<section 
-  class="our-story-section"
-  style="max-width:{{ section.settings.max_width }}px;margin:0 auto;padding-bottom:{{ section.settings.padding_bottom }}px;"
->
-  <div class="story-container" style="cursor:pointer;">
-    <div class="story-top" style="position:relative;overflow:hidden;">
-      {% if section.settings.story_top_img != blank %}
-        <img src="{{ section.settings.story_top_img | img_url: 'master' }}" 
-             alt="Our Story Top" 
-             width="800"
-             height="148"
-             class="story-bg-image" 
-             style="width:100%;height:148px;object-fit:cover;"
-             loading="lazy">
-      {% endif %}
-      <div class="story-text" style="z-index:2;font-size:{{ section.settings.heading_size }}px;color:{{ section.settings.heading_color }};">{{ section.settings.heading_top }}</div>
+<section class="our-story-section">
+  <div class="story-container">
+    <!-- Top -->
+    <div class="story-top">
+      <img 
+        src="{{ section.settings.story_top_img | img_url: 'master' }}" 
+        alt="Our Story Top" 
+        class="story-bg-image desktop-img"
+        width="800"
+        height="148">
+      <img 
+        src="{{ section.settings.story_top_img_mobile | img_url: 'master' }}" 
+        alt="Our Story Top Mobile" 
+        class="story-bg-image mobile-img"
+        width="400"
+        height="100">
+      <div class="story-text" style="color: {{ section.settings.heading_color }}; font-size: {{ section.settings.heading_size }}px;">
+        {{ section.settings.heading_top }}
+      </div>
     </div>
-    <div class="story-content" style="height:0;overflow:hidden;transition:height 0.7s ease;position:relative;">
-      {% if section.settings.story_content_bg != blank %}
-        <img src="{{ section.settings.story_content_bg | img_url: 'master' }}" 
-             alt="Our Story Content" 
-             width="800"
-             height="400"
-             class="story-content-bg" 
-             style="width:100%;height:100%;position:absolute;top:0;left:0;object-fit:cover;z-index:1;opacity:0.9;"
-             loading="lazy">
-      {% endif %}
-      <div class="story-text-content" style="position:relative;z-index:2;padding:40px 20px;min-height:120px;display:flex;flex-direction:column;justify-content:center;text-align:center;">
+
+    <!-- Content -->
+    <div class="story-content">
+      <img 
+        src="{{ section.settings.story_content_bg | img_url: 'master' }}" 
+        alt="Our Story Content" 
+        class="story-content-bg desktop-img"
+        width="800"
+        height="400">
+
+      <div class="story-text-content" style="color: {{ section.settings.text_color }};"
+           data-mobile-bg="{{ section.settings.story_content_bg_mobile | img_url: 'master' }}">
         {% for block in section.blocks %}
-          <p style="margin:0px 40px 20px 40px;color:{{ section.settings.text_color }};">{{ block.settings.paragraph }}</p>
+          <p>{{ block.settings.paragraph }}</p>
         {% endfor %}
       </div>
     </div>
-    <div class="story-bottom" style="position:relative;overflow:hidden;margin-top:-6px;">
-      {% if section.settings.story_bottom_img != blank %}
-        <img src="{{ section.settings.story_bottom_img | img_url: 'master' }}" 
-             alt="Our Story Bottom" 
-             width="800"
-             height="148"
-             class="story-bg-image" 
-             style="width:100%;height:148px;object-fit:cover;"
-             loading="lazy">
-      {% endif %}
-      <div class="story-text" style="z-index:2;font-size:{{ section.settings.heading_size }}px;color:{{ section.settings.heading_color }};">{{ section.settings.heading_bottom }}</div>
+
+    <!-- Bottom -->
+    <div class="story-bottom">
+      <img 
+        src="{{ section.settings.story_bottom_img | img_url: 'master' }}" 
+        alt="Our Story Bottom" 
+        class="story-bg-image desktop-img"
+        width="800"
+        height="148">
+      <img 
+        src="{{ section.settings.story_bottom_img_mobile | img_url: 'master' }}" 
+        alt="Our Story Bottom Mobile" 
+        class="story-bg-image mobile-img"
+        width="400"
+        height="100">
+      <div class="story-text" style="color: {{ section.settings.heading_color }}; font-size: {{ section.settings.heading_size }}px;">
+        {{ section.settings.heading_bottom }}
+      </div>
     </div>
   </div>
 </section>
 
+<style>
+.our-story-section {
+  padding: 0 0 60px 0;
+  text-align: center;
+  max-width: 752px;
+  margin: 0 auto;
+}
+
+.story-container {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.story-top, .story-bottom {
+  height: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-bottom {
+  margin-top: -6px;
+}
+
+.story-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 148px;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.story-text {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 500;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.story-content {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.7s ease;
+  position: relative;
+}
+
+.story-content-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.9;
+}
+
+.story-text-content {
+  padding: 60px 40px;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: center;
+  overflow-y: auto;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 380px;
+  background-color: transparent !important;
+}
+
+.story-text-content p {
+  margin-bottom: 20px;
+}
+.story-text-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile overrides */
+@media (max-width: 768px) {
+  .story-top, .story-bottom {
+    height: 100px;
+  }
+  .story-bg-image {
+    height: 100px;
+  }
+  .story-text {
+    font-size: 20px !important;
+  }
+  .story-text-content {
+    padding: 40px 20px;
+    min-height: auto;
+    height: auto;
+    background-color: transparent !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  }
+  .story-content {
+    height: auto !important; /* always open */
+    background: none !important;
+  }
+  .desktop-img { display: none; }
+  .mobile-img { display: block; }
+}
+
+/* Desktop only */
+@media (min-width: 769px) {
+  .desktop-img { display: block; }
+  .mobile-img { display: none; }
+}
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  var container = document.querySelector('.story-container');
-  var content = document.querySelector('.story-content');
-  if(container && content) {
-    container.addEventListener('mouseenter', function() {
-      content.style.height = '380px';
-    });
-    container.addEventListener('mouseleave', function() {
-      content.style.height = '0';
-    });
-    // Show content by default on mobile (touch) for usability
-    if (window.innerWidth < 800) {
-      content.style.height = 'auto';
+  var storyContainer = document.querySelector('.story-container');
+  var storyContent = document.querySelector('.story-content');
+  var storyTextContent = document.querySelector('.story-text-content');
+  
+  // Mobile background image fix
+  if (window.innerWidth <= 768 && storyTextContent) {
+    var mobileBg = storyTextContent.getAttribute('data-mobile-bg');
+    if (mobileBg) {
+      storyTextContent.style.backgroundImage = 'url(' + mobileBg + ')';
+    }
+  }
+
+  // Desktop hover/click expand
+  if (storyContainer && storyContent) {
+    if (window.innerWidth >= 769) {
+      storyContainer.addEventListener('mouseenter', function() {
+        storyContent.style.height = '380px';
+      });
+      storyContainer.addEventListener('mouseleave', function() {
+        storyContent.style.height = '0';
+      });
+      storyContainer.addEventListener('click', function() {
+        if (storyContent.style.height === '0px' || storyContent.style.height === '') {
+          storyContent.style.height = '380px';
+        } else {
+          storyContent.style.height = '0';
+        }
+      });
+    } else {
+      storyContent.style.height = 'auto';
     }
   }
 });
@@ -71,88 +220,28 @@ document.addEventListener('DOMContentLoaded', function() {
 {
   "name": "Our Story",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "story_top_img",
-      "label": "Top Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "story_bottom_img",
-      "label": "Bottom Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "story_content_bg",
-      "label": "Content Background Image"
-    },
-    {
-      "type": "text",
-      "id": "heading_top",
-      "label": "Top Heading Text",
-      "default": "Our"
-    },
-    {
-      "type": "text",
-      "id": "heading_bottom",
-      "label": "Bottom Heading Text",
-      "default": "Story"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#080707"
-    },
-    {
-      "type": "range",
-      "id": "heading_size",
-      "min": 18,
-      "max": 54,
-      "step": 2,
-      "label": "Heading Font Size (px)",
-      "default": 24
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Paragraph Text Color",
-      "default": "#080707"
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "min": 600,
-      "max": 1400,
-      "step": 20,
-      "label": "Max Width (px)",
-      "default": 900
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 10,
-      "label": "Bottom Padding (px)",
-      "default": 40
-    }
+    { "type": "image_picker", "id": "story_top_img", "label": "Top Image (Desktop)" },
+    { "type": "image_picker", "id": "story_top_img_mobile", "label": "Top Image (Mobile)" },
+    { "type": "image_picker", "id": "story_bottom_img", "label": "Bottom Image (Desktop)" },
+    { "type": "image_picker", "id": "story_bottom_img_mobile", "label": "Bottom Image (Mobile)" },
+    { "type": "image_picker", "id": "story_content_bg", "label": "Content Background Image (Desktop)" },
+    { "type": "image_picker", "id": "story_content_bg_mobile", "label": "Content Background Image (Mobile)" },
+    { "type": "text", "id": "heading_top", "label": "Top Heading Text", "default": "Our" },
+    { "type": "text", "id": "heading_bottom", "label": "Bottom Heading Text", "default": "Story" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#080707" },
+    { "type": "range", "id": "heading_size", "min": 18, "max": 54, "step": 2, "label": "Heading Font Size (px)", "default": 24 },
+    { "type": "color", "id": "text_color", "label": "Paragraph Text Color", "default": "#080707" }
   ],
   "blocks": [
     {
       "type": "paragraph",
       "name": "Paragraph",
       "settings": [
-        {
-          "type": "textarea",
-          "id": "paragraph",
-          "label": "Paragraph",
-          "default": "Retro Fam began as a forum— for retro gaming enthusiasts sharing memories, tips, and repair guide lists. From that passion grew something bigger: a mission to make retro gaming accessible to all and keeping it alive for future generations."
-        }
+        { "type": "textarea", "id": "paragraph", "label": "Paragraph", "default": "Your story paragraph goes here." }
       ]
     }
   ],
-  "presets": [
+ "presets": [
     {
       "name": "Our Story",
       "category": "About Sections"

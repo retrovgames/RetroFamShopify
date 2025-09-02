@@ -215,7 +215,12 @@
                 <span data-unit-price>{{ current_variant.unit_price | money }}</span>/{{ unit_price_base_unit }}
               </div>
             </div>
-            <div data-product-blocks>
+            <div class="alh-pro-pdp-link">
+              <a href="{{ product.url }}" class="product-short-desc">
+                <span class="btn btn--full">See Full deatails</span>
+              </a>
+            </div>
+            {% comment %} <div data-product-blocks>
               {%- capture form_id -%}AddToCartForm-{{ section_id }}-{{ product.id }}{%- endcapture -%}
 
               <div class="product-block" {{ block.shopify_attributes }}>
@@ -239,7 +244,10 @@
                     ></div>
                 {%- endif -%}
               </div>
-            </div>
+            </div> {% endcomment %}
+
+
+            
           </div>
         </div>
       </div>

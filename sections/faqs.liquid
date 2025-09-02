@@ -92,6 +92,8 @@ body {
   font-family: "Inter", sans-serif;
   min-height: 100vh;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 body::before {
@@ -111,7 +113,7 @@ body::before {
 }
 
 .main-container {
-  margin: 0 auto;
+  margin: 0;
   padding: 0 15px;
   position: relative;
   min-height: 100vh;
@@ -120,13 +122,14 @@ body::before {
     radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 1px, transparent 1px),
     radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 1px, transparent 1px);
   background-size: 50px 50px;
+  overflow:hidden;
 }
 
 /* Container */
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   position: relative;
 }
 
@@ -135,7 +138,7 @@ body::before {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin: 25px 0;
+  margin: 0 0 25px 0;
   position: relative;
   color: white;
   font-size: 14px;
@@ -179,18 +182,51 @@ body::before {
 /* Tabs Container */
 .tabs-container {
   margin-bottom: 30px;
+  position: relative;
 }
 
 .tabs {
   display: flex;
-  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
   overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   padding: 0 15px;
   width: 100%;
+  scroll-behavior: smooth;
+  transition: all 0.3s ease;
+  scroll-snap-type: x mandatory;
+  cursor: grab;
+  user-select: none;
+}
+
+.tabs:active {
+  cursor: grabbing;
+}
+
+/* Custom scrollbar styling */
+.tabs::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tabs::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tabs::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Firefox scrollbar */
+.tabs {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.8) rgba(255, 255, 255, 0.2);
 }
 
 .tab {
@@ -205,6 +241,7 @@ body::before {
   white-space: nowrap;
   min-width: fit-content;
   flex-shrink: 0;
+  scroll-snap-align: start;
 }
 
 .tab.active {
@@ -486,7 +523,7 @@ body::before {
 }
 
 .blue-vector {
-    position: fixed;
+  position:fixed;
     top: 100px;
     right: 0;
     opacity: 0;
@@ -636,6 +673,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initTabs() {
     const tabs = document.querySelectorAll('.tab');
     const faqSections = document.querySelectorAll('.faq-section');
+    const tabsContainer = document.getElementById('tabs');
 
     // Tab click handlers
     tabs.forEach(tab => {
@@ -645,12 +683,73 @@ function initTabs() {
         });
     });
 
+    // Click and drag scrolling functionality
+    if (tabsContainer) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        tabsContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            tabsContainer.style.cursor = 'grabbing';
+            startX = e.pageX - tabsContainer.offsetLeft;
+            scrollLeft = tabsContainer.scrollLeft;
+        });
+
+        tabsContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+            tabsContainer.style.cursor = 'grab';
+        });
+
+        tabsContainer.addEventListener('mouseup', () => {
+            isDown = false;
+            tabsContainer.style.cursor = 'grab';
+        });
+
+        tabsContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - tabsContainer.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll speed multiplier
+            tabsContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch events for mobile
+        tabsContainer.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - tabsContainer.offsetLeft;
+            scrollLeft = tabsContainer.scrollLeft;
+        });
+
+        tabsContainer.addEventListener('touchend', () => {
+            isDown = false;
+        });
+
+        tabsContainer.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.touches[0].pageX - tabsContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            tabsContainer.scrollLeft = scrollLeft - walk;
+        });
+    }
+
     function switchCategory(category) {
         // Update active tab
         tabs.forEach(tab => {
             tab.classList.remove('active');
             if (tab.getAttribute('data-category') === category) {
                 tab.classList.add('active');
+                // Scroll the active tab into view
+                if (tabsContainer) {
+                    setTimeout(() => {
+                        tab.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest', 
+                            inline: 'center' 
+                        });
+                    }, 100);
+                }
             }
         });
 

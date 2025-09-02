@@ -14,6 +14,24 @@
         <p>{{ block.settings.text }}</p>
       </div>
     {% endfor %}
+
+    
+
+
+    {% comment %} {% for block in section.blocks %}
+      <div class="feature-item">
+        {% if block.settings.image %}
+          <img
+            src="{{ block.settings.image | image_url: width: 40 }}"
+            alt="{{ block.settings.text | escape }}"
+            width="40"
+            height="40"
+            loading="lazy"
+          >
+        {% endif %}
+        <p>{{ block.settings.text }}</p>
+      </div>
+    {% endfor %} {% endcomment %}
   </div>
 </div>
 
@@ -22,13 +40,13 @@
   background-color: #000;
   padding: 20px 0;
   color: #fff;
+  overflow: hidden; /* hide scroll overflow */
 }
 
 .features-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  {% comment %} flex-wrap: wrap; {% endcomment %}
   gap: 30px;
   text-align: center;
 }
@@ -47,7 +65,7 @@
 .feature-item img {
   max-width: 40px;
   height: auto;
-  filter: brightness(0) invert(1); /* makes dark icons white */
+  filter: brightness(0) invert(1);
 }
 
 .feature-item p {
@@ -62,25 +80,38 @@
   margin: 10px 0;
 }
 
-/* Responsive for tablets and smaller */
+/* Mobile: auto-scrolling loop */
 @media screen and (max-width: 768px) {
   .features-wrapper {
-    gap: 24px;
-    justify-content: left;
+    display: inline-flex;
+    gap: 40px;
+    animation: scrollLoop 20s linear infinite;
   }
+
+  .feature-item {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+  }
+
   .feature-item img {
     max-width: 20px;
     height: auto;
     filter: brightness(0) invert(1);
   }
-  .feature-item {
-    flex-direction: column;
-    align-items: self-start;
-    gap: 8px;
-    font-size: 12px;
-    line-height: 20px;
-    min-width: unset;
-    text-align: left;
+
+  /* Continuous loop, no blank start */
+  @keyframes scrollLoop {
+    from {
+      transform: translateX(0); /* start with first item visible */
+    }
+    to {
+      transform: translateX(-50%); /* move left by half (because we duplicated items) */
+    }
   }
 }
 </style>

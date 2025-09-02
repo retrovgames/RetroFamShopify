@@ -4,7 +4,7 @@
 {% endcomment %}
 
 <style>
-  body, html {
+  .policies-page-section {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
     background-size:cover;
   }
 
-  main {
+  .policies-page-section .policies-main {
     max-width: 1440px;
     margin: 0 auto;
     padding: 2rem 0 60px 0;
@@ -20,12 +20,12 @@
   }
 
   /* Title */
-  .title-wrap {
+  .policies-title-wrap {
     position: relative;
     text-align: center;
     margin-bottom: 1rem;
   }
-  .title-wrap h1 {
+  .policies-title-wrap h1 {
     padding-top: 20px;
     font-size: 28px;
     line-height: 32px;
@@ -33,18 +33,18 @@
     color: rgb(255, 255, 255);
     margin: 0;
   }
-  .title-wrap p, h1, div, span, h2, h3, h4, h5, h6 {
+  .policies-title-wrap p, .policies-title-wrap h1, .policies-title-wrap div, .policies-title-wrap span, .policies-title-wrap h2, .policies-title-wrap h3, .policies-title-wrap h4, .policies-title-wrap h5, .policies-title-wrap h6 {
     color:#100f0f; 
   }
   @media(min-width:1024px) {
-    .title-wrap h1 {
+    .policies-title-wrap h1 {
       font-size: 40px;
       line-height: 44px;
     }
   }
 
   /* TV Container */
-  .tv-container {
+  .policies-tv-container {
     position: relative;
     width: 100%;
     background: url('https://cdn.shopify.com/s/files/1/0897/0148/2800/files/refund-policy-tv-container.avif?v=1755878035') no-repeat center;
@@ -53,14 +53,14 @@
   }
   
   @media(min-width: 1024px) {
-    .tv-container {
+    .policies-tv-container {
       background-size: contain;
       aspect-ratio: 16 / 12; /* Keeps TV aspect ratio for desktop */
     }
   }
 
   /* Screen Area inside TV */
-  .tv-screen {
+  .policies-tv-screen {
     position: absolute;
     top: 12%;
     left: 20%;
@@ -75,33 +75,33 @@
   }
   
   @media(max-width: 1023px) {
-    .tv-screen {
+    .policies-tv-screen {
       right: 0 !important;
       left: 0 !important;
     }
-    .scroll-content {
+    .policies-scroll-content {
       padding: 20px 10px 20px 42px;
     }
   }
 
   /* Scroll Container */
-  .scroll-container {
+  .policies-scroll-container {
     position: relative;
     height: 100%;
   }
 
-  .scroll-content {
+  .policies-scroll-content {
     height: 100%;
     overflow-y: auto;
     overflow: auto;
     padding: 20px 40px 20px 60px;
   }
-  .scroll-content::-webkit-scrollbar {
+  .policies-scroll-content::-webkit-scrollbar {
     display: none;
   }
 
   /* Custom Scrollbar */
-  .scrollbar-track {
+  .policies-scrollbar-track {
     position: absolute;
     left: 20px; /* closer to left TV frame */
     top: 10px;
@@ -110,7 +110,7 @@
     border: 2px dashed rgba(0,0,0,0.4);
     border-radius: 20px;
   }
-  .scrollbar-thumb {
+  .policies-scrollbar-thumb {
     position: absolute;
     top: 0;
     left: -8px; /* centers custom icon */
@@ -118,69 +118,71 @@
     height: 40px;
     cursor: grab;
   }
-  .scrollbar-thumb:active {
+  .policies-scrollbar-thumb:active {
     cursor: grabbing;
   }
 
   /* Text */
-  .scroll-content h2 {
+  .policies-scroll-content h2 {
     font-size: 20px;
     font-weight: bold;
     margin: 1rem 0 0.5rem 0;
   }
-  .scroll-content p {
+  .policies-scroll-content p {
     font-size: 16px;
     line-height: 1.5;
     margin: 0.5rem 0;
   }
-  .scroll-content ul {
+  .policies-scroll-content ul {
     margin: 0.5rem 0 1rem 1.5rem;
     padding: 0;
   }
-  .scroll-content li {
+  .policies-scroll-content li {
     margin: 0.5rem 0;
     font-size: 16px;
     line-height: 1.5;
   }
-  .page-short-description{
+  .policies-page-short-description{
   color:white !important;
   padding:10px 0px;
   }
 </style>
 
-<main>
-  <!-- Title & Stars -->
-  <div class="title-wrap">
-    <h1>{{ page.title }}</h1>
-    {% if page.metafields.custom.page_short_description %}
-      <p class="page-short-description">{{ page.metafields.custom.page_short_description }}</p>
-    {% endif %}
-    <img src="https://cdn.shopify.com/s/files/1/0897/0148/2800/files/fi_12414781.png?v=1755879460" alt="stars" style="position:absolute; top:56px; right:5px;">
-  </div>
+<div class="policies-page-section">
+  <div class="policies-main">
+    <!-- Title & Stars -->
+    <div class="policies-title-wrap">
+      <h1 style="color:white;>{{ page.title }}</h1>
+      {% if page.metafields.custom.page_short_description %}
+        <p class="policies-page-short-description">{{ page.metafields.custom.page_short_description }}</p>
+      {% endif %}
+      <img src="https://cdn.shopify.com/s/files/1/0897/0148/2800/files/fi_12414781.png?v=1755879460" alt="stars" style="position:absolute; top:56px; right:5px;" width="30" height="30">
+    </div>
 
-  <!-- TV Container -->
-  <div class="tv-container">
-    <div class="tv-screen">
-      <div class="scroll-container">
-        <div class="scroll-content" id="scroll-content">
-          {{ page.content }}
-        </div>
+    <!-- TV Container -->
+    <div class="policies-tv-container">
+      <div class="policies-tv-screen">
+        <div class="policies-scroll-container">
+          <div class="policies-scroll-content" id="policies-scroll-content">
+            {{ page.content }}
+          </div>
 
-        <!-- Custom Scrollbar -->
-        <div class="scrollbar-track" id="scrollbar-track">
-          <div class="scrollbar-thumb" id="scrollbar-thumb">
-            <img src="https://cdn.shopify.com/s/files/1/0897/0148/2800/files/Vector_17.png?v=1755878568" alt="scroll-indicator" style="height:30px; width:30px;">
+          <!-- Custom Scrollbar -->
+          <div class="policies-scrollbar-track" id="policies-scrollbar-track">
+            <div class="policies-scrollbar-thumb" id="policies-scrollbar-thumb">
+              <img src="https://cdn.shopify.com/s/files/1/0897/0148/2800/files/Vector_17.png?v=1755878568" alt="scroll-indicator" style="height:30px; width:30px;" width="30" height="30">
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</main>
+</div>
 
 <script>
-  const scrollContent = document.getElementById('scroll-content');
-  const scrollbarTrack = document.getElementById('scrollbar-track');
-  const scrollbarThumb = document.getElementById('scrollbar-thumb');
+  const scrollContent = document.getElementById('policies-scroll-content');
+  const scrollbarTrack = document.getElementById('policies-scrollbar-track');
+  const scrollbarThumb = document.getElementById('policies-scrollbar-thumb');
 
   function updateThumb() {
     const contentHeight = scrollContent.scrollHeight;

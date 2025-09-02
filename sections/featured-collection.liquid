@@ -126,6 +126,9 @@
 
 {%- if section.settings.divider -%}</div>{%- endif -%}
 
+
+
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Loop through all sliders with the class
@@ -134,7 +137,7 @@
 
       const swiper = new Swiper(sliderEl, {
         slidesPerView: 4,
-        spaceBetween: 24,
+        spaceBetween: 0,
         loop: false,
         navigation: {
           nextEl: container.querySelector('.swiper-button-next'),

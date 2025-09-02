@@ -204,7 +204,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.featured_collection.name",
       "settings": {
-        "title": "Shop by New Products",
+        "title": "Shop by Popular Bundles",
         "home_featured_products": "all-bundles",
         "per_row": 10,
         "rows": 1,
